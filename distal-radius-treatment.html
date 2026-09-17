@@ -3,284 +3,519 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0f766e">
-  <title>Fracture Atlas – Số hóa phác đồ gãy xương</title>
+  <title>Fracture Atlas – Mỗi bệnh 1 box</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { -webkit-tap-highlight-color: transparent; }
-    .frx-card { border: 1px solid #e2e8f0; box-shadow: 0 10px 20px rgba(15,23,42,.05); }
-    .chip { border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: .06em; }
+    .box { border: 1px solid #e2e8f0; box-shadow: 0 12px 24px rgba(15,23,42,.04); }
+    .tag { font-size: 10px; letter-spacing: .08em; }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-900 min-h-screen pb-24">
-  <header class="sticky top-0 z-30 bg-gradient-to-r from-teal-800 via-cyan-800 to-sky-800 text-white px-4 py-4 shadow-lg">
-    <div class="max-w-4xl mx-auto">
-      <p class="text-[10px] font-black uppercase tracking-[0.3em] text-teal-100">Fracture Treatment Atlas</p>
-      <h1 class="text-xl sm:text-2xl font-black mt-1">Gãy xương chi trên & chi dưới – từng bệnh 1 box</h1>
-      <p class="text-xs text-teal-100 mt-1">Cấu trúc · PHÂN LOẠI · CLS · BẢO TỒN · MỔ</p>
+  <header class="bg-gradient-to-r from-teal-800 via-cyan-800 to-sky-800 text-white sticky top-0 z-30 shadow-lg">
+    <div class="max-w-5xl mx-auto px-4 py-4">
+      <p class="text-[10px] uppercase tracking-[0.28em] font-black text-teal-100">Fracture Atlas</p>
+      <h1 class="text-xl sm:text-2xl font-black">Gãy xương chi trên & chi dưới</h1>
+      <p class="text-xs text-teal-100">Mỗi bệnh 1 box – dễ hiểu, rõ hướng xử trí</p>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto p-3 space-y-4">
+  <main class="max-w-5xl mx-auto p-3 space-y-4">
     <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 text-xs text-amber-900">
-      <strong>⚠️ Lưu ý:</strong> Bản này phục vụ học tập và hướng dẫn ban đầu. Quyết định điều trị cuối cùng phải dựa trên khám lâm sàng, phim ảnh và hội chẩn chấn thương chỉnh hình – ngoại khoa chỉnh hình.
+      <strong>⚠️ Lưu ý:</strong> Đây là bản mẫu giáo dục để mô tả bệnh và nguyên tắc xử trí. Quyết định phẫu thuật cuối cùng phải có khám thực tế và hội chẩn chỉnh hình.
     </div>
 
-    <section class="space-y-3">
-      <div class="frx-card bg-white rounded-2xl p-4">
-        <h2 class="font-black text-teal-800 mb-2">CHI TRÊN</h2>
+    <section class="space-y-4">
+      <!-- BOX 1 -->
+      <article class="box bg-white rounded-2xl p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h2 class="text-lg font-black text-teal-800">1. Gãy cổ xương cánh tay</h2>
+          <span class="tag bg-teal-100 text-teal-800 px-2 py-1 rounded-full font-bold">GẦN KHỚP VAI</span>
+        </div>
 
-        <div class="space-y-3">
-          <div class="border rounded-2xl p-3 bg-teal-50/40">
-            <div class="flex items-center justify-between gap-2 mb-2">
-              <h3 class="font-black text-teal-900">1. Gãy cổ xương cánh tay</h3>
-              <span class="chip bg-teal-600 text-white px-2 py-1">GẦN KHỚP</span>
+        <div class="grid md:grid-cols-2 gap-4 text-sm leading-7">
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Định nghĩa</h3>
+              <p>Gãy phần gần xương cánh tay, thường ở vùng cổ xương hoặc ngay dưới mấu lớn. Đây là vết gãy mà xương bị gãy sát chỗ gắn vào khớp vai.</p>
             </div>
-            <div class="grid md:grid-cols-2 gap-3 text-sm leading-6">
-              <div>
-                <p><strong>Vị trí:</strong> cổ xương cánh tay, gần khớp vai.</p>
-                <p><strong>Thường gặp:</strong> người cao tuổi, loãng xương, ngã chỗ nằm.</p>
-                <p><strong>Phân loại:</strong> Intracapsular / extracapsular; Garden I–IV; hở / không hở; trật hay không.</p>
-                <p><strong>CLS:</strong> X-quang vai thẳng-nghiêng; cần đánh giá khớp vai, trục, mức độ di lệch, răng cưa và gãy mảnh.</p>
-              </div>
-              <div>
-                <p><strong>Bảo tồn:</strong> chỉ chọn lọc nếu gãy không di lệch / di lệch ít, bệnh nhân có nguy cơ mổ cao, hoặc ở trẻ; cần theo dõi X-quang và phục hồi chức năng.</p>
-                <p><strong>Mổ:</strong> Garden III–IV, di lệch nhiều, gãy vào khớp, trật khớp, mất trục, bệnh nhân đủ sức chịu đựng; chủ yếu dùng đinh chốt, vít, hoặc thay khớp nếu cần.</p>
-                <p><strong>Tuổi:</strong> không có “tuổi cấm mổ” tuyệt đối; ở người cao tuổi, ưu tiên cải thiện sự ổn định và giảm biến chứng nằm lâu nếu thể trạng cho phép.</p>
-              </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cơ chế</h3>
+              <p>Thường do ngã chống tay, va chạm mạnh hoặc té khi tay đang giơ thẳng. Xương bị kéo hoặc xoắn, giống như một cái cọc bị gãy ở đoạn gần chỗ cắm vào móc.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Kiểu di lệch</h3>
+              <p>Di lệch ngắn, xoay, trượt mảnh lên xuống, hoặc kèm trật khớp vai. Có thể gãy vào trong khớp, khiến khớp vai mất độ trùng khớp.</p>
             </div>
           </div>
 
-          <div class="border rounded-2xl p-3 bg-cyan-50/40">
-            <div class="flex items-center justify-between gap-2 mb-2">
-              <h3 class="font-black text-cyan-900">2. Gãy thân xương cánh tay</h3>
-              <span class="chip bg-cyan-600 text-white px-2 py-1">THÂN XƯƠNG</span>
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Dễ hiểu như thế nào?</h3>
+              <p>Giống như một cái cọc gãy ngay phía trên chỗ cắm vào tường: đầu cọc không còn đứng thẳng nữa, khớp vai như chỗ cắm cũng bị lệch.</p>
             </div>
-            <div class="grid md:grid-cols-2 gap-3 text-sm leading-6">
-              <div>
-                <p><strong>Vị trí:</strong> thân xương cánh tay, có thể gần / giữa / xa.</p>
-                <p><strong>Cơ chế:</strong> chấn thương trực tiếp, tai nạn lao động, va đập, té.</p>
-                <p><strong>Phân loại:</strong> theo vị trí, độ di lệch, mảnh gãy, gãy hở, có chèn ép thần kinh quay hay không.</p>
-                <p><strong>CLS:</strong> X-quang 2 tư thế; cần đánh giá mạch, thần kinh quay, chức năng khuỷu tay và cánh tay.</p>
-              </div>
-              <div>
-                <p><strong>Bảo tồn:</strong> gãy không di lệch hoặc di lệch tối thiểu, không hở, ổn định -> nẹp / bột / khóa/giá đỡ cho phép liền xương.</p>
-                <p><strong>Mổ:</strong> gãy hở, di lệch nhiều, rối loạn thần kinh–mạch, mất trục, không giữ được vị trí, chấn thương gãy liên quan.</p>
-                <p><strong>Tuổi:</strong> trẻ em và thanh thiếu niên thường dễ ổn định bằng bảo tồn nếu vị trí cho phép; người lớn thường mổ khi mức độ di lệch hoặc bất ổn định cao.</p>
-              </div>
+            <div>
+              <h3 class="font-black text-slate-800">Hướng xử trí</h3>
+              <p><strong>Bảo tồn:</strong> chỉ hợp với gãy ít di lệch, không trật khớp, hoặc khi bệnh nhân không phù hợp mổ. </p>
+              <p><strong>Thao tác:</strong> nếu cần chỉnh, phải kéo và xoay xương để đặt lại đúng trục rồi giữ chỗ. </p>
+              <p><strong>Mổ:</strong> gãy di lệch nhiều, gãy vào khớp, mất trục, trật khớp vai hoặc người bệnh cần phục hồi sớm. Dùng đinh chốt, vít, tấm cố định hoặc thay khớp nếu cần.</p>
             </div>
-          </div>
-
-          <div class="border rounded-2xl p-3 bg-violet-50/40">
-            <div class="flex items-center justify-between gap-2 mb-2">
-              <h3 class="font-black text-violet-900">3. Gãy đầu dưới xương cánh tay</h3>
-              <span class="chip bg-violet-600 text-white px-2 py-1">KHUỶU TAY</span>
-            </div>
-            <div class="grid md:grid-cols-2 gap-3 text-sm leading-6">
-              <div>
-                <p><strong>Vị trí:</strong> khuỷu tay: supracondylar, condyle ngoài, condyle trong, intercondylar, transcondylar.</p>
-                <p><strong>Phân loại:</strong> trẻ em thường ưu tiên supracondylar; người lớn theo vị trí mảnh và mức độ di lệch.</p>
-                <p><strong>CLS:</strong> phim hai tư thế, đánh giá mạch quay, thần kinh giữa, răng cưa, và độ gãy vào khớp.</p>
-              </div>
-              <div>
-                <p><strong>Bảo tồn:</strong> gãy không di lệch hoặc di lệch ít, không chèn ép mạch-thần kinh, có thể giữ được vị trí.</p>
-                <p><strong>Mổ:</strong> gãy di lệch nặng, gãy hở, chèn ép mạch hoặc thần kinh, không giữ được nắn, gãy xuống khớp.</p>
-                <p><strong>Tuổi:</strong> ở trẻ, supracondylar di lệch nặng cần giảm trật nhanh và mổ khi mất mạch/thần kinh hoặc không giữ được vị trí; ở người lớn, gãy condyle/intercondylar thường cần phẫu thuật hơn bảo tồn.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="border rounded-2xl p-3 bg-amber-50/40">
-            <div class="flex items-center justify-between gap-2 mb-2">
-              <h3 class="font-black text-amber-900">4. Gãy xương quay – trụ – cả hai xương cẳng tay</h3>
-              <span class="chip bg-amber-600 text-white px-2 py-1">CẮNG TAY</span>
-            </div>
-            <div class="grid md:grid-cols-2 gap-3 text-sm leading-6">
-              <div>
-                <p><strong>Vị trí:</strong> cẳng tay ở cổ tay và giữa cẳng tay; có thể gãy một xương hoặc cả hai xương.</p>
-                <p><strong>Phân loại:</strong> gãy đơn xương, gãy cả hai xương, gãy hở, gãy Monteggia, gãy Galeazzi, gãy ở gần/xa.</p>
-                <p><strong>CLS:</strong> X-quang cổ tay và cẳng tay đủ tư thế, kiểm tra chất lượng trục, khớp quay-trụ, và chức năng thần kinh giữa.</p>
-              </div>
-              <div>
-                <p><strong>Bảo tồn:</strong> gãy đơn giản, không di lệch hoặc giữ được vị trí sau nắn -> nẹp, bột, cố định tạm rồi rehab.</p>
-                <p><strong>Mổ:</strong> di lệch nhiều, gãy cả hai xương, Monteggia/Galeazzi, gãy hở, mất trục, làm vỡ khớp, hoặc không giữ được nắn.</p>
-                <p><strong>Tuổi:</strong> trẻ em có thể đủ khả năng liền tốt nếu trục được phục hồi; ngư���i lớn di lệch nặng thường cần mổ sớm để giảm nguy cơ hạn chế chức năng tay.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="border rounded-2xl p-3 bg-red-50/40">
-            <div class="flex items-center justify-between gap-2 mb-2">
-              <h3 class="font-black text-red-900">5. Gãy đầu dưới xương quay (Colles / Smith / Barton)</h3>
-              <span class="chip bg-red-600 text-white px-2 py-1">CỔ TAY</span>
-            </div>
-            <div class="grid md:grid-cols-2 gap-3 text-sm leading-6">
-              <div>
-                <p><strong>Vị trí:</strong> đầu dưới xương quay, ngay trên khớp cổ tay.</p>
-                <p><strong>Phân loại:</strong> Colles (nghiêng ra sau), Smith (nghiêng ra trước), Barton (vết gãy lệch khớp), Chauffeur, gãy phạm khớp / không phạm khớp.</p>
-                <p><strong>CLS:</strong> X-quang cổ tay 2–3 tư thế; cần đánh giá độ chênh hông, chiều dài xương và mặt khớp.</p>
-              </div>
-              <div>
-                <p><strong>Bảo tồn:</strong> gãy không di lệch, hoặc giữ được vị trí sau nắn, không rách đứt khớp, không gãy hở.</p>
-                <p><strong>Mổ:</strong> gãy di lệch nặng, mặt khớp không khớp, lệch trục, mất chiều dài xương, gãy hở, tổn thương gân/dây chằng, bất ổn định.</p>
-                <p><strong>Tuổi:</strong> người cao tuổi thường gặp gãy Colles và có nguy cơ chậm phục hồi; không có tuổi cấm mổ, nhưng thể trạng và loãng xương là yếu tố quan trọng.</p>
-              </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cách mổ / vật liệu</h3>
+              <p>Thường dùng đinh chốt hoặc vít gắn mảnh, tùy từng kiểu gãy. Nếu xương rất yếu hoặc khớp vai bị phá hủy nặng, có thể cân nhắc thay khớp vai.</p>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </article>
 
-    <section class="space-y-3">
-      <div class="frx-card bg-white rounded-2xl p-4">
-        <h2 class="font-black text-sky-800 mb-2">CHI DƯỚI</h2>
+      <!-- BOX 2 -->
+      <article class="box bg-white rounded-2xl p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h2 class="text-lg font-black text-cyan-800">2. Gãy thân xương cánh tay</h2>
+          <span class="tag bg-cyan-100 text-cyan-800 px-2 py-1 rounded-full font-bold">THÂN XƯƠNG</span>
+        </div>
 
-        <div class="space-y-3">
-          <div class="border rounded-2xl p-3 bg-sky-50/40">
-            <div class="flex items-center justify-between gap-2 mb-2">
-              <h3 class="font-black text-sky-900">6. Gãy cổ xương đùi</h3>
-              <span class="chip bg-sky-600 text-white px-2 py-1">HÁNG</span>
+        <div class="grid md:grid-cols-2 gap-4 text-sm leading-7">
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Định nghĩa</h3>
+              <p>Gãy ở giữa thân xương cánh tay, nơi xương dài chịu lực lớn nhất. Đây là kiểu gãy rất hay gặp do chấn thương trực tiếp.</p>
             </div>
-            <div class="grid md:grid-cols-2 gap-3 text-sm leading-6">
-              <div>
-                <p><strong>Vị trí:</strong> cổ xương đùi, bên dưới đầu xương đùi và trên mấu chuyển.</p>
-                <p><strong>Phân loại:</strong> Intracapsular / extracapsular; Garden I–IV; theo độ di lệch và độ cố định trong khớp.</p>
-                <p><strong>CLS:</strong> X-quang hông thẳng-nghiêng, có thể cần CT nếu nghi gãy phức tạp hoặc cần lập kế hoạch mổ.</p>
-              </div>
-              <div>
-                <p><strong>Bảo tồn:</strong> chọn lọc ở gãy có ít di lệch, bệnh nhân không đủ chiều cao nguy cơ mổ, hoặc trong một số gãy non-displaced.</p>
-                <p><strong>Mổ:</strong> Garden III–IV, di lệch lớn, mất trục, gãy khớp, người lớn và người cao tuổi có nguy cơ liền kém; thường dùng đinh chốt, vít, hoặc thay khớp nếu cần.</p>
-                <p><strong>Tuổi:</strong> không có tuổi cấm mổ. Người cao tuổi có nguy cơ biến chứng cao nếu nằm lâu, nên nhiều trường hợp vẫn phải cân nhắc mổ vì lợi ích phục hồi và giảm gánh nặng.</p>
-              </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cơ chế</h3>
+              <p>Do va đập mạnh, tai nạn lao động, té ngã hoặc chấn thương xoắn. Xương như một cái cột gãy ở giữa, hai đầu gãy có thể lệch lên xuống hoặc chéo nhau.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Kiểu di lệch</h3>
+              <p>Gãy ngang, chéo, xoắn, nhiều mảnh, có thể kèm gãy hở nếu da bị rách và xương đâm ra ngoài.</p>
             </div>
           </div>
 
-          <div class="border rounded-2xl p-3 bg-indigo-50/40">
-            <div class="flex items-center justify-between gap-2 mb-2">
-              <h3 class="font-black text-indigo-900">7. Gãy mấu chuyển / thân xương đùi</h3>
-              <span class="chip bg-indigo-600 text-white px-2 py-1">ĐÙI</span>
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Dễ hiểu như thế nào?</h3>
+              <p>Giống như một thanh sắt bị bẻ ở giữa, hai đầu bị lệch khác nhau và không còn đứng thẳng.</p>
             </div>
-            <div class="grid md:grid-cols-2 gap-3 text-sm leading-6">
-              <div>
-                <p><strong>Vị trí:</strong> mấu chuyển, thân xương đùi, gãy dưới mấu chuyển.</p>
-                <p><strong>Phân loại:</strong> theo vị trí thân xương, độ di lệch, mảnh gãy, lớn/nhỏ, gãy hở hoặc không hở.</p>
-                <p><strong>CLS:</strong> X-quang toàn thân xương đùi, với khớp gối và hông nếu cần; đánh giá gãy hở, mạch, thần kinh.</p>
-              </div>
-              <div>
-                <p><strong>Bảo tồn:</strong> gãy ít di lệch có thể nẹp / bột / khóa và rehab; trẻ em có thể được điều trị bảo tồn nhiều hơn khi đường gãy ổn định.</p>
-                <p><strong>Mổ:</strong> gãy di lệch nhiều, gãy hở, mất trục, người lớn hoặc bệnh nhân cần phục hồi sớm; thường cố định bằng nẹp nội tủy hoặc đinh.</p>
-                <p><strong>Tuổi:</strong> trẻ em có xu hướng liền tốt hơn; người trưởng thành và người cao tuổi cần đánh giá thể trạng, loãng xương và khả năng phục hồi.</p>
-              </div>
+            <div>
+              <h3 class="font-black text-slate-800">Hướng xử trí</h3>
+              <p><strong>Bảo tồn:</strong> hợp khi gãy ít di lệch, không hở, không chèn ép thần kinh hay mạch. Dùng nẹp, bột, treo tay theo tư thế.</p>
+              <p><strong>Mổ:</strong> nếu gãy chéo nhiều, di lệch lớn, gãy hở, mất trục, hoặc không giữ được vị trí. Thường dùng nẹp nội tủy hoặc plate.</p>
             </div>
-          </div>
-
-          <div class="border rounded-2xl p-3 bg-emerald-50/40">
-            <div class="flex items-center justify-between gap-2 mb-2">
-              <h3 class="font-black text-emerald-900">8. Gãy đầu dưới xương đùi</h3>
-              <span class="chip bg-emerald-600 text-white px-2 py-1">KHỚP GỐI</span>
-            </div>
-            <div class="grid md:grid-cols-2 gap-3 text-sm leading-6">
-              <div>
-                <p><strong>Vị trí:</strong> gãy quanh khớp gối: supracondylar, intercondylar, condyle trong/ngoài.</p>
-                <p><strong>Phân loại:</strong> theo vị trí, độ di lệch, mặt khớp, và mức độ xương cùng sụn khớp liên quan.</p>
-                <p><strong>CLS:</strong> X-quang khớp gối 2 tư thế, đánh giá mặt khớp, trục, mạch và thần kinh.</p>
-              </div>
-              <div>
-                <p><strong>Bảo tồn:</strong> chỉ với gãy không di lệch, nhỏ, ổn định, không có vỡ khớp và chức năng tốt.</p>
-                <p><strong>Mổ:</strong> hầu hết gãy vào khớp, di lệch nặng, khớp không trùng, gãy hở hoặc mất ổn định đều cần phẫu thuật để khôi phục mặt khớp và trục.</p>
-                <p><strong>Tuổi:</strong> không có tuổi cấm mổ. Khớp gối là vùng cần phục hồi mặt khớp, nên ưu tiên mổ khi gãy vào khớp và không ổn định.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="border rounded-2xl p-3 bg-lime-50/40">
-            <div class="flex items-center justify-between gap-2 mb-2">
-              <h3 class="font-black text-lime-900">9. Gãy xương chày / mác / cả hai xương cẳng chân</h3>
-              <span class="chip bg-lime-600 text-white px-2 py-1">CẮNG CHÂN</span>
-            </div>
-            <div class="grid md:grid-cols-2 gap-3 text-sm leading-6">
-              <div>
-                <p><strong>Vị trí:</strong> thân xương chày, mác, gãy cả hai xương, có thể ở gần, giữa, xa.</p>
-                <p><strong>Phân loại:</strong> theo vị trí, độ di lệch, gãy hở / không hở, gãy vết nứt đơn lẻ hoặc nhiều mảnh.</p>
-                <p><strong>CLS:</strong> X-quang cẳng chân 2 tư thế, đánh giá trục, khoảng cách các mảnh, gãy hở và nguy cơ tổn thương mạch.</p>
-              </div>
-              <div>
-                <p><strong>Bảo tồn:</strong> gãy mác đơn độc hoặc chày nhỏ, không di lệch, khớp và trục ổn định.</p>
-                <p><strong>Mổ:</strong> gãy cả hai xương di lệch, chày lệch lớn, gãy hở, cần phục hồi trục, khớp, hoặc không giữ được vị trí.</p>
-                <p><strong>Tuổi:</strong> trẻ em thường có khả năng liền tốt hơn nếu trục được giữ đúng; người lớn cần đánh giá nghiêm ngặt vì kết quả kém nếu khớp không được phục hồi.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="border rounded-2xl p-3 bg-orange-50/40">
-            <div class="flex items-center justify-between gap-2 mb-2">
-              <h3 class="font-black text-orange-900">10. Gãy plateau chày</h3>
-              <span class="chip bg-orange-600 text-white px-2 py-1">KHỚP GỐI</span>
-            </div>
-            <div class="grid md:grid-cols-2 gap-3 text-sm leading-6">
-              <div>
-                <p><strong>Vị trí:</strong> bề mặt trên xương chày, liên quan khớp gối.</p>
-                <p><strong>Phân loại:</strong> plateau chày trong/ngoài, có lún khớp, có mảnh chẻ, mức độ di lệch.</p>
-                <p><strong>CLS:</strong> X-quang, có thể cần CT để đánh giá mặt khớp, mức độ lún và cách chỉnh phục hồi.</p>
-              </div>
-              <div>
-                <p><strong>Bảo tồn:</strong> gãy thể nhẹ, lún nhỏ, mặt khớp còn tương đối trùng.</p>
-                <p><strong>Mổ:</strong> lún khớp đáng kể, di lệch nhiều, mặt khớp không trùng, xuất hiện bất ổn định và đau kéo dài.</p>
-                <p><strong>Tuổi:</strong> không có “tuổi cấm mổ”; nhưng cần xem thể trạng vì nhiều bệnh nhân cao tuổi có nguy cơ phục hồi chậm nếu không được ổn định khớp đúng cách.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="border rounded-2xl p-3 bg-pink-50/40">
-            <div class="flex items-center justify-between gap-2 mb-2">
-              <h3 class="font-black text-pink-900">11. Gãy cổ chân / mắt cá / mác ngoài / tứ đầu xương bàn chân</h3>
-              <span class="chip bg-pink-600 text-white px-2 py-1">CỔ CHÂN</span>
-            </div>
-            <div class="grid md:grid-cols-2 gap-3 text-sm leading-6">
-              <div>
-                <p><strong>Vị trí:</strong> mắt cá trong, mắt cá ngoài, cổ chân, chân bàn chân.</p>
-                <p><strong>Phân loại:</strong> Weber A/B/C, malleolus trong/ngoài, gãy Maisonneuve, gãy hở, gãy có kết hợp dây chằng hoặc sụn.</p>
-                <p><strong>CLS:</strong> X-quang vị trí gãy, có thể cần phim cổ chân nghiêng và tháo khớp nếu nghi tổn thương dây chằng hoặc nhiều khớp.</p>
-              </div>
-              <div>
-                <p><strong>Bảo tồn:</strong> gãy không di lệch, không xé khớp, không hở, chiều dài xương còn nguyên.</p>
-                <p><strong>Mổ:</strong> di lệch nhiều, xé khớp, gãy hở, mất trục chân, tổn thương dây chằng hoặc mất độ vững khớp.</p>
-                <p><strong>Tuổi:</strong> người già dễ bị xương mỏng và lao động ít, nhưng quyết định vẫn căn cứ vào độ ổn định, khớp và nguy cơ mất chức năng bị kéo dài.</p>
-              </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cách mổ / vật liệu</h3>
+              <p>Nẹp nội tủy là phương án phổ biến nhất vì giữ được trục xương tốt. Nếu có nhiều mảnh, có thể cần plate hoặc đinh gắn mảnh.</p>
             </div>
           </div>
         </div>
-      </div>
+      </article>
+
+      <!-- BOX 3 -->
+      <article class="box bg-white rounded-2xl p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h2 class="text-lg font-black text-violet-800">3. Gãy đầu dưới xương cánh tay</h2>
+          <span class="tag bg-violet-100 text-violet-800 px-2 py-1 rounded-full font-bold">GẦN KHUỶU TAY</span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 text-sm leading-7">
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Định nghĩa</h3>
+              <p>Gãy ở đoạn gần khuỷu tay, thường là supracondylar, condyle ngoài, condyle trong hoặc intercondylar. Đây là vùng rất gần khớp và rất dễ kèm chèn ép mạch-thần kinh.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cơ chế</h3>
+              <p>Thường gặp khi trẻ bị ngã chống tay. Xương bị gãy ở vùng gần khuỷu bay ra sau hoặc trước, rồi có thể kẹp mạch và dây thần kinh.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Kiểu di lệch</h3>
+              <p>Di lệch ra sau, chèn ép động mạch cánh tay, chèn ép thần kinh giữa, hoặc gây nguy cơ mất tưới máu. Có loại gãy quá nặng làm khớp khuỷu mất trục.</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Dễ hiểu như thế nào?</h3>
+              <p>Giống như một cây cầu gãy ở chân cầu, đoạn gần khớp bị lệch, và nếu không kịp sửa lại, mạch/đám dây thần kinh có thể bị kẹp như bị kẹt trong cửa.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Hướng xử trí</h3>
+              <p><strong>Khẩn cấp:</strong> nếu có dấu hiệu mạch yếu, tay lạnh, tê, mất cảm giác hoặc yếu vận động thì phải nắn ngay và theo dõi sát. </p>
+              <p><strong>Bảo tồn:</strong> ưu tiên với gãy ít di lệch và không có chèn ép mạch-thần kinh. </p>
+              <p><strong>Mổ:</strong> nếu di lệch nhiều, gãy hở, mạch/thần kinh kẹt, hoặc không giữ được vị trí sau nắn.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cách mổ / vật liệu</h3>
+              <p>Thường dùng vít, đinh, plate hoặc cố định nội tủy tùy loại gãy. Mục tiêu là giữ khớp khuỷu cân chỉnh và tránh biến chứng chèn ép sau này.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- BOX 4 -->
+      <article class="box bg-white rounded-2xl p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h2 class="text-lg font-black text-amber-800">4. Gãy xương quay – trụ – cả hai xương cẳng tay</h2>
+          <span class="tag bg-amber-100 text-amber-800 px-2 py-1 rounded-full font-bold">CẮNG TAY</span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 text-sm leading-7">
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Định nghĩa</h3>
+              <p>Gãy xương cẳng tay, có thể gãy một xương hoặc đồng thời cả hai xương quay và trụ. Đây là vùng xương dài song song, chịu lực khi chống tay.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cơ chế</h3>
+              <p>Ngã chống tay, va chạm, xoắn cẳng tay, hoặc tai nạn công nghiệp. Gãy có thể chéo, xoắn hoặc có nhiều mảnh.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Kiểu di lệch</h3>
+              <p>Có dạng đơn xương, cả hai xương, gãy hở, gãy Monteggia, Galeazzi và gãy ở gần/xa. Trục cẳng tay có thể lệch, khớp khuỷu hoặc cổ tay sẽ lệch không còn đúng.</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Dễ hiểu như thế nào?</h3>
+              <p>Giống như hai thanh gỗ song song bị gãy cùng lúc. Nếu không đặt đúng trục, tay sẽ cong hoặc ngắn, làm mất chức năng cầm nắm.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Hướng xử trí</h3>
+              <p><strong>Bảo tồn:</strong> gãy đơn giản, không di lệch hoặc giữ được vị trí khi nắn. </p>
+              <p><strong>Mổ:</strong> nếu gãy cả hai xương, di lệch nhiều, khớp lệch, gãy hở, hoặc kiểu Monteggia/Galeazzi. </p>
+              <p><strong>Phần mềm:</strong> cần sửa khớp nếu di lệch khớp khuỷu hoặc cổ tay trong quá trình và sau đó giữ xương bằng nẹp/vít.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cách mổ / vật liệu</h3>
+              <p>Thường dùng nẹp dọc, plate hoặc vít; nếu gãy nghiêm trọng, cần chỉnh trục khớp cùng lúc. Mục tiêu là tay phải còn thẳng, khớp phải vừa khớp.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- BOX 5 -->
+      <article class="box bg-white rounded-2xl p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h2 class="text-lg font-black text-red-800">5. Gãy đầu dưới xương quay (Colles / Smith / Barton)</h2>
+          <span class="tag bg-red-100 text-red-800 px-2 py-1 rounded-full font-bold">CỔ TAY</span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 text-sm leading-7">
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Định nghĩa</h3>
+              <p>Gãy ở vùng ngay trên khớp cổ tay. Đây là kiểu gãy rất hay gặp, đặc biệt ở người lớn tuổi và người loãng xương.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cơ chế</h3>
+              <p>Phần lớn do ngã chống tay, cổ tay duỗi quá mức. Xương bị gãy ở đoạn gần cổ tay và đầu xương có xu hướng lệch ra sau hoặc ra trước.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Kiểu di lệch</h3>
+              <p>Colles: đầu xương lật ngược ra sau. Smith: đầu xương lật ra trước. Barton: mặt khớp cổ tay bị lệch; có thể gãy phạm khớp và rất dễ biến dạng.</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Dễ hiểu như thế nào?</h3>
+              <p>Giống như đầu của một chiếc cọc ở gần cổ tay bị lật ngược, khiến tay có hình “cái qẩy” và khớp cổ tay bị lệch thay vì thẳng như trước.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Hướng xử trí</h3>
+              <p><strong>Bảo tồn:</strong> với gãy ít di lệch, không phạm khớp, không gãy hở. </p>
+              <p><strong>Nắn chỉnh:</strong> kéo và xoay xương để căn chỉnh lại trục xương, sau đó cố định. </p>
+              <p><strong>Mổ:</strong> khi gãy di lệch nhiều, mặt khớp lệch, gãy hở, gãy vào khớp hoặc không giữ được vị trí sau nắn. </p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cách mổ / vật liệu</h3>
+              <p>Thường dùng vít, tấm hoặc nẹp cố định tùy mức độ, để khôi phục mặt khớp, chiều cao xương và tránh đau mạn tính sau này.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- BOX 6 -->
+      <article class="box bg-white rounded-2xl p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h2 class="text-lg font-black text-sky-800">6. Gãy cổ xương đùi</h2>
+          <span class="tag bg-sky-100 text-sky-800 px-2 py-1 rounded-full font-bold">GẦN KHỚP HÁNG</span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 text-sm leading-7">
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Định nghĩa</h3>
+              <p>Gãy ở phần trên xương đùi, ngay sát khớp háng. Đây là một trong những gãy xương nguy hiểm nhất ở người lớn tuổi vì khớp háng dễ mất ổn định.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cơ chế</h3>
+              <p>Thường gặp ở người cao tuổi do loãng xương, ngã té đơn thuần. Xương bị gãy ở đoạn gần khớp rất yếu, như một cột nhà gãy ngay sát chân cột.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Kiểu di lệch</h3>
+              <p>Di lệch trong khớp, mất trục, hai mảnh xương trượt, hoặc khớp háng bị lệch và mất độ trùng. Có thể là gãy trong bao khớp hoặc ngoài bao khớp.</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Dễ hiểu như thế nào?</h3>
+              <p>Giống như cột nhà gãy ngay sát chân cột, nên không chỉ cần “khép lại” xương mà còn phải giữ khớp háng đứng thẳng để đi lại được.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Hướng xử trí</h3>
+              <p><strong>Bảo tồn:</strong> chỉ được cân nhắc trong một số gãy ít di lệch, nhưng không phải là cách xử trí phổ biến trong người lớn tuổi. </p>
+              <p><strong>Mổ:</strong> rất thường cần thiết nếu di lệch nặng, khớp háng mất thể trưng, hoặc bệnh nhân cần đi lại sớm. </p>
+              <p><strong>Vật liệu:</strong> dùng đinh chốt, vít, hoặc thay khớp háng nếu xương quá yếu hoặc khớp bị phá hủy nặng.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cách mổ / vật liệu</h3>
+              <p>Đinh chốt nội khớp là cách cố định phổ biến nhất. Nếu cổ xương quá phá hủy hoặc đều bị hư khớp, có thể thay khớp háng để phục hồi chức năng và tránh đau kéo dài.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- BOX 7 -->
+      <article class="box bg-white rounded-2xl p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h2 class="text-lg font-black text-indigo-800">7. Gãy mấu chuyển / thân xương đùi</h2>
+          <span class="tag bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full font-bold">ĐÙI</span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 text-sm leading-7">
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Định nghĩa</h3>
+              <p>Gãy ở mấu chuyển hoặc thân xương đùi, là vùng xương dài của đùi chịu lực mạnh khi đi lại và va chạm.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cơ chế</h3>
+              <p>Có thể do va chạm mạnh, tai nạn giao thông, ngã, hoặc chấn thương xoắn. Xương có thể gãy chéo, ngang, xoắn, hoặc nhiều mảnh.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Kiểu di lệch</h3>
+              <p>Ngắn xương, lệch trục, mảnh gãy chồng lên nhau, hoặc gãy hở nếu da bị rách. Gãy thân xương đùi thường khó giữ nếu lệch nhiều.</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Dễ hiểu như thế nào?</h3>
+              <p>Giống như một thanh sắt dài bị bẻ ở giữa hoặc gần đầu, hai đầu không còn thẳng và chân dễ bị ngắn hoặc cong.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Hướng xử trí</h3>
+              <p><strong>Bảo tồn:</strong> chỉ hợp với gãy ít di lệch hoặc ở trẻ em. </p>
+              <p><strong>Mổ:</strong> hầu hết các trường hợp di lệch nhiều, gãy hở, mất trục, hoặc bệnh nhân cần phục hồi sớm đều cần cố định bằng nẹp nội tủy hoặc đinh.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cách mổ / vật liệu</h3>
+              <p>Nẹp nội tủy là lựa chọn phổ biến, vì nó giữ trục xương tốt và giúp người bệnh đi lại sớm. Nếu gãy nhiều mảnh, có thể dùng plate hoặc cố định thêm.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- BOX 8 -->
+      <article class="box bg-white rounded-2xl p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h2 class="text-lg font-black text-emerald-800">8. Gãy đầu dưới xương đùi</h2>
+          <span class="tag bg-emerald-100 text-emerald-800 px-2 py-1 rounded-full font-bold">GẦN KHỚP GỐI</span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 text-sm leading-7">
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Định nghĩa</h3>
+              <p>Gãy ở vùng gần khớp gối, có thể là supracondylar, intercondylar hoặc condyle trong/ngoài. Đây là vùng gãy sát khớp, vì thế rất dễ ảnh hưởng tới mặt khớp.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cơ chế</h3>
+              <p>Do va mạnh, chấn thương trực tiếp hoặc xoắn mạnh quanh khớp gối. Nhiều trường hợp mặt khớp bị hư, vì vậy cần xem xét kỹ hình ảnh.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Kiểu di lệch</h3>
+              <p>Mặt khớp lệch, mảnh xương trượt, gãy nhiều mảnh, khớp gối mất độ trùng. Đây là kiểu gãy “nguy hiểm vì khớp”.</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Dễ hiểu như thế nào?</h3>
+              <p>Giống như một cái cầu ở gần đầu gối bị nứt và các mảnh xương không còn khớp với nhau như cũ; nếu không sửa lại, đầu gối sẽ cứng và đau lâu dài.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Hướng xử trí</h3>
+              <p><strong>Bảo tồn:</strong> rất ít trường hợp hợp lệ, chỉ khi gãy nhỏ, không di lệch, không hở và khớp chưa xấu. </p>
+              <p><strong>Mổ:</strong> hầu hết trường hợp gãy trong khớp, di lệch nhiều hoặc mất độ trùng đều cần phẫu thuật để nắn lại khớp.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cách mổ / vật liệu</h3>
+              <p>Dùng plate, vít, hoặc nẹp tùy từng mảnh. Mục tiêu là phục hồi mặt khớp và giữ trục để khớp có thể đi lại tốt hơn.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- BOX 9 -->
+      <article class="box bg-white rounded-2xl p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h2 class="text-lg font-black text-lime-800">9. Gãy xương chày / mác / cả hai xương cẳng chân</h2>
+          <span class="tag bg-lime-100 text-lime-800 px-2 py-1 rounded-full font-bold">CẮNG CHÂN</span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 text-sm leading-7">
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Định nghĩa</h3>
+              <p>Gãy xương cẳng chân, có thể là mác gãy một mình, chày gãy một mình, hoặc đứt cả hai. Đây là vùng xương chịu trọng lượng người.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cơ chế</h3>
+              <p>Do va chạm, trượt, ngã, tai nạn giao thông hoặc xoắn mạnh. Xương chày gãy có thể bị lệch nhiều vì là xương chịu lực trực tiếp lớn.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Kiểu di lệch</h3>
+              <p>Gãy ngang, chéo, xoắn, nhiều mảnh, có thể gãy hở. Nếu cả hai xương gãy, chân dễ bị cong, ngắn và lệch trục rất rõ.</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Dễ hiểu như thế nào?</h3>
+              <p>Giống như hai cây cột chịu trọng lượng của người bị gãy cùng lúc, nếu không đặt lại đúng, chân sẽ cong và phải đi nhầm hướng.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Hướng xử trí</h3>
+              <p><strong>Bảo tồn:</strong> với gãy ít di lệch, chày không lệch nhiều, không hở. </p>
+              <p><strong>Mổ:</strong> nếu cả hai xương gãy, gãy hở, di lệch nhiều, mất trục hoặc khớp bị ảnh hưởng. </p>
+              <p><strong>Phần mềm:</strong> phải giữ chân thẳng và cân bằng để không bị ngắn chân hoặc cong án.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cách mổ / vật liệu</h3>
+              <p>Thường dùng nẹp nội tủy cho chày, kèm plate hoặc vít nếu cần giữ thêm mảnh. Mục tiêu là phục hồi trục và làm cho chân đi được bình thường.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- BOX 10 -->
+      <article class="box bg-white rounded-2xl p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h2 class="text-lg font-black text-orange-800">10. Gãy plateau chày</h2>
+          <span class="tag bg-orange-100 text-orange-800 px-2 py-1 rounded-full font-bold">KHỚP GỐI</span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 text-sm leading-7">
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Định nghĩa</h3>
+              <p>Gãy phần trên xương chày, nơi khớp gối đỡ trọng lượng. Có thể làm mặt khớp bị lún xuống hoặc rạn nứt như một cái bánh bị nén lõm.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cơ chế</h3>
+              <p>Do va chạm mạnh lên đùi, đập đầu gối xuống, hoặc chấn thương trực tiếp. Đầu gối bị ép và mặt nền xương chày bị lún xuống.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Kiểu di lệch</h3>
+              <p>Lún mặt khớp, mảnh chẻ, lệch trong hoặc ngoài, làm đầu gối không còn khớp đều. Đây là gãy rất dễ gây đau mạn tính nếu không sửa đúng.</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Dễ hiểu như thế nào?</h3>
+              <p>Giống như một tấm bánh để dưới đùi bị nén lõm xuống, khiến bề mặt khớp gối không còn nằm phẳng, đi lại sẽ đau như bánh bị lồi lõm.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Hướng xử trí</h3>
+              <p><strong>Bảo tồn:</strong> với gãy nhẹ, mặt khớp còn gần phẳng. </p>
+              <p><strong>Mổ:</strong> khi mặt khớp lún quá nhiều, mảnh gãy nhiều, khớp lệch hoặc có nguy cơ đau mạn tính kéo dài. </p>
+              <p><strong>Phục hồi:</strong> cần hồi phục mặt khớp để đầu gối không bị đau khi đứng và đi lại.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cách mổ / vật liệu</h3>
+              <p>Thường dùng plate, vít hoặc cố định mặt khớp để nâng phần bị lún lên lại và giữ cho bề mặt khớp gần phẳng.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- BOX 11 -->
+      <article class="box bg-white rounded-2xl p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h2 class="text-lg font-black text-pink-800">11. Gãy cổ chân / mắt cá / bàn chân</h2>
+          <span class="tag bg-pink-100 text-pink-800 px-2 py-1 rounded-full font-bold">CỔ CHÂN</span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 text-sm leading-7">
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Định nghĩa</h3>
+              <p>Gãy ở vùng mắt cá trong, mắt cá ngoài, cổ chân, hoặc bàn chân. Đây là vùng chịu lực rất lớn mỗi khi đi bộ, chạy, nhảy hoặc trượt chân.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cơ chế</h3>
+              <p>Ngã, trượt chân, xoắn cổ chân quá mức, hoặc va chạm. Có thể kèm tổn thương dây chằng và khớp cổ chân mất ổn định.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Kiểu di lệch</h3>
+              <p>Weber A/B/C, gãy mắt cá trong/ngoài, gãy Maisonneuve, gãy hở hoặc có kèm dây chằng. Nếu khớp cổ chân lệch, đi lại sẽ đau và dễ biến chứng sau này.</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-black text-slate-800">Dễ hiểu như thế nào?</h3>
+              <p>Giống như một cái khung ở dưới chân bị xoắn và lệch, nếu khung đó không căn chỉnh, mỗi bước đi sẽ như đi trên một nền không bằng phẳng.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Hướng xử trí</h3>
+              <p><strong>Bảo tồn:</strong> với gãy ổn định, không lệch, không hở, không ảnh hưởng khớp. </p>
+              <p><strong>Mổ:</strong> nếu mặt khớp lệch, cổ chân mất ổn định, gãy hở hoặc có tổn thương dây chằng đi kèm. </p>
+              <p><strong>Phục hồi:</strong> sau khi cố định, cần tập đi và phục hồi khớp để tránh biến chứng cứng cổ chân.</p>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800">Cách mổ / vật liệu</h3>
+              <p>Thường dùng vít, plate, nẹp hoặc cố định khớp tùy từng trường hợp. Mục tiêu là cho khớp đi được đúng trục và không đau khi bước đi.</p>
+            </div>
+          </div>
+        </div>
+      </article>
     </section>
 
-    <section class="frx-card bg-white rounded-2xl p-4">
-      <h2 class="font-black text-violet-800 mb-2">QUY TẮC TỔNG HỢP</h2>
+    <section class="bg-white rounded-2xl box p-4">
+      <h2 class="text-lg font-black text-violet-800 mb-2">Quy tắc chung để dễ hiểu</h2>
       <div class="grid md:grid-cols-2 gap-3 text-sm leading-7">
-        <div class="bg-violet-50 rounded-xl p-3">
+        <div class="bg-emerald-50 rounded-xl p-3">
           <strong>Thường bảo tồn:</strong>
           <ul class="list-disc pl-5 mt-1">
-            <li>Gãy không di lệch hoặc di lệch ít</li>
-            <li>Không hở và không chèn ép mạch, thần kinh</li>
-            <li>Khớp ổn định và trục còn nguyên</li>
+            <li>Gãy ít di lệch</li>
+            <li>Không hở</li>
+            <li>Không mất trục</li>
+            <li>Không chèn ép mạch/thần kinh</li>
           </ul>
         </div>
         <div class="bg-red-50 rounded-xl p-3">
           <strong>Thường mổ:</strong>
           <ul class="list-disc pl-5 mt-1">
-            <li>Gãy di lệch nặng, gãy hở, gãy vào khớp</li>
-            <li>Trục xương lệch, mất chiều dài hoặc bất ổn định</li>
-            <li>Không giữ được nắn, hoặc có tổn thương mạch–thần kinh</li>
+            <li>Di lệch nhiều</li>
+            <li>Gãy hở</li>
+            <li>Khớp lệch</li>
+            <li>Mất trục hoặc xương ngắn đi</li>
           </ul>
         </div>
       </div>
-      <div class="mt-3 p-3 rounded-xl bg-slate-100 text-sm">
-        <strong>Nhớ:</strong> không có “độ tuổi cấm mổ” tuyệt đối. Mổ hay bảo tồn luôn là quyết định của <em>vị trí gãy + độ di lệch + mức độ khớp + thể trạng + mục tiêu hồi phục</em>.
+      <div class="mt-3 bg-slate-100 rounded-xl p-3 text-sm">
+        <strong>Điểm mấu chốt:</strong> “Không có tuổi cấm mổ tuyệt đối”. Quyết định mổ hay bảo tồn phụ thuộc vào vị trí gãy, độ di lệch, điều kiện khớp, bệnh nền và mục tiêu hồi phục của từng người.
       </div>
     </section>
   </main>
 
   <footer class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur border-t p-2 text-center text-[10px] text-slate-500">
-    Fracture Atlas • Bản nháp lâm sàng để học tập, không thay thế hướng dẫn chuyên khoa.
+    Bản mẫu giáo dục · Dành để mô tả bệnh, cơ chế và nguyên tắc xử trí.
   </footer>
 </body>
 </html>
