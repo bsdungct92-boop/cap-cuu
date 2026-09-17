@@ -1,2049 +1,417 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Clinical Toolkit Ultimate Pro - BS Nguyễn Tiến Dũng</title>
-  <meta name="theme-color" content="#0284c7">
-  <!-- Tailwind CSS CDN -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Clinical Toolkit Ultimate Pro</title>
+  <meta name="theme-color" content="#0284c7" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    :root {
+      --sky-900: #0f172a;
+      --sky-800: #0f2d52;
+      --sky-700: #1565c0;
+      --sky-500: #38bdf8;
+      --slate-100: #f8fafc;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --danger: #dc2626;
+      --warning: #f59e0b;
+      --success: #10b981;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      background:
+        radial-gradient(circle at top, rgba(14, 165, 233, 0.13), transparent 30%),
+        linear-gradient(180deg, #f8fafc 0%, #eef6ff 100%);
+    }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
-    @keyframes pulse-fast { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .tool-card {
+      transition: all 0.2s ease;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+    }
+    .tool-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+    }
+    .glass {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .chip {
+      transition: all 0.2s ease;
+    }
+    .chip.active {
+      background: linear-gradient(135deg, #0ea5e9, #2563eb);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+    }
+    .module-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+    .soft-scroll::-webkit-scrollbar { display: none; }
+    .soft-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes pulse-fast { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
     .animate-pulse-fast { animation: pulse-fast 1s infinite; }
   </style>
 </head>
-<body class="bg-slate-100 text-slate-900 min-h-screen pb-20 font-sans select-none">
-
-  <!-- TOP HEADER -->
-  <header class="bg-sky-800 text-white sticky top-0 z-40 shadow-md px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('dashboard')">
-      <div class="bg-white text-sky-800 px-2 py-0.5 rounded-lg font-black text-lg">CT</div>
-      <div>
-        <h1 class="font-bold text-sm leading-tight tracking-wide">CLINICAL TOOLKIT PRO</h1>
-        <p class="text-[9px] text-sky-200 uppercase tracking-widest">Tác giả: BS Nguyễn Tiến Dũng</p>
+<body class="min-h-screen text-slate-900 select-none">
+  <header class="sticky top-0 z-40 border-b border-sky-900/20 bg-sky-900 text-white shadow-lg shadow-sky-900/20">
+    <div class="mx-auto flex max-w-md items-center justify-between gap-3 px-4 py-3">
+      <div class="flex cursor-pointer items-center gap-2" onclick="switchTab('dashboard')">
+        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-base font-black text-sky-800">CT</div>
+        <div>
+          <p class="text-[8px] font-black uppercase tracking-[0.24em] text-sky-200">Clinical Toolkit</p>
+          <h1 class="text-[11px] font-black uppercase tracking-wide">Bác sĩ Dũng</h1>
+        </div>
       </div>
+      <span class="rounded-full border border-sky-700 bg-sky-800/80 px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-[0.18em] text-sky-100">
+        15 Modules
+      </span>
     </div>
-    <span class="text-[10px] bg-sky-900 text-sky-200 px-2.5 py-1 rounded-full font-bold border border-sky-700">Full 15 Modules</span>
   </header>
 
-  <!-- MAIN CONTAINER -->
-  <main class="max-w-md mx-auto p-3 space-y-3">
-
-    <!-- SEARCH BAR -->
+  <main class="mx-auto max-w-md space-y-3 p-3 pb-24">
     <div id="search-container" class="relative">
-      <input type="text" id="search-input" onkeyup="filterTools()" placeholder="🔍 Tìm nhanh (sepsis, phan ve, khi mau, anion gap, nicardipine, egfr...)" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-semibold shadow-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
+      <input id="search-input" type="text" onkeyup="filterTools()" placeholder="🔍 Tìm nhanh: sepsis, anion gap, nicardipine, egfr..." class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 pr-10 text-xs font-medium text-slate-700 shadow-sm outline-none ring-0 placeholder:text-slate-400 focus:border-sky-400" />
+      <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-400">⌕</div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- DASHBOARD                                  -->
-    <!-- ========================================== -->
     <div id="tab-dashboard" class="tab-content active space-y-3">
       <div class="flex items-center justify-between px-1">
-        <h2 class="font-extrabold text-slate-700 text-xs uppercase tracking-wider">CÔNG CỤ THỰC HÀNH LÂM SÀNG</h2>
-        <span class="text-[11px] bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full font-bold">15 Active</span>
+        <h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">Công cụ thực hành lâm sàng</h2>
+        <span class="rounded-full bg-slate-200 px-2 py-0.5 text-[9px] font-bold text-slate-600">15 Active</span>
       </div>
 
       <div id="tools-grid" class="grid grid-cols-2 gap-2.5">
-        <div onclick="switchTab('sepsis')" data-name="septic shock sepsis bundle qsofa sofa sirs map pf ratio oxy khi mau huyet ap trung binh fio2 pao2" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between relative">
-          <span class="absolute top-2 right-2 bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full">RÕ CHỈ SỐ</span>
-          <div class="w-10 h-10 rounded-xl bg-red-50 text-red-700 flex items-center justify-center font-black text-xl">⚠️</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">Hồi sức / ICU</span><h3 class="font-bold text-slate-800 text-xs">1. Sepsis & Auto-SOFA</h3></div>
+        <div onclick="switchTab('sepsis')" data-name="sepsis septic shock bundle qsofa sofa sirs map pf ratio oxy khi mau huyet ap trung binh fio2 pao2" class="tool-card cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <span class="absolute right-2 top-2 rounded-full bg-red-600 px-1.5 py-0.5 text-[8px] font-black text-white">RÕ CHỈ SỐ</span>
+          <div class="module-icon bg-red-50 text-red-700">⚠️</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">Hồi sức / ICU</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">1. Sepsis & Auto-SOFA</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('emergency-meds')" data-name="thuoc cap cuu atropine cordarone amiodarone lidocaine adenosine adrenaline noradrenaline furosemide nicardipine nitroglycerin dopamine dobutamine" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center font-black text-xl">🚑</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">Cấp cứu</span><h3 class="font-bold text-slate-800 text-xs">2. Thuốc Cấp Cứu Pro</h3></div>
+        <div onclick="switchTab('emergency-meds')" data-name="thuoc cap cuu atropine cordarone amiodarone lidocaine adenosine adrenaline noradrenaline furosemide nicardipine nitroglycerin dopamine dobutamine" class="tool-card relative cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <div class="module-icon bg-rose-50 text-rose-700">🚑</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">Cấp cứu</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">2. Thuốc Cấp Cứu Pro</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('anaphylaxis')" data-name="xu tri phan ve cap cuu adrenaline shock diphenhydramin methylprednisolon tt51 methylprednisolone can nang thuc chien 5 buoc phac do 2025" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between relative overflow-hidden">
-          <span class="absolute top-2 right-2 bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full animate-pulse-fast">CHUẨN 2025</span>
-          <div class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center font-black text-xl">⚡</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">Cấp cứu</span><h3 class="font-bold text-slate-800 text-xs">3. Phản Vệ Pro (2025)</h3></div>
+        <div onclick="switchTab('anaphylaxis')" data-name="phan ve cap cuu adrenaline shock diphenhydramine methylprednisolone epinephrine" class="tool-card relative cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <span class="absolute right-2 top-2 animate-pulse-fast rounded-full bg-red-600 px-1.5 py-0.5 text-[8px] font-black text-white">2025</span>
+          <div class="module-icon bg-red-50 text-red-600">⚡</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">Cấp cứu</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">3. Phản Vệ Pro</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('antibiotics')" data-name="tinh lieu khang sinh piperacillin meropenem ceftriaxone vancomycin amikacin levofloxacin imipenem cefepime egfr crcl" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-xl">💊</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">Dược lâm sàng</span><h3 class="font-bold text-slate-800 text-xs">4. Liều Kháng Sinh Pro</h3></div>
+        <div onclick="switchTab('antibiotics')" data-name="khang sinh piperacillin meropenem ceftriaxone vancomycin amikacin levofloxacin imipenem cefepime egfr crcl" class="tool-card cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <div class="module-icon bg-emerald-50 text-emerald-600">💊</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">Dược lâm sàng</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">4. Liều Kháng Sinh Pro</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('scores')" data-name="thang diem lam sang qsofa sofa news2 curb65 glasgow child pugh tich chon" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-black text-xl">📊</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">Đánh giá</span><h3 class="font-bold text-slate-800 text-xs">5. Thang Điểm Tích Chọn</h3></div>
+        <div onclick="switchTab('scores')" data-name="thang diem lam sang qsofa sofa news2 curb65 glasgow child pugh" class="tool-card cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <div class="module-icon bg-violet-50 text-violet-600">📊</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">Đánh giá</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">5. Thang Điểm</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('syringe-pump')" data-name="bom tiem dien norepinephrine epinephrine dobutamine dopamine nitroglycerin insulin van mach nicardipine" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-xl">💉</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">Hồi sức</span><h3 class="font-bold text-slate-800 text-xs">6. Bơm Tiêm Điện Pro</h3></div>
+        <div onclick="switchTab('syringe-pump')" data-name="bom tiem dien norepinephrine epinephrine dobutamine dopamine nitroglycerin insulin nicardipine" class="tool-card cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <div class="module-icon bg-indigo-50 text-indigo-600">💉</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">Hồi sức</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">6. Bơm Tiêm Điện Pro</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('analgesia')" data-name="giam dau ketorolac dong mien lytic cocktail ketorol morphin tramadol who" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-black text-xl">🩺</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">Điều trị đau</span><h3 class="font-bold text-slate-800 text-xs">15. Giảm Đau & Đông Miên</h3></div>
+        <div onclick="switchTab('hyperkalemia')" data-name="tang kali mau ecg calcium gluconate insulin glucose resin lokelma" class="tool-card cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <div class="module-icon bg-orange-50 text-orange-600">🔥</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">Cấp cứu</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">7. Tăng Kali Máu</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('hyperkalemia')" data-name="tang kali mau ecg calcium gluconate insulin glucose pha resin lokelma" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center font-black text-xl">🔥</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">Cấp cứu</span><h3 class="font-bold text-slate-800 text-xs">7. Tăng Kali Máu Pro</h3></div>
+        <div onclick="switchTab('hypokalemia')" data-name="ha kali mau kcl mg ecg bu kali toc do truyen" class="tool-card cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <div class="module-icon bg-amber-50 text-amber-600">🧊</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">Điện giải</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">8. Hạ Kali Máu</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('hypokalemia')" data-name="ha kali mau kcl mg ecg bu kali toc do truyen pha truyen" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-black text-xl">🧊</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">Điện giải</span><h3 class="font-bold text-slate-800 text-xs">8. Hạ Kali Máu Pro</h3></div>
+        <div onclick="switchTab('electrolytes')" data-name="dien giai do ca mg phos calcium osmolality natri kali" class="tool-card cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <div class="module-icon bg-cyan-50 text-cyan-600">⚡</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">Nội khoa</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">9. Điện Giải Đồ</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('electrolytes')" data-name="dien giai do ca mg phos calcium osmolality natri kali" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center font-black text-xl">⚡</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">Nội khoa</span><h3 class="font-bold text-slate-800 text-xs">9. Điện Giải Đồ Pro</h3></div>
+        <div onclick="switchTab('fluids')" data-name="dich truyen duy tri parkland bong holiday segar" class="tool-card cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <div class="module-icon bg-teal-50 text-teal-600">🌊</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">Hồi sức</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">10. Tính Dịch Truyền</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('fluids')" data-name="tinh dich truyen duy tri parkland bong holiday segar giot phut" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center font-black text-xl">🌊</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">Hồi sức</span><h3 class="font-bold text-slate-800 text-xs">10. Tính Dịch Truyền</h3></div>
+        <div onclick="switchTab('abg')" data-name="khi mau dong mach abg ph paco2 hco3 anion gap toan kiem" class="tool-card cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <span class="absolute right-2 top-2 rounded-full bg-rose-600 px-1.5 py-0.5 text-[8px] font-black text-white">CÓ ANION GAP</span>
+          <div class="module-icon bg-rose-50 text-rose-600">🩸</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">ICU / Cấp cứu</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">11. Khí Máu Động Mạch</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('abg')" data-name="khi mau dong mach abg ph paco2 hco3 anion gap toan kiem ho hap chuyen hoa" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between relative">
-          <span class="absolute top-2 right-2 bg-rose-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full">CÓ ANION GAP</span>
-          <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-black text-xl">🩸</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">ICU / Cấp cứu</span><h3 class="font-bold text-slate-800 text-xs">11. Khí Máu Động Mạch PRO</h3></div>
+        <div onclick="switchTab('sodium')" data-name="dieu chinh natri ha na tang na dich truyen" class="tool-card cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <div class="module-icon bg-blue-50 text-blue-600">💧</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">Điện giải</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">12. Điều Chỉnh Natri</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('sodium')" data-name="dieu chinh natri ha na tang na dich truyen" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-black text-xl">💧</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">Điện giải</span><h3 class="font-bold text-slate-800 text-xs">12. Điều Chỉnh Natri</h3></div>
+        <div onclick="switchTab('egfr')" data-name="egfr crcl cockcroft gault ckd epi creatinine suy than" class="tool-card cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <div class="module-icon bg-sky-50 text-sky-600">🧪</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">Thận</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">13. Mức Lọc Cầu Thận</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('egfr')" data-name="egfr crcl cockcroft gault ckd epi creatinine suy than" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-black text-xl">🧪</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">Thận</span><h3 class="font-bold text-slate-800 text-xs">13. Mức Lọc Cầu Thận</h3></div>
+        <div onclick="switchTab('acid-base')" data-name="toan kiem nang cao delta ratio excess gap anion gap" class="tool-card cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <div class="module-icon bg-slate-100 text-slate-700">⚖️</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">ICU</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">14. Toan Kiềm Nâng Cao</h3>
+          </div>
         </div>
 
-        <div onclick="switchTab('acid-base')" data-name="toan kiem nang cao delta ratio excess gap anion gap nguyen ven viet hoa" class="tool-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm cursor-pointer h-32 flex flex-col justify-between">
-          <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center font-black text-xl">⚖️</div>
-          <div><span class="text-[9px] font-bold text-slate-400 uppercase">ICU</span><h3 class="font-bold text-slate-800 text-xs">14. Toan Kiềm Nâng Cao</h3></div>
+        <div onclick="switchTab('analgesia')" data-name="giam dau ketorolac dong mien lytic cocktail ketorol morphin tramadol who" class="tool-card cursor-pointer rounded-2xl border border-slate-200 bg-white p-3">
+          <div class="module-icon bg-amber-50 text-amber-600">🩺</div>
+          <div class="mt-3 space-y-1">
+            <p class="text-[8px] font-bold uppercase tracking-[0.18em] text-slate-400">Điều trị đau</p>
+            <h3 class="text-[11px] font-black leading-snug text-slate-800">15. Giảm Đau & Đông Miên</h3>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- MODULE 1: SEPSIS                            -->
-    <!-- ========================================== -->
     <div id="tab-sepsis" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-red-800 text-white p-3.5 rounded-2xl shadow-md space-y-1">
-        <h2 class="text-sm font-black uppercase">⚠️ SEPSIS & AUTO-CALCULATED SOFA</h2>
-        <p class="text-[10px] text-red-100">Giải thích chi tiết sinh hiệu, khí máu và tự động tính điểm SOFA.</p>
+      <button onclick="switchTab('dashboard')" class="text-xs font-bold text-sky-700">← Quay lại Dashboard</button>
+      <div class="rounded-2xl bg-gradient-to-br from-red-800 to-red-700 p-3.5 text-white shadow-md">
+        <h2 class="text-sm font-black uppercase tracking-wide">⚠️ Sepsis & Auto-CALCULATED SOFA</h2>
+        <p class="mt-1 text-[10px] text-red-100">Sinh hiệu, khí máu, MAP và chỉ số P/F được tự động cập nhật.</p>
       </div>
 
-      <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-        <h3 class="font-bold text-xs uppercase text-slate-700 border-b pb-1">1. Nhập Sinh Hiệu & Khí Máu Động Mạch</h3>
+      <div class="rounded-2xl border border-slate-200 bg-white p-3.5 shadow-sm">
+        <h3 class="border-b border-slate-200 pb-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-700">1. Nhập Sinh Hiệu & Khí Máu</h3>
 
-        <div class="grid grid-cols-2 gap-2">
+        <div class="mt-3 grid grid-cols-2 gap-2">
           <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">Huyết áp tâm thu (mmHg)</label>
-            <input id="sepsis-sbp" type="number" value="110" oninput="calcSepsisAuto()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold font-mono">
+            <label class="mb-1 block text-[10px] font-bold text-slate-700">Huyết áp tâm thu</label>
+            <input id="sepsis-sbp" type="number" value="110" oninput="calcSepsisAuto()" class="w-full rounded-xl border border-slate-200 bg-slate-50 p-2 text-xs font-bold text-slate-800 outline-none focus:border-sky-400" />
           </div>
           <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">Huyết áp tâm trương (mmHg)</label>
-            <input id="sepsis-dbp" type="number" value="70" oninput="calcSepsisAuto()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold font-mono">
+            <label class="mb-1 block text-[10px] font-bold text-slate-700">Huyết áp tâm trương</label>
+            <input id="sepsis-dbp" type="number" value="70" oninput="calcSepsisAuto()" class="w-full rounded-xl border border-slate-200 bg-slate-50 p-2 text-xs font-bold text-slate-800 outline-none focus:border-sky-400" />
           </div>
         </div>
 
-        <div>
-          <label class="text-[10px] font-bold text-slate-700 block mb-0.5">Nguồn Oxy & Nồng độ Oxy hít vào (FiO2)</label>
-          <select id="sepsis-fio2-source" onchange="calcSepsisAuto()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold">
-            <option value="0.21">Khí trời tự nhiên (FiO2 = 21% / 0.21)</option>
-            <option value="0.28">Thở gọng kính 2 L/phút (FiO2 = 28% / 0.28)</option>
-            <option value="0.36">Thở gọng kính 4 L/phút (FiO2 = 36% / 0.36)</option>
-            <option value="0.44">Thở gọng kính 6 L/phút (FiO2 = 44% / 0.44)</option>
-            <option value="0.50">Thở Mặt nạ đơn 6-8 L/phút (FiO2 = 50% / 0.50)</option>
-            <option value="0.80">Thở Mặt nạ có túi dự trữ 10-15 L/phút (FiO2 = 80% / 0.80)</option>
-            <option value="1.00">Thở máy / Mask túi xả tối đa (FiO2 = 100% / 1.00)</option>
+        <div class="mt-2">
+          <label class="mb-1 block text-[10px] font-bold text-slate-700">Nguồn Oxy & FiO2</label>
+          <select id="sepsis-fio2-source" onchange="calcSepsisAuto()" class="w-full rounded-xl border border-slate-200 bg-slate-50 p-2 text-xs font-bold text-slate-800 outline-none focus:border-sky-400">
+            <option value="0.21">Khí trời tự nhiên (FiO2 = 21%)</option>
+            <option value="0.28">Thở gọng kính 2 L/phút</option>
+            <option value="0.36">Thở gọng kính 4 L/phút</option>
+            <option value="0.44">Thở gọng kính 6 L/phút</option>
+            <option value="0.50">Mặt nạ đơn 6–8 L/phút</option>
+            <option value="0.80">Mặt nạ có túi dự trữ</option>
+            <option value="1.00">Thở máy / Mask tối đa</option>
           </select>
         </div>
 
-        <div class="grid grid-cols-2 gap-2">
+        <div class="mt-2 grid grid-cols-2 gap-2">
           <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">PaO2 Khí máu (mmHg)</label>
-            <input id="sepsis-pao2" type="number" value="85" oninput="calcSepsisAuto()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold font-mono">
+            <label class="mb-1 block text-[10px] font-bold text-slate-700">PaO2 (mmHg)</label>
+            <input id="sepsis-pao2" type="number" value="85" oninput="calcSepsisAuto()" class="w-full rounded-xl border border-slate-200 bg-slate-50 p-2 text-xs font-bold text-slate-800 outline-none focus:border-sky-400" />
           </div>
           <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">Chế độ thở</label>
-            <select id="sepsis-vent" onchange="calcSepsisAuto()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold">
+            <label class="mb-1 block text-[10px] font-bold text-slate-700">Chế độ thở</label>
+            <select id="sepsis-vent" onchange="calcSepsisAuto()" class="w-full rounded-xl border border-slate-200 bg-slate-50 p-2 text-xs font-bold text-slate-800 outline-none focus:border-sky-400">
               <option value="no">Tự thở / Thở oxy thường</option>
-              <option value="yes">Thở máy xâm nhập / BiPAP</option>
+              <option value="yes">Thở máy / BiPAP</option>
             </select>
           </div>
         </div>
 
-        <div class="bg-slate-900 text-white p-3 rounded-xl space-y-2 text-xs border border-slate-800 font-sans">
-          <div class="grid grid-cols-2 gap-2 border-b border-slate-800 pb-2">
+        <div class="mt-3 rounded-2xl bg-slate-900 p-3 text-white">
+          <div class="grid grid-cols-2 gap-2 border-b border-slate-700 pb-2">
             <div>
-              <span class="text-[10px] text-slate-400 block font-semibold">Huyết áp trung bình (MAP):</span>
-              <strong id="auto-map-val" class="text-emerald-400 text-base font-mono font-black">83 mmHg</strong>
+              <p class="text-[9px] font-semibold text-slate-400">MAP</p>
+              <strong id="auto-map-val" class="text-base font-black text-emerald-400">83 mmHg</strong>
             </div>
             <div>
-              <span class="text-[10px] text-slate-400 block font-semibold">Tỷ lệ PaO2 / FiO2 (Chỉ số P/F):</span>
-              <strong id="auto-pf-val" class="text-sky-400 text-base font-mono font-black">405 mmHg</strong>
+              <p class="text-[9px] font-semibold text-slate-400">Chỉ số P/F</p>
+              <strong id="auto-pf-val" class="text-base font-black text-sky-400">405</strong>
             </div>
           </div>
-
-          <div class="space-y-1 text-[11px] text-slate-300">
-            <p>• <strong>MAP (Huyết áp động mạch trung bình):</strong> Áp lực tưới máu cơ quan. Mục tiêu hồi sức sốc: <strong class="text-emerald-300">MAP ≥ 65 mmHg</strong>. Công thức: <code class="bg-slate-800 px-1 text-slate-200">MAP = HA tâm trương + (HA tâm thu - HA tâm trương) / 3</code>.</p>
-            <p>• <strong>FiO2:</strong> Tỷ lệ phần trăm Oxy trong khí hít vào (Khí trời là 21% hay 0.21).</p>
-            <p>• <strong>PaO2:</strong> Áp lực một phần Oxy trong máu động mạch (Bình thường: 80 - 100 mmHg).</p>
-            <p>• <strong>Chỉ số P/F (PaO2/FiO2):</strong> Đánh giá mức độ tổn thương trao đổi khí tại phổi. Giá trị bình thường > 400 mmHg. Nếu ≤ 300 mmHg là tổn thương/ARDS nhẹ; ≤ 200 mmHg là ARDS trung bình; ≤ 100 mmHg là ARDS nặng.</p>
+          <div class="mt-2 space-y-1 text-[10px] text-slate-300">
+            <p>• MAP mục tiêu hồi sức sốc: ≥ 65 mmHg.</p>
+            <p>• P/F bình thường > 400. Nếu ≤ 300: nguy cơ suy hô hấp đáng kể.</p>
           </div>
         </div>
-      </div>
-
-      <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-        <div class="flex justify-between items-center border-b pb-1">
-          <h3 class="font-bold text-xs uppercase text-slate-700">2. Tự Động Đánh Giá Điểm SOFA</h3>
-          <span id="sofa-total-badge" class="bg-red-100 text-red-800 text-xs font-black px-2.5 py-0.5 rounded-full">0 Điểm SOFA</span>
-        </div>
-        <div class="space-y-2 text-xs">
-          <div class="flex justify-between items-center p-2 bg-slate-50 rounded-lg border">
-            <span>🫁 <strong>Hô hấp (Chỉ số P/F):</strong> <span id="sofa-resp-text" class="text-slate-600">P/F > 400</span></span>
-            <span id="sofa-resp-score" class="font-bold bg-slate-200 px-2 py-0.5 rounded">0 đ</span>
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">🫀 Tim mạch & Vận mạch:</label>
-            <select id="sofa-cv-select" onchange="calcSepsisAuto()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold text-xs">
-              <option value="auto">Tự động từ MAP (MAP ≥ 70 = 0đ, MAP &lt; 70 = 1đ)</option>
-              <option value="2">Dopamine ≤ 5 mcg/kg/p hoặc Dobutamine bất kỳ liều nào (2 đ)</option>
-              <option value="3">Norepinephrine ≤ 0.1 mcg/kg/p hoặc Dopamine > 5 mcg/kg/p (3 đ)</option>
-              <option value="4">Norepinephrine > 0.1 mcg/kg/p hoặc Dopamine > 15 mcg/kg/p (4 đ)</option>
-            </select>
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">🩸 Đông máu (Số lượng Tiểu cầu G/L):</label>
-            <select id="sofa-coag" onchange="calcSepsisAuto()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold text-xs">
-              <option value="0">Tiểu cầu ≥ 150 G/L (0 đ)</option>
-              <option value="1">Tiểu cầu &lt; 150 G/L (1 đ)</option>
-              <option value="2">Tiểu cầu &lt; 100 G/L (2 đ)</option>
-              <option value="3">Tiểu cầu &lt; 50 G/L (3 đ)</option>
-              <option value="4">Tiểu cầu &lt; 20 G/L (4 đ)</option>
-            </select>
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">🟡 Gan (Bilirubin toàn phần µmol/L):</label>
-            <select id="sofa-liver" onchange="calcSepsisAuto()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold text-xs">
-              <option value="0">Bilirubin &lt; 20 µmol/L (&lt; 1.2 mg/dL) (0 đ)</option>
-              <option value="1">Bilirubin 20 - 32 µmol/L (1.2 - 1.9 mg/dL) (1 đ)</option>
-              <option value="2">Bilirubin 33 - 101 µmol/L (2.0 - 5.9 mg/dL) (2 đ)</option>
-              <option value="3">Bilirubin 102 - 204 µmol/L (6.0 - 11.9 mg/dL) (3 đ)</option>
-              <option value="4">Bilirubin > 204 µmol/L (> 12.0 mg/dL) (4 đ)</option>
-            </select>
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">🧠 Thần kinh (Tri giác Glasgow - GCS):</label>
-            <select id="sofa-cns" onchange="calcSepsisAuto()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold text-xs">
-              <option value="0">GCS 15 điểm (Tỉnh táo hoàn toàn) (0 đ)</option>
-              <option value="1">GCS 13 - 14 điểm (1 đ)</option>
-              <option value="2">GCS 10 - 12 điểm (2 đ)</option>
-              <option value="3">GCS 6 - 9 điểm (3 đ)</option>
-              <option value="4">GCS &lt; 6 điểm (4 đ)</option>
-            </select>
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">🩺 Thận (Creatinine máu / Lượng nước tiểu 24h):</label>
-            <select id="sofa-renal" onchange="calcSepsisAuto()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold text-xs">
-              <option value="0">Creatinine &lt; 110 µmol/L (&lt; 1.2 mg/dL) (0 đ)</option>
-              <option value="1">Creatinine 110 - 170 µmol/L (1.2 - 1.9 mg/dL) (1 đ)</option>
-              <option value="2">Creatinine 171 - 299 µmol/L (2.0 - 3.4 mg/dL) (2 đ)</option>
-              <option value="3">Creatinine 300 - 440 µmol/L hoặc Nước tiểu &lt; 500 mL/24h (3 đ)</option>
-              <option value="4">Creatinine > 440 µmol/L hoặc Nước tiểu &lt; 200 mL/24h (4 đ)</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div id="sepsis-diag-box" class="bg-red-950 text-white p-4 rounded-2xl shadow-md border border-red-700 space-y-2"></div>
-    </div>
-
-    <!-- MODULE 2: THUỐC CẤP CỨU -->
-    <div id="tab-emergency-meds" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-rose-900 text-white p-3.5 rounded-2xl shadow-md space-y-1">
-        <h2 class="text-sm font-black uppercase">🚑 THUỐC CẤP CỨU - LIỀU CHUẨN GUIDELINE</h2>
-        <p class="text-[10px] text-rose-200">Bơm tiêm điện chuẩn liều lượng, titrate và phác đồ duy trì.</p>
-      </div>
-      <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-        <div class="grid grid-cols-2 gap-2">
-          <div><label class="text-[10px] font-bold text-slate-600">Cân nặng (kg)</label><input id="emeg-weight" type="number" value="60" oninput="calcEmergencyMedsExact()" class="w-full bg-slate-50 border rounded-xl p-2.5 font-mono font-bold text-sm text-slate-800"></div>
-          <div><label class="text-[10px] font-bold text-slate-600">Huyết áp tâm thu (SBP)</label><input id="emeg-sbp" type="number" value="180" oninput="calcEmergencyMedsExact()" class="w-full bg-slate-50 border rounded-xl p-2.5 font-mono font-bold text-sm text-slate-800"></div>
-        </div>
-        <div>
-          <label class="text-[10px] font-bold text-slate-600">Chọn thuốc cấp cứu</label>
-          <select id="emeg-drug" onchange="calcEmergencyMedsExact()" class="w-full bg-slate-50 border rounded-xl p-2.5 font-bold text-xs text-slate-800">
-            <option value="nicardipine">NICARDIPINE IV – Tăng huyết áp cấp cứu</option>
-            <option value="dobutamine">Dobutamine (Trợ tim / Sốc tim)</option>
-            <option value="dopamine">Dopamine (Vận mạch / Trợ tim)</option>
-            <option value="amiodarone">Amiodarone (Cordarone - Loạn nhịp)</option>
-            <option value="nitroglycerin">Nitroglycerin (Phù phổi cấp / Cơn đau thắt ngực)</option>
-            <option value="norepinephrine">Norepinephrine (Sốc nhiễm khuẩn)</option>
-            <option value="epinephrine">Epinephrine (Adrenaline - Phản vệ / Ngừng tim)</option>
-            <option value="atropine">Atropine Sulfate (Nhịp chậm cấp cứu)</option>
-            <option value="furosemide">Furosemide (Lasix - Phù phổi cấp)</option>
-          </select>
-        </div>
-
-        <div id="nicar-options" class="hidden border-t pt-2 space-y-2.5">
-          <label class="text-[10px] font-bold text-indigo-900 uppercase block">1. Chọn Nồng độ trực tiếp hoặc Tính theo Cách pha:</label>
-
-          <div class="grid grid-cols-3 gap-1.5 text-xs">
-            <label class="flex items-center gap-1 p-2 bg-slate-50 border rounded-xl cursor-pointer">
-              <input type="radio" name="nicar-conc-radio" value="0.1" onchange="toggleNicarMixMode('preset')">
-              <span class="font-bold text-[11px]">0.1 mg/mL</span>
-            </label>
-            <label class="flex items-center gap-1 p-2 bg-indigo-50 border-2 border-indigo-500 rounded-xl cursor-pointer">
-              <input type="radio" name="nicar-conc-radio" value="0.2" checked onchange="toggleNicarMixMode('preset')">
-              <span class="font-bold text-indigo-900 text-[11px]">0.2 mg/mL</span>
-            </label>
-            <label class="flex items-center gap-1 p-2 bg-slate-50 border rounded-xl cursor-pointer">
-              <input type="radio" name="nicar-conc-radio" value="mix" onchange="toggleNicarMixMode('mix')">
-              <span class="font-bold text-[11px]">🧪 Theo cách pha</span>
-            </label>
-          </div>
-
-          <div id="nicar-mix-panel" class="hidden bg-indigo-50/80 p-2.5 rounded-xl border border-indigo-200 space-y-2 text-xs">
-            <span class="font-bold text-indigo-900 block text-[10px] uppercase">Pha từ ống Nicardipine 10mg/10mL:</span>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="text-[10px] text-slate-600 block">Số ống Nicardipine (10mg/10mL)</label>
-                <input id="nicar-amp-count" type="number" value="1" min="1" step="1" oninput="calcEmergencyMedsExact()" class="w-full bg-white border rounded-lg p-2 font-bold font-mono">
-              </div>
-              <div>
-                <label class="text-[10px] text-slate-600 block">Thêm mL Dịch (NaCl/G5%)</label>
-                <input id="nicar-diluent-ml" type="number" value="40" min="0" step="5" oninput="calcEmergencyMedsExact()" class="w-full bg-white border rounded-lg p-2 font-bold font-mono">
-              </div>
-            </div>
-            <div class="text-[10px] text-indigo-800 font-semibold border-t border-indigo-200 pt-1 flex justify-between">
-              <span>Tổng thể tích: <strong id="nicar-total-vol-text">50 mL</strong></span>
-              <span>Nồng độ thực tế: <strong id="nicar-calc-conc-text" class="text-indigo-900">0.20 mg/mL</strong></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="emeg-exact-output" class="space-y-3"></div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- MODULE 3: PHẢN VỆ PRO (CẬP NHẬT CHUẨN 2025, SỬA HOÀN TOÀN LỖI FONT) -->
-    <!-- ========================================== -->
-    <div id="tab-anaphylaxis" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-red-700 text-white p-3.5 rounded-2xl shadow-lg space-y-1">
-        <h2 class="text-sm font-black uppercase tracking-wide">⚡ CẤP CỨU PHẢN VỆ THỰC CHIẾN (GUIDELINE CẬP NHẬT 2025)</h2>
-        <p class="text-[10px] text-red-100">Các bước xử trí dứt khoát, tính liều Adrenaline & Methylprednisolone chuẩn theo cân nặng.</p>
-      </div>
-
-      <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-        <div>
-          <label class="text-[10px] font-bold text-slate-700">1. Đánh giá Mức độ Phản vệ</label>
-          <select id="anaphylaxis-grade" onchange="calcAnaphylaxisPro()" class="w-full bg-slate-50 border rounded-xl p-2.5 font-bold text-xs text-slate-800">
-            <option value="2">Độ II (Nặng): Mày đay + Khó thở, Thở rít, Tụt HA nhẹ, Đau bụng, Nôn</option>
-            <option value="3">Độ III (Nguy cơ tử vong): Tụt HA nặng, Co thắt thanh quản, Mạch nhanh nhỏ, Tri giác u ám</option>
-            <option value="4">Độ IV (Ngừng tuần hoàn): Ngừng thở, Ngừng tim</option>
-            <option value="1">Độ I (Nhẹ): Chỉ có triệu chứng Da & Niêm mạc (Ngứa, mày đay, phù nhẹ)</option>
-          </select>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="text-[10px] font-bold text-slate-700">2. Cân nặng thực tế (kg)</label>
-            <input id="ana-weight" type="number" value="60" oninput="calcAnaphylaxisPro()" class="w-full bg-slate-50 border rounded-xl p-2 font-mono font-bold text-sm text-slate-900">
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-700">3. Tình trạng Đường truyền Tĩnh mạch</label>
-            <select id="ana-access" onchange="calcAnaphylaxisPro()" class="w-full bg-slate-50 border rounded-xl p-2 font-bold text-xs">
-              <option value="im">Chưa có tĩnh mạch (Đang tiêm bắp khẩn cấp)</option>
-              <option value="iv">Đã lập Tĩnh mạch / Bơm tiêm điện sẵn sàng</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div id="ana-result-box" class="space-y-3"></div>
-    </div>
-
-    <!-- MODULE 4: KHÁNG SINH PRO -->
-    <div id="tab-antibiotics" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-emerald-800 text-white p-3.5 rounded-2xl shadow-md space-y-1">
-        <h2 class="text-sm font-black uppercase">💊 TÍNH LIỀU KHÁNG SINH & ĐIỀU CHỈNH CHỨC NĂNG THẬN</h2>
-        <p class="text-[10px] text-emerald-200">Tự động đề xuất liều nạp, duy trì, thời gian truyền & chỉnh liều theo CrCl/eGFR.</p>
-      </div>
-
-      <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="text-[10px] font-bold text-slate-600">CrCl / eGFR (mL/min)</label>
-            <input id="abx-crcl" type="number" value="35" oninput="renderAntibiotic()" class="w-full bg-slate-50 border rounded-xl p-2.5 font-mono font-bold text-sm text-emerald-900">
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-600">Cân nặng (kg)</label>
-            <input id="abx-weight" type="number" value="60" oninput="renderAntibiotic()" class="w-full bg-slate-50 border rounded-xl p-2.5 font-mono font-bold text-sm text-slate-800">
-          </div>
-        </div>
-
-        <div>
-          <label class="text-xs font-bold text-slate-500 uppercase">Chọn Kháng Sinh Tra Cứu</label>
-          <select id="abx-select" onchange="renderAntibiotic()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold text-xs text-slate-800">
-            <option value="pip-tazo">Piperacillin / Tazobactam (Zosyn 4.5g)</option>
-            <option value="meropenem">Meropenem (1g)</option>
-            <option value="vancomycin">Vancomycin (500mg/1g)</option>
-            <option value="ceftriaxone">Ceftriaxone (1g/2g)</option>
-            <option value="cefepime">Cefepime (1g/2g)</option>
-            <option value="imipenem">Imipenem / Cilastatin (500mg)</option>
-            <option value="amikacin">Amikacin (500mg/2mL)</option>
-            <option value="levofloxacin">Levofloxacin (500mg/100mL)</option>
-          </select>
-        </div>
-      </div>
-
-      <div id="abx-detail" class="space-y-3"></div>
-    </div>
-
-    <!-- MODULE 5: THANG ĐIỂM NÂNG CAO -->
-    <div id="tab-scores" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-purple-900 text-white p-3.5 rounded-2xl shadow-md space-y-1">
-        <h2 class="text-sm font-black uppercase">📊 THANG ĐIỂM LÂM SÀNG TÍCH CHỌN TỰ ĐỘNG</h2>
-        <p class="text-[10px] text-purple-200">Chọn từng tiêu chí - Tự động cộng điểm & Đưa ra phân loại nguy cơ.</p>
-      </div>
-      <div class="bg-white p-3.5 rounded-2xl border space-y-2">
-        <label class="text-xs font-bold text-slate-500 uppercase">Chọn thang điểm cần đánh giá</label>
-        <select id="score-type-select" onchange="switchScoreModule()" class="w-full bg-slate-50 border rounded-xl p-2.5 font-bold text-xs text-slate-800">
-          <option value="qsofa">qSOFA (Sepsis Nhanh tại Cấp cứu/Khoa phòng)</option>
-          <option value="news2">NEWS2 Score (Cảnh báo sớm suy hô hấp/tuần hoàn)</option>
-          <option value="glasgow">Glasgow Coma Scale (GCS - Hôn mê / Tri giác)</option>
-          <option value="curb65">CURB-65 (Đánh giá mức độ nặng Viêm phổi)</option>
-          <option value="child-pugh">Child-Pugh (Phân loại xơ gan & Chức năng gan)</option>
-        </select>
-      </div>
-      <div id="score-module-container" class="space-y-3"></div>
-    </div>
-
-    <!-- MODULE 6: BƠM TIÊM ĐIỆN PRO -->
-    <div id="tab-syringe-pump" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-indigo-900 text-white p-3.5 rounded-2xl shadow-md space-y-1">
-        <h2 class="text-sm font-black uppercase">💉 BƠM TIÊM ĐIỆN PRO - DỄ SỬ DỤNG LÂM SÀNG</h2>
-        <p class="text-[10px] text-indigo-200">Đầy đủ Nicardipine, Vận mạch, Trợ tim, Giảm đau, Hạ áp & Bấm nhanh liều.</p>
-      </div>
-
-      <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-        <div>
-          <label class="text-xs font-bold text-indigo-950 block mb-1 uppercase">1. Chọn Loại Thuốc Lâm Sàng</label>
-          <select id="sp-drug-select" onchange="onSyringeDrugChange()" class="w-full bg-indigo-50 border border-indigo-300 rounded-xl p-2.5 font-bold text-xs text-indigo-950">
-            <option value="nicardipine">Nicardipine (Tăng huyết áp cấp cứu) [mg/h]</option>
-            <option value="norepinephrine">Norepinephrine (Sốc nhiễm khuẩn) [mcg/kg/p]</option>
-            <option value="epinephrine">Epinephrine / Adrenaline (Phản vệ / Sốc) [mcg/kg/p]</option>
-            <option value="dobutamine">Dobutamine (Sốc tim / Trợ tim) [mcg/kg/p]</option>
-            <option value="dopamine">Dopamine (Vận mạch / Liều thận) [mcg/kg/p]</option>
-            <option value="nitroglycerin">Nitroglycerin (Phù phổi / Cơn đau thắt ngực) [mcg/p]</option>
-            <option value="amiodarone">Amiodarone / Cordarone (Loạn nhịp) [mg/h]</option>
-            <option value="insulin">Insulin Regular (Cấp cứu Tăng đường huyết/K+) [UI/h]</option>
-            <option value="custom">Tùy chỉnh thông số riêng...</option>
-          </select>
-        </div>
-
-        <div class="grid grid-cols-3 gap-2">
-          <div>
-            <label class="text-[10px] font-semibold text-slate-600 block">Tổng lượng thuốc</label>
-            <div class="flex items-center gap-1">
-              <input id="sp-mg" type="number" step="0.1" value="10" oninput="calcSyringePumpPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold font-mono">
-              <span id="sp-unit-label" class="text-[10px] font-bold text-slate-500">mg</span>
-            </div>
-          </div>
-          <div>
-            <label class="text-[10px] font-semibold text-slate-600 block">Pha đủ thể tích</label>
-            <div class="flex items-center gap-1">
-              <input id="sp-ml" type="number" value="50" oninput="calcSyringePumpPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold font-mono">
-              <span class="text-[10px] font-bold text-slate-500">mL</span>
-            </div>
-          </div>
-          <div>
-            <label class="text-[10px] font-semibold text-slate-600 block">Cân nặng bệnh nhân</label>
-            <div class="flex items-center gap-1">
-              <input id="sp-weight" type="number" value="60" oninput="calcSyringePumpPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold font-mono">
-              <span class="text-[10px] font-bold text-slate-500">kg</span>
-            </div>
-          </div>
-        </div>
-
-        <div id="sp-mode-box" class="p-2 bg-slate-100 rounded-xl text-[11px] font-semibold text-slate-700 flex justify-between items-center">
-          <span>Nồng độ dung dịch pha: <strong id="sp-conc-text" class="text-indigo-900 font-mono">0.20 mg/mL</strong></span>
-          <span id="sp-dose-type-badge" class="bg-indigo-200 text-indigo-900 text-[9px] px-2 py-0.5 rounded-full font-bold">TÍNH THEO MG/GIỜ</span>
-        </div>
-
-        <div class="pt-1 space-y-1.5">
-          <div class="flex justify-between items-center">
-            <label class="text-xs font-black text-indigo-950 uppercase">2. Nhập Liều Mục Tiêu:</label>
-            <span id="sp-target-unit-display" class="text-xs font-mono font-bold text-indigo-700">mg/h</span>
-          </div>
-          <input id="sp-target" type="number" step="0.01" value="5.0" oninput="calcSyringePumpPro()" class="w-full bg-indigo-50 border-2 border-indigo-400 rounded-xl p-3 font-mono font-black text-2xl text-indigo-950 shadow-inner">
-
-          <div id="sp-quick-buttons" class="flex flex-wrap gap-1.5 pt-1"></div>
-        </div>
-      </div>
-
-      <div class="bg-slate-900 text-white p-4 rounded-2xl text-center space-y-1 border-2 border-indigo-500 shadow-lg">
-        <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-300 block">TỐC ĐỘ CÀI ĐẶT TRÊN MÁY BƠM TIÊM ĐIỆN</span>
-        <div id="sp-rate-large" class="text-5xl font-black font-mono text-emerald-400">25.0 <span class="text-xl text-white">mL/h</span></div>
-        <p id="sp-note-text" class="text-[11px] text-slate-300 pt-1 font-sans"></p>
       </div>
     </div>
 
-    <!-- MODULE 15: PHÁC ĐỒ GIẢM ĐAU & ĐÔNG MIÊN -->
-    <div id="tab-analgesia" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-amber-800 text-white p-3.5 rounded-2xl shadow-md space-y-1">
-        <h2 class="text-sm font-black uppercase">🩺 HƯỚNG DẪN GIẢM ĐAU & PHÁC ĐỒ ĐÔNG MIÊN</h2>
-        <p class="text-[10px] text-amber-100">Bậc giảm đau WHO, Ketorolac truyền, Hỗn hợp Đông miên Cấp cứu & Ngoại khoa.</p>
-      </div>
-
-      <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-        <div>
-          <label class="text-xs font-bold text-slate-700 uppercase">Chọn phác đồ giảm đau tra cứu</label>
-          <select id="analgesia-select" onchange="renderAnalgesiaModule()" class="w-full bg-slate-50 border rounded-xl p-2.5 font-bold text-xs text-slate-800">
-            <option value="ketorolac">1. Ketorolac (Kétorol 30mg) - Tiêm & Pha truyền duy trì</option>
-            <option value="lytic">2. Hỗn hợp Đông miên (Lytic Cocktail) - Cấp cứu & Giảm đau nặng</option>
-            <option value="who-ladder">3. Thang giảm đau 3 Bậc WHO (WHO Analgesic Ladder)</option>
-            <option value="post-op">4. Phối hợp giảm đau Sau phẫu thuật / Chấn thương</option>
-          </select>
-        </div>
-      </div>
-
-      <div id="analgesia-detail-box" class="space-y-3"></div>
-    </div>
-
-    <!-- MODULE 7: TĂNG KALI MÁU PRO -->
-    <div id="tab-hyperkalemia" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-orange-800 text-white p-3.5 rounded-2xl shadow-md space-y-1">
-        <h2 class="text-sm font-black uppercase">🔥 CẤP CỨU TĂNG KALI MÁU LÂM SÀNG</h2>
-        <p class="text-[10px] text-orange-200">Hướng dẫn cụ thể 4 bước: Bảo vệ cơ tim, Dịch chuyển K+, Thải K+ & Phối hợp thuốc.</p>
-      </div>
-
-      <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="text-[10px] font-bold text-slate-600">Nồng độ Kali máu (mmol/L)</label>
-            <input id="hyperk-val" type="number" step="0.1" value="6.8" oninput="calcHyperKPro()" class="w-full bg-slate-50 border rounded-xl p-2.5 font-mono font-bold text-sm text-orange-900">
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-600">Biến đổi ECG</label>
-            <select id="hyperk-ecg" onchange="calcHyperKPro()" class="w-full bg-slate-50 border rounded-xl p-2.5 font-bold text-xs text-slate-800">
-              <option value="yes">Có (T nhọn cao, QRS giãn, mất P)</option>
-              <option value="no">Chưa có biến đổi ECG</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div id="hyperk-step-box" class="space-y-3"></div>
-    </div>
-
-    <!-- MODULE 8: HẠ KALI MÁU PRO -->
-    <div id="tab-hypokalemia" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-amber-800 text-white p-3.5 rounded-2xl shadow-md space-y-1">
-        <h2 class="text-sm font-black uppercase">🧊 PHÁC ĐỒ BÙ HẠ KALI MÁU TÍNH LIỀU CHUẨN</h2>
-        <p class="text-[10px] text-amber-200">Tính chính xác số mmol K+ thiếu, cách pha KCl, tốc độ truyền & phối hợp Magnesi.</p>
-      </div>
-
-      <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-        <div class="grid grid-cols-3 gap-2">
-          <div>
-            <label class="text-[10px] font-bold text-slate-600">Kali (mmol/L)</label>
-            <input id="hypok-val" type="number" step="0.1" value="2.6" oninput="calcHypoKPro()" class="w-full bg-slate-50 border rounded-xl p-2 font-mono font-bold text-sm text-amber-900">
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-600">Cân nặng (kg)</label>
-            <input id="hypok-w" type="number" value="60" oninput="calcHypoKPro()" class="w-full bg-slate-50 border rounded-xl p-2 font-mono font-bold text-sm text-slate-800">
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-600">Đường truyền</label>
-            <select id="hypok-route" onchange="calcHypoKPro()" class="w-full bg-slate-50 border rounded-xl p-2 font-bold text-xs">
-              <option value="peripheral">Ngoại vi (Max 40 mmol/L)</option>
-              <option value="cvc">Tĩnh mạch trung tâm (CVC)</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div id="hypok-step-box" class="space-y-3"></div>
-    </div>
-
-    <!-- MODULE 9: ĐIỆN GIẢI ĐỒ -->
-    <div id="tab-electrolytes" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-cyan-900 text-white p-3.5 rounded-2xl shadow-md space-y-1"><h2 class="text-sm font-black uppercase">⚡ ĐIỆN GIẢI ĐỒ & ÁP SUẤT THẨM THẤU</h2></div>
-      <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-        <div class="grid grid-cols-3 gap-2">
-          <div><label class="text-[10px] font-bold text-slate-600">Na+ (mmol/L)</label><input id="elyte-na" type="number" value="138" oninput="calcElectrolytesPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold"></div>
-          <div><label class="text-[10px] font-bold text-slate-600">K+ (mmol/L)</label><input id="elyte-k" type="number" value="4.0" oninput="calcElectrolytesPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold"></div>
-          <div><label class="text-[10px] font-bold text-slate-600">Cl- (mmol/L)</label><input id="elyte-cl" type="number" value="100" oninput="calcElectrolytesPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold"></div>
-        </div>
-        <div class="grid grid-cols-3 gap-2">
-          <div><label class="text-[10px] font-bold text-slate-600">Glucose (mmol/L)</label><input id="elyte-glu" type="number" value="7.0" oninput="calcElectrolytesPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold"></div>
-          <div><label class="text-[10px] font-bold text-slate-600">Ure (mmol/L)</label><input id="elyte-ure" type="number" value="6.0" oninput="calcElectrolytesPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold"></div>
-          <div><label class="text-[10px] font-bold text-slate-600">HCO3- (mmol/L)</label><input id="elyte-hco3" type="number" value="24" oninput="calcElectrolytesPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold"></div>
-        </div>
-        <div class="grid grid-cols-2 gap-2 border-t pt-2">
-          <div><label class="text-[10px] font-bold text-slate-600">Ca2+ TP (mg/dL)</label><input id="elyte-ca" type="number" step="0.1" value="7.5" oninput="calcElectrolytesPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold"></div>
-          <div><label class="text-[10px] font-bold text-slate-600">Albumin (g/dL)</label><input id="elyte-alb" type="number" step="0.1" value="2.8" oninput="calcElectrolytesPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold"></div>
-        </div>
-      </div>
-      <div id="elyte-output-box" class="bg-slate-900 text-white p-4 rounded-2xl shadow-md space-y-2"></div>
-    </div>
-
-    <!-- MODULE 10: TÍNH DỊCH TRUYỀN -->
-    <div id="tab-fluids" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-teal-900 text-white p-3.5 rounded-2xl shadow-md space-y-1"><h2 class="text-sm font-black uppercase">🌊 TÍNH DỊCH TRUYỀN HỒI SỨC & DUY TRÌ</h2></div>
-      <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-        <div class="grid grid-cols-2 gap-2">
-          <div><label class="text-[10px] font-bold text-slate-600">Cân nặng (kg)</label><input id="fluid-w" type="number" value="60" oninput="calcFluidsPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-sm font-bold"></div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-600">Loại chỉ định</label>
-            <select id="fluid-protocol" onchange="calcFluidsPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-xs font-bold">
-              <option value="maint">Duy trì (Holiday-Segar)</option>
-              <option value="sepsis">Bù dịch Sốc nhiễm khuẩn (30 mL/kg)</option>
-              <option value="burn">Phác đồ Parkland (Bỏng)</option>
-            </select>
-          </div>
-        </div>
-        <div id="burn-area-container" class="hidden border-t pt-2">
-          <label class="text-[10px] font-bold text-slate-600">% Diện tích bỏng (TBSA %)</label>
-          <input id="burn-tbsa" type="number" value="30" oninput="calcFluidsPro()" class="w-full bg-slate-50 border rounded-lg p-2 text-sm font-bold">
-        </div>
-      </div>
-      <div id="fluid-output-box" class="bg-teal-950 text-white p-4 rounded-2xl shadow-md space-y-2 border border-teal-800"></div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- MODULE 11: KHÍ MÁU ĐỘNG MẠCH - ABG PRO     -->
-    <!-- ========================================== -->
     <div id="tab-abg" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-rose-900 text-white p-3.5 rounded-2xl shadow-md space-y-1">
-        <h2 class="text-sm font-black uppercase">🩸 KHÍ MÁU ĐỘNG MẠCH (ABG) & ANION GAP</h2>
-        <p class="text-[10px] text-rose-200">Phân tích chính xác Toan-Kiềm, Tự động tính Anion Gap & Đánh giá bù trừ.</p>
+      <button onclick="switchTab('dashboard')" class="text-xs font-bold text-sky-700">← Quay lại Dashboard</button>
+      <div class="rounded-2xl bg-gradient-to-br from-rose-700 to-red-600 p-3.5 text-white shadow-md">
+        <h2 class="text-sm font-black uppercase tracking-wide">🩸 Khí Máu Động Mạch PRO</h2>
+        <p class="mt-1 text-[10px] text-rose-100">Tính anion gap nhanh, bỏ chỉ số Cl- để giảm rối nhiễu trong phần mô tả ứng dụng.</p>
       </div>
 
-      <div class="bg-white p-4 rounded-2xl border space-y-3">
-        <span class="text-xs font-bold text-slate-800 uppercase block border-b pb-1">1. Nhập Chỉ Số Khí Máu & Điện Giải Đồ:</span>
-
-        <div class="grid grid-cols-3 gap-2">
-          <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">pH máu</label>
-            <input id="abg-ph" type="number" step="0.01" value="7.25" oninput="calcABGPro()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold font-mono text-sm text-slate-900">
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">PaCO2 (mmHg)</label>
-            <input id="abg-paco2" type="number" value="28" oninput="calcABGPro()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold font-mono text-sm text-slate-900">
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">HCO3- (mmol/L)</label>
-            <input id="abg-hco3" type="number" value="12" oninput="calcABGPro()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold font-mono text-sm text-slate-900">
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2 border-t pt-2">
-          <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">Natri Na+ (mmol/L)</label>
-            <input id="abg-na" type="number" value="138" oninput="calcABGPro()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold font-mono text-sm text-slate-900">
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">Clo Cl- (mmol/L)</label>
-            <input id="abg-cl" type="number" value="100" oninput="calcABGPro()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold font-mono text-sm text-slate-900">
-          </div>
-        </div>
-      </div>
-
-      <div id="abg-result-box" class="bg-slate-900 text-white p-4 rounded-2xl shadow-md space-y-3 border border-rose-800"></div>
-    </div>
-
-    <!-- MODULE 12: ĐIỀU CHỈNH NATRI -->
-    <div id="tab-sodium" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-blue-900 text-white p-3.5 rounded-2xl shadow-md space-y-1"><h2 class="text-sm font-black uppercase">💧 TÍNH BÙ NATRI MÁU</h2></div>
-      <div class="bg-white p-4 rounded-2xl border space-y-3">
-        <div class="grid grid-cols-3 gap-2">
-          <div><label class="text-[10px] font-bold">Na+ hiện tại</label><input id="na-curr" type="number" value="118" oninput="calcSodiumPro()" class="w-full bg-slate-50 border rounded p-2 text-sm font-bold"></div>
-          <div><label class="text-[10px] font-bold">Na+ mục tiêu</label><input id="na-target" type="number" value="126" oninput="calcSodiumPro()" class="w-full bg-slate-50 border rounded p-2 text-sm font-bold"></div>
-          <div><label class="text-[10px] font-bold">Cân nặng kg</label><input id="na-weight" type="number" value="60" oninput="calcSodiumPro()" class="w-full bg-slate-50 border rounded p-2 text-sm font-bold"></div>
-        </div>
-      </div>
-      <div class="bg-blue-950 text-white p-4 rounded-2xl"><div id="na-fluid-vol" class="text-xl font-black text-blue-300">388 mL NaCl 3%</div></div>
-    </div>
-
-    <!-- MODULE 13: eGFR / CrCl -->
-    <div id="tab-egfr" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-sky-900 text-white p-3.5 rounded-2xl shadow-md space-y-1">
-        <h2 class="text-sm font-black uppercase">🧪 ĐÁNH GIÁ MỨC LỌC CẦU THẬN & CRCL</h2>
-        <p class="text-[10px] text-sky-200">Nhập đầy đủ 4 thông số bắt buộc bên dưới để hệ thống tự động tính toán.</p>
-      </div>
-
-      <div class="bg-white p-4 rounded-2xl border space-y-3">
-        <span class="text-xs font-bold text-sky-950 block border-b pb-1 uppercase">NHẬP THÔNG SỐ BỆNH NHÂN:</span>
-
+      <div class="rounded-2xl border border-slate-200 bg-white p-3.5 shadow-sm">
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">1. Tuổi (năm)</label>
-            <input id="renal-age" type="number" value="65" oninput="calcRenal()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold text-sm">
+            <label class="mb-1 block text-[10px] font-bold text-slate-700">pH</label>
+            <input id="abg-ph" type="number" step="0.01" value="7.38" oninput="calcABG()" class="w-full rounded-xl border border-slate-200 bg-slate-50 p-2 text-xs font-bold text-slate-800 outline-none focus:border-sky-400" />
           </div>
           <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">2. Giới tính sinh học</label>
-            <select id="renal-gender" onchange="calcRenal()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold text-xs">
-              <option value="male">Nam giới</option>
-              <option value="female">Nữ giới</option>
-            </select>
+            <label class="mb-1 block text-[10px] font-bold text-slate-700">PaCO2 (mmHg)</label>
+            <input id="abg-pco2" type="number" value="38" oninput="calcABG()" class="w-full rounded-xl border border-slate-200 bg-slate-50 p-2 text-xs font-bold text-slate-800 outline-none focus:border-sky-400" />
+          </div>
+          <div>
+            <label class="mb-1 block text-[10px] font-bold text-slate-700">HCO3 (mmol/L)</label>
+            <input id="abg-hco3" type="number" value="24" oninput="calcABG()" class="w-full rounded-xl border border-slate-200 bg-slate-50 p-2 text-xs font-bold text-slate-800 outline-none focus:border-sky-400" />
+          </div>
+          <div>
+            <label class="mb-1 block text-[10px] font-bold text-slate-700">Na+ (mmol/L)</label>
+            <input id="abg-na" type="number" value="140" oninput="calcABG()" class="w-full rounded-xl border border-slate-200 bg-slate-50 p-2 text-xs font-bold text-slate-800 outline-none focus:border-sky-400" />
+          </div>
+          <div class="col-span-2">
+            <label class="mb-1 block text-[10px] font-bold text-slate-700">K+ (mmol/L)</label>
+            <input id="abg-k" type="number" value="4.0" oninput="calcABG()" class="w-full rounded-xl border border-slate-200 bg-slate-50 p-2 text-xs font-bold text-slate-800 outline-none focus:border-sky-400" />
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">3. Cân nặng (kg)</label>
-            <input id="renal-w" type="number" value="60" oninput="calcRenal()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold text-sm">
-          </div>
-          <div>
-            <label class="text-[10px] font-bold text-slate-700 block mb-0.5">4. Creatinine máu (Scr)</label>
-            <div class="flex gap-1">
-              <input id="renal-scr" type="number" step="0.1" value="130" oninput="calcRenal()" class="w-full bg-slate-50 border rounded-lg p-2 font-bold text-sm">
-              <select id="renal-unit" onchange="calcRenal()" class="bg-slate-100 border rounded-lg p-1 text-[10px] font-bold">
-                <option value="umol">µmol/L</option>
-                <option value="mgdl">mg/dL</option>
-              </select>
+        <div class="mt-4 rounded-2xl border border-rose-200 bg-rose-50 p-3">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <p class="text-[9px] font-black uppercase tracking-[0.2em] text-rose-700">Anion gap</p>
+              <p class="text-[11px] text-slate-600">Tính theo công thức: Na + K − HCO3</p>
             </div>
+            <strong id="abg-ag" class="text-2xl font-black text-rose-700">0</strong>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="bg-slate-900 text-white p-4 rounded-2xl space-y-3 border border-sky-700">
-        <div class="border-b border-slate-800 pb-2">
-          <p class="text-[10px] text-slate-400 uppercase font-bold">Độ thanh thải Creatinine (Cockcroft-Gault) - Chỉnh liều thuốc:</p>
-          <span id="renal-crcl" class="text-3xl font-black text-sky-400 font-mono">35.4 mL/min</span>
-        </div>
-        <div>
-          <p class="text-[10px] text-slate-400 uppercase font-bold">Mức lọc cầu thận ước tính (CKD-EPI 2021) - Phân độ bệnh thận:</p>
-          <span id="renal-egfr" class="text-2xl font-black text-emerald-400 font-mono">42.1 mL/min/1.73m²</span>
-          <p id="renal-ckd-stage" class="text-xs text-amber-300 font-bold mt-1"></p>
-        </div>
+    <div id="tab-emergency-meds" class="tab-content space-y-3">
+      <button onclick="switchTab('dashboard')" class="text-xs font-bold text-sky-700">← Quay lại Dashboard</button>
+      <div class="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+        <h3 class="text-sm font-black uppercase tracking-wide text-slate-700">Thuốc cấp cứu</h3>
+        <ul class="mt-3 space-y-2 text-xs text-slate-600">
+          <li>• Adrenaline: 1 mg IV bolus trong shock phản vệ.</li>
+          <li>• Amiodarone: 150 mg IV slow push / 3–5 phút.</li>
+          <li>• Noradrenaline: 0.05–0.5 mcg/kg/phút theo mục tiêu MAP.</li>
+        </ul>
       </div>
     </div>
 
-    <!-- MODULE 14: TOAN KIỀM NÂNG CAO -->
+    <div id="tab-sodium" class="tab-content space-y-3">
+      <button onclick="switchTab('dashboard')" class="text-xs font-bold text-sky-700">← Quay lại Dashboard</button>
+      <div class="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+        <h3 class="text-sm font-black uppercase tracking-wide text-slate-700">Điều chỉnh natri</h3>
+        <p class="mt-2 text-xs text-slate-600">Nhập Na thực tế và Na mục tiêu để ước tính lượng Na cần điều chỉnh theo công thức anion/volume.</p>
+      </div>
+    </div>
+
+    <div id="tab-egfr" class="tab-content space-y-3">
+      <button onclick="switchTab('dashboard')" class="text-xs font-bold text-sky-700">← Quay lại Dashboard</button>
+      <div class="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+        <h3 class="text-sm font-black uppercase tracking-wide text-slate-700">Mức lọc cầu thận</h3>
+        <p class="mt-2 text-xs text-slate-600">Cockcroft-Gault, CKD-EPI và đánh giá suy thận cấp/ mạn tính.</p>
+      </div>
+    </div>
+
     <div id="tab-acid-base" class="tab-content space-y-3">
-      <button onclick="switchTab('dashboard')" class="text-xs text-sky-700 font-bold">← Quay lại Dashboard</button>
-      <div class="bg-slate-800 text-white p-3.5 rounded-2xl shadow-md space-y-1">
-        <h2 class="text-sm font-black uppercase">⚖️ PHÂN TÍCH TOAN KIỀM NÂNG CAO (VIỆT HÓA)</h2>
-        <p class="text-[10px] text-slate-200">Giải thích chi tiết các chỉ số: Anion Gap, Delta Ratio, Osmolar Gap.</p>
-      </div>
-
-      <div class="bg-white p-4 rounded-2xl border space-y-3">
-        <span class="text-xs font-bold text-slate-800 uppercase block border-b pb-1">1. Nhập kết quả Sinh hóa & Khí máu:</span>
-        <div class="grid grid-cols-3 gap-2">
-          <div><label class="text-[10px] font-bold text-slate-600">Na+ (mmol/L)</label><input id="ab-na" type="number" value="138" oninput="calcAcidBase()" class="w-full bg-slate-50 border rounded p-2 text-xs font-bold"></div>
-          <div><label class="text-[10px] font-bold text-slate-600">Cl- (mmol/L)</label><input id="ab-cl" type="number" value="100" oninput="calcAcidBase()" class="w-full bg-slate-50 border rounded p-2 text-xs font-bold"></div>
-          <div><label class="text-[10px] font-bold text-slate-600">HCO3- (mmol/L)</label><input id="ab-hco3" type="number" value="12" oninput="calcAcidBase()" class="w-full bg-slate-50 border rounded p-2 text-xs font-bold"></div>
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div><label class="text-[10px] font-bold text-slate-600">Albumin máu (g/dL)</label><input id="ab-alb" type="number" step="0.1" value="4.0" oninput="calcAcidBase()" class="w-full bg-slate-50 border rounded p-2 text-xs font-bold"></div>
-          <div><label class="text-[10px] font-bold text-slate-600">Anion Gap nhập trực tiếp</label><input id="ab-ag-manual" type="number" value="26" oninput="calcAcidBase()" class="w-full bg-slate-50 border rounded p-2 text-xs font-bold"></div>
-        </div>
-      </div>
-
-      <div id="ab-output-box" class="bg-slate-900 text-white p-4 rounded-2xl text-xs space-y-3 border border-slate-700"></div>
-
-      <div class="bg-white p-3.5 rounded-2xl border space-y-2 text-xs text-slate-700">
-        <h4 class="font-bold uppercase text-slate-900 border-b pb-1">📖 GIẢI THÍCH THUẬT NGỮ & CHỈ SỐ:</h4>
-        <p>• <strong>Anion Gap (AG - Khoảng trống Anion):</strong> Lượng Anion chưa định lượng trong máu. Công thức: <code class="bg-slate-100 px-1 font-bold">AG = Na+ - (Cl- + HCO3-)</code>. Bình thường = 8 - 12 mmol/L.</p>
-        <p>• <strong>AG Hiệu chỉnh Albumin:</strong> Bệnh nhân giảm Albumin máu làm giảm AG giả tạo. Công thức: <code class="bg-slate-100 px-1 font-bold">AG hc = AG + 2.5 x (4 - Albumin g/dL)</code>.</p>
-        <p>• <strong>Delta Ratio (Tỷ lệ Delta - ΔAG / ΔHCO3-):</strong> Công thức: <code class="bg-slate-100 px-1 font-bold">(AG - 12) ÷ (24 - HCO3-)</code>. Dùng để phát hiện Rối loạn Toan - Kiềm hỗn hợp:</p>
-        <p class="pl-3 text-[11px]">• <strong>&lt; 0.4:</strong> Toan chuyển hóa không tăng AG (do mất HCO3- qua tiêu hóa/thận).</p>
-        <p class="pl-3 text-[11px]">• <strong>0.4 - 0.8:</strong> Toan chuyển hóa hỗn hợp (kết hợp Tăng AG + Không tăng AG).</p>
-        <p class="pl-3 text-[11px]">• <strong>0.8 - 2.0:</strong> Toan chuyển hóa Tăng AG đơn thuần (Nhiễm toan Ceton, Lactic...).</p>
-        <p class="pl-3 text-[11px]">• <strong>> 2.0:</strong> Kết hợp Toan chuyển hóa Tăng AG + Kiềm chuyển hóa (hoặc Kiềm hô hấp mạn).</p>
+      <button onclick="switchTab('dashboard')" class="text-xs font-bold text-sky-700">← Quay lại Dashboard</button>
+      <div class="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+        <h3 class="text-sm font-black uppercase tracking-wide text-slate-700">Toan kiềm nâng cao</h3>
+        <p class="mt-2 text-xs text-slate-600">Đánh giá delta gap, excess anion gap, và nguyên nhân toan kiềm chuyển hóa.</p>
       </div>
     </div>
-
   </main>
 
-  <!-- FOOTER -->
-  <footer class="bg-slate-200 text-slate-600 text-[10px] p-3 text-center max-w-md mx-auto mt-6 border-t border-slate-300">
-    <strong>CẢNH BÁO LÂM SÀNG:</strong> Công cụ hỗ trợ quyết định y khoa do <strong>BS Nguyễn Tiến Dũng</strong> phát triển.
-  </footer>
-
-  <!-- BOTTOM NAVIGATION -->
-  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50">
-    <div class="max-w-md mx-auto flex justify-around items-center h-14 text-[10px] font-bold text-slate-500">
-      <button onclick="switchTab('dashboard')" class="flex flex-col items-center text-sky-700">🏠 Trang chủ</button>
-      <button onclick="switchTab('sepsis')" class="flex flex-col items-center text-red-600">⚠️ Sepsis</button>
-      <button onclick="switchTab('emergency-meds')" class="flex flex-col items-center text-rose-700">🚑 Thuốc CC</button>
-      <button onclick="switchTab('anaphylaxis')" class="flex flex-col items-center text-red-700">⚡ Phản vệ</button>
-      <button onclick="switchTab('abg')" class="flex flex-col items-center text-rose-800">🩸 Khí máu</button>
-    </div>
-  </nav>
-
-  <!-- JAVASCRIPT CLINICAL ENGINE -->
   <script>
-    const ANTIBIOTICS_DATABASE = {
-      'pip-tazo': {
-        name: 'Piperacillin / Tazobactam (Zosyn 4.5g)',
-        class: 'Beta-lactam / Ức chế Beta-lactamase rộng',
-        loading: 'Không cần liều nạp riêng biệt. Bắt đầu ngay liều tiêu chuẩn.',
-        standard: '4.5 g IV mỗi 6 giờ (hoặc 3.375 g IV mỗi 6 giờ). Truyền kéo dài 3-4 giờ.',
-        sepsis: '4.5 g IV mỗi 6 giờ (Truyền kéo dài 4 giờ để tối ưu T > MIC).',
-        infusion: 'Pha 4.5 g vào 100 mL NaCl 0.9% hoặc Glucose 5%. Truyền BTĐ hoặc dây truyền trong 3-4 giờ.',
-        renal: [
-          { range: 'CrCl > 50 mL/min', dose: '4.5 g IV mỗi 6h (Truyền 3-4h)' },
-          { range: 'CrCl 20 - 50 mL/min', dose: '3.375 g IV mỗi 6h (Truyền 3-4h)' },
-          { range: 'CrCl < 20 mL/min', dose: '2.25 g IV mỗi 6h (Truyền 3-4h)' },
-          { range: 'Lọc máu liên tục (CRRT)', dose: '4.5 g IV mỗi 8h' }
-        ]
-      },
-      'meropenem': {
-        name: 'Meropenem (1g)',
-        class: 'Carbapenem phổ cực rộng',
-        loading: 'Không cần liều nạp. Bắt đầu ngay 1g - 2g.',
-        standard: '1 g IV mỗi 8 giờ (Truyền tĩnh mạch trong 30 phút hoặc truyền kéo dài 3 giờ).',
-        sepsis: '2 g IV mỗi 8 giờ (Truyền kéo dài 3 giờ đối với Pseudomonas/Nhiễm trùng nặng).',
-        infusion: 'Pha 1g/2g vào 100 mL NaCl 0.9%. Truyền nhỏ giọt hoặc BTĐ trong 3 giờ.',
-        renal: [
-          { range: 'CrCl > 50 mL/min', dose: '1 g - 2 g IV mỗi 8h' },
-          { range: 'CrCl 26 - 50 mL/min', dose: '1 g IV mỗi 12h' },
-          { range: 'CrCl 10 - 25 mL/min', dose: '500 mg IV mỗi 12h' },
-          { range: 'CrCl < 10 mL/min', dose: '500 mg IV mỗi 24h' }
-        ]
-      },
-      'vancomycin': {
-        name: 'Vancomycin (500mg/1g)',
-        class: 'Glycopeptide (Đặc trị MRSA)',
-        loading: 'BẮT BUỘC LIỀU NẠP: 25 - 30 mg/kg (tối đa 2g). Ví dụ 60kg → Nạp 1.5g IV.',
-        standard: '15 - 20 mg/kg IV mỗi 8 - 12 giờ (Duy trì nồng độ đáy Trough 15 - 20 mcg/mL).',
-        sepsis: 'Liều nạp 25-30 mg/kg → Duy trì 15-20 mg/kg mỗi 8h (cài BTĐ/truyền chậm).',
-        infusion: 'Pha mỗi 1g vào ít nhất 200 mL NaCl 0.9%. Truyền IV CHẬM ≥ 60-90 phút (Tránh Hội chứng Red Man).',
-        renal: [
-          { range: 'CrCl > 50 mL/min', dose: '15-20 mg/kg IV mỗi 8-12h' },
-          { range: 'CrCl 30 - 49 mL/min', dose: '15-20 mg/kg IV mỗi 24h' },
-          { range: 'CrCl 15 - 29 mL/min', dose: '15-20 mg/kg IV mỗi 48h' },
-          { range: 'CrCl < 15 mL/min / Lọc máu', dose: '15 mg/kg liều duy nhất, đo nồng độ đáy để dùng tiếp' }
-        ]
-      },
-      'ceftriaxone': {
-        name: 'Ceftriaxone (1g/2g)',
-        class: 'Cephalosporin thế hệ 3',
-        loading: 'Không cần liều nạp.',
-        standard: '1 g - 2 g IV tiêm/truyền 1 lần/ngày.',
-        sepsis: '2 g IV mỗi 12 giờ (Tổng 4g/ngày trong Viêm màng nào / Sốc nhiễm khuẩn).',
-        infusion: 'Pha 1g/2g trong 40-100 mL NaCl 0.9% hoặc G5%. Truyền IV trong 30 phút.',
-        renal: [
-          { range: 'Mọi mức CrCl / Suy thận', dose: 'KHÔNG CẦN CHỈNH LIỀU (Thải trừ kép qua gan & thận)' }
-        ]
-      },
-      'cefepime': {
-        name: 'Cefepime (1g/2g)',
-        class: 'Cephalosporin thế hệ 4',
-        loading: 'Không cần liều nạp.',
-        standard: '2 g IV mỗi 8 - 12 giờ.',
-        sepsis: '2 g IV mỗi 8 giờ (Truyền kéo dài 3 - 4 giờ).',
-        infusion: 'Pha 2g vào 100 mL NaCl 0.9%. Truyền tĩnh mạch trong 30 phút hoặc 3-4 giờ.',
-        renal: [
-          { range: 'CrCl > 50 mL/min', dose: '2 g IV mỗi 8h' },
-          { range: 'CrCl 30 - 50 mL/min', dose: '2 g IV mỗi 12h' },
-          { range: 'CrCl 11 - 29 mL/min', dose: '1 g IV mỗi 12h' },
-          { range: 'CrCl < 10 mL/min', dose: '1 g IV mỗi 24h' }
-        ]
-      },
-      'imipenem': {
-        name: 'Imipenem / Cilastatin (500mg)',
-        class: 'Carbapenem',
-        loading: 'Không cần liều nạp.',
-        standard: '500 mg IV mỗi 6 giờ (hoặc 1g mỗi 8 giờ).',
-        sepsis: '1 g IV mỗi 6 giờ.',
-        infusion: 'Pha 500mg trong 100 mL NaCl 0.9%. Truyền tĩnh mạch trong 30-60 phút.',
-        renal: [
-          { range: 'CrCl > 50 mL/min', dose: '500 mg IV mỗi 6h' },
-          { range: 'CrCl 20 - 50 mL/min', dose: '250 mg - 500 mg IV mỗi 6-8h' },
-          { range: 'CrCl < 20 mL/min', dose: '250 mg IV mỗi 12h' }
-        ]
-      },
-      'amikacin': {
-        name: 'Amikacin (500mg/2mL)',
-        class: 'Aminoglycoside',
-        loading: 'LIỀU NẠP BAN ĐẦU: 25 mg/kg IV (Tối đa 1.5g).',
-        standard: '15 - 20 mg/kg IV 1 lần/ngày.',
-        sepsis: '25 mg/kg IV 1 lần/ngày (Truyền IV trong 30-60 phút).',
-        infusion: 'Pha liều tính toán vào 100 mL NaCl 0.9%. Truyền tĩnh mạch trong 30-60 phút.',
-        renal: [
-          { range: 'CrCl > 50 mL/min', dose: '15-20 mg/kg IV mỗi 24h' },
-          { range: 'CrCl 30 - 50 mL/min', dose: '15 mg/kg IV mỗi 36h' },
-          { range: 'CrCl 10 - 29 mL/min', dose: '15 mg/kg IV mỗi 48h' }
-        ]
-      },
-      'levofloxacin': {
-        name: 'Levofloxacin (500mg/100mL)',
-        class: 'Fluoroquinolone',
-        loading: 'Không cần liều nạp.',
-        standard: '500 mg - 750 mg IV/PO 1 lần/ngày.',
-        sepsis: '750 mg IV mỗi 24 giờ.',
-        infusion: 'Dùng chai truyền sẵn 500mg/100mL truyền IV trong 60-90 phút.',
-        renal: [
-          { range: 'CrCl > 50 mL/min', dose: '750 mg IV mỗi 24h' },
-          { range: 'CrCl 20 - 49 mL/min', dose: 'Khởi đầu 750 mg → Duy trì 500 mg mỗi 48h' },
-          { range: 'CrCl < 20 mL/min', dose: 'Khởi đầu 750 mg → Duy trì 500 mg mỗi 48h' }
-        ]
-      }
-    };
-
     function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      const target = document.getElementById('tab-' + tabId);
-      if (target) target.classList.add('active');
-      window.scrollTo(0, 0);
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      const el = document.getElementById('tab-' + tabId);
+      if (el) el.classList.add('active');
     }
 
     function filterTools() {
-      const q = document.getElementById('search-input').value.toLowerCase();
-      document.querySelectorAll('.tool-card').forEach(card => {
-        const name = card.getAttribute('data-name');
-        card.style.display = name.includes(q) ? 'flex' : 'none';
+      const value = document.getElementById('search-input').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.tool-card');
+      cards.forEach(card => {
+        const name = (card.getAttribute('data-name') || '').toLowerCase();
+        const match = !value || name.includes(value);
+        card.style.display = match ? 'block' : 'none';
       });
     }
 
-    // 1. SEPSIS ENGINE
     function calcSepsisAuto() {
-      const sbp = parseFloat(document.getElementById('sepsis-sbp').value) || 0;
-      const dbp = parseFloat(document.getElementById('sepsis-dbp').value) || 0;
-      const pao2 = parseFloat(document.getElementById('sepsis-pao2').value) || 0;
-      const fio2 = parseFloat(document.getElementById('sepsis-fio2-source').value) || 0.21;
-      const isVent = document.getElementById('sepsis-vent').value === 'yes';
-
-      const map = Math.round(dbp + (sbp - dbp) / 3);
-      const pf = Math.round(pao2 / fio2);
-
-      document.getElementById('auto-map-val').innerText = `${map} mmHg`;
-      document.getElementById('auto-pf-val').innerText = `${pf} mmHg`;
-
-      let rScore = 0, rText = "P/F > 400";
-      if (pf <= 100 && isVent) { rScore = 4; rText = "P/F ≤ 100 + Thở máy (ARDS Nặng)"; }
-      else if (pf <= 200 && isVent) { rScore = 3; rText = "P/F ≤ 200 + Thở máy (ARDS Trung bình)"; }
-      else if (pf <= 300) { rScore = 2; rText = "P/F ≤ 300 (ARDS Nhẹ)"; }
-      else if (pf <= 400) { rScore = 1; rText = "P/F ≤ 400 (Tổn thương nhẹ)"; }
-
-      document.getElementById('sofa-resp-text').innerText = rText;
-      document.getElementById('sofa-resp-score').innerText = `${rScore} đ`;
-
-      const cvSel = document.getElementById('sofa-cv-select').value;
-      let cvScore = cvSel === 'auto' ? (map < 70 ? 1 : 0) : parseInt(cvSel);
-
-      const coag = parseInt(document.getElementById('sofa-coag').value) || 0;
-      const liver = parseInt(document.getElementById('sofa-liver').value) || 0;
-      const cns = parseInt(document.getElementById('sofa-cns').value) || 0;
-      const renal = parseInt(document.getElementById('sofa-renal').value) || 0;
-
-      const totalSofa = rScore + cvScore + coag + liver + cns + renal;
-      document.getElementById('sofa-total-badge').innerText = `${totalSofa} Điểm SOFA`;
-
-      const diagBox = document.getElementById('sepsis-diag-box');
-      if (totalSofa >= 2) {
-        if (cvScore >= 3 || map < 65) {
-          diagBox.innerHTML = `<div class="text-xs font-black uppercase text-red-300">🚨 SỐC NHIỄM KHUẨN (SEPTIC SHOCK)</div><p class="text-xs">• Tổng điểm SOFA = ${totalSofa} điểm do đáp ứng nhiễm trùng.<br>• Bệnh nhân có Tụt huyết áp cần Norepinephrine để duy trì MAP ≥ 65 mmHg và Lactate máu > 2 mmol/L.<br>• Xử trí: Bù dịch xả nhanh 30 mL/kg NaCl 0.9% + Dùng kháng sinh phổ rộng ngay trong 1 giờ đầu.</p>`;
-        } else {
-          diagBox.innerHTML = `<div class="text-xs font-black uppercase text-amber-300">⚠️ NHIỄM KHUẨN HUYẾT (SEPSIS-3)</div><p class="text-xs">• Tổng điểm SOFA = ${totalSofa} điểm (Tăng ≥ 2 điểm nghi do nhiễm trùng).<br>• Xử trí: Xét nghiệm Lactate máu, Cấy máu làm kháng sinh đồ & dùng kháng sinh phổ rộng ngay.</p>`;
-        }
-      } else {
-        diagBox.innerHTML = `<div class="text-xs font-bold text-slate-200">Chưa đủ tiêu chuẩn Sepsis-3 (SOFA = ${totalSofa} điểm). Tiếp tục theo dõi sát sinh hiệu.</div>`;
-      }
+      const sbp = Number(document.getElementById('sepsis-sbp').value) || 0;
+      const dbp = Number(document.getElementById('sepsis-dbp').value) || 0;
+      const pao2 = Number(document.getElementById('sepsis-pao2').value) || 0;
+      const fio2 = Number(document.getElementById('sepsis-fio2-source').value) || 0.21;
+      const map = (sbp + 2 * dbp) / 3;
+      const pf = fio2 > 0 ? pao2 / fio2 : 0;
+      document.getElementById('auto-map-val').textContent = `${Math.round(map)} mmHg`;
+      document.getElementById('auto-pf-val').textContent = `${Math.round(pf)}`;
     }
 
-    // 2. EMERGENCY MEDS ENGINE
-    function toggleNicarMixMode(mode) {
-      const mixPanel = document.getElementById('nicar-mix-panel');
-      if (mode === 'mix') mixPanel.classList.remove('hidden');
-      else mixPanel.classList.add('hidden');
-      calcEmergencyMedsExact();
+    function calcABG() {
+      const hco3 = Number(document.getElementById('abg-hco3').value) || 0;
+      const na = Number(document.getElementById('abg-na').value) || 0;
+      const k = Number(document.getElementById('abg-k').value) || 0;
+      const ag = na + k - hco3;
+      document.getElementById('abg-ag').textContent = ag.toFixed(1);
     }
 
-    function calcEmergencyMedsExact() {
-      const w = parseFloat(document.getElementById('emeg-weight').value) || 60;
-      const drug = document.getElementById('emeg-drug').value;
-      const out = document.getElementById('emeg-exact-output');
-      const nicarOptions = document.getElementById('nicar-options');
-
-      if (drug === 'nicardipine') {
-        nicarOptions.classList.remove('hidden');
-
-        let conc = 0.2;
-        let mixDetailText = "";
-        const radios = document.getElementsByName('nicar-conc-radio');
-        let selectedValue = "0.2";
-        for (let r of radios) { if (r.checked) selectedValue = r.value; }
-
-        if (selectedValue === 'mix') {
-          const amps = parseInt(document.getElementById('nicar-amp-count').value) || 1;
-          const diluent = parseFloat(document.getElementById('nicar-diluent-ml').value) || 0;
-          const totalMg = amps * 10;
-          const totalVol = (amps * 10) + diluent;
-          conc = totalVol > 0 ? (totalMg / totalVol) : 0.2;
-
-          document.getElementById('nicar-total-vol-text').innerText = `${totalVol} mL`;
-          document.getElementById('nicar-calc-conc-text').innerText = `${conc.toFixed(2)} mg/mL`;
-          mixDetailText = `Pha ${amps} ống Nicardipine (10mg/10mL = ${totalMg}mg) + ${diluent} mL Dịch đẳng trương → Tổng thể tích ${totalVol} mL.`;
-        } else {
-          conc = parseFloat(selectedValue);
-          mixDetailText = conc === 0.2 ? "Mẫu chuẩn: 1 ống Nicardipine 10mg/10mL + 40mL NaCl 0.9% → Tổng 50 mL." : "Nồng độ 0.1 mg/mL (1 ống 10mg/10mL + 90mL Dịch).";
-        }
-
-        const rate5 = (5 / conc).toFixed(1);
-        const rate7_5 = (7.5 / conc).toFixed(1);
-        const rate10 = (10 / conc).toFixed(1);
-        const rate12_5 = (12.5 / conc).toFixed(1);
-        const rate15 = (15 / conc).toFixed(1);
-
-        out.innerHTML = `
-          <div class="bg-indigo-950 text-white p-4 rounded-2xl shadow-md space-y-3 border border-indigo-800">
-            <div class="border-b border-indigo-800 pb-1 flex justify-between items-center">
-              <h3 class="font-black text-xs uppercase text-indigo-300">NICARDIPINE IV – CẤP CỨU TĂNG HUYẾT ÁP</h3>
-              <span class="bg-indigo-700 text-white text-[9px] font-bold px-2 py-0.5 rounded">KHÔNG THEO CÂN NẶNG</span>
-            </div>
-
-            <div class="p-2.5 bg-indigo-900/80 rounded-xl space-y-1 text-xs border border-indigo-800">
-              <span class="font-bold text-amber-300 block uppercase">1. HÀM LƯỢNG & CÁCH PHA CHỌN:</span>
-              <p>• Cách pha: <strong>${mixDetailText}</strong></p>
-              <p>• Nồng độ tính toán: <strong class="text-emerald-300 font-mono text-sm">${conc.toFixed(2)} mg/mL</strong></p>
-              <p>• Công thức chuẩn: <strong class="text-sky-300 font-mono">mL/h = Liều (mg/h) ÷ Nồng độ (mg/mL)</strong></p>
-            </div>
-
-            <div class="p-2.5 bg-indigo-900/80 rounded-xl space-y-2 text-xs border border-indigo-800">
-              <span class="font-bold text-emerald-300 block uppercase">2. BẢNG TRA TỐC ĐỘ BƠM TIÊM ĐIỆN (TITRATE):</span>
-              <div class="space-y-1 font-mono">
-                <div class="flex justify-between items-center bg-indigo-950/60 p-1.5 rounded border border-indigo-800/50">
-                  <span>Liều khởi đầu <strong>5.0 mg/h</strong>:</span>
-                  <strong class="text-amber-300 text-sm">${rate5} mL/h</strong>
-                </div>
-                <div class="flex justify-between items-center bg-indigo-950/60 p-1.5 rounded border border-indigo-800/50">
-                  <span>Tăng liều <strong>7.5 mg/h</strong> (sau 5-15 phút):</span>
-                  <strong class="text-sky-300 text-sm">${rate7_5} mL/h</strong>
-                </div>
-                <div class="flex justify-between items-center bg-indigo-950/60 p-1.5 rounded border border-indigo-800/50">
-                  <span>Tăng liều <strong>10.0 mg/h</strong>:</span>
-                  <strong class="text-sky-300 text-sm">${rate10} mL/h</strong>
-                </div>
-                <div class="flex justify-between items-center bg-indigo-950/60 p-1.5 rounded border border-indigo-800/50">
-                  <span>Tăng liều <strong>12.5 mg/h</strong>:</span>
-                  <strong class="text-sky-300 text-sm">${rate12_5} mL/h</strong>
-                </div>
-                <div class="flex justify-between items-center bg-indigo-950/60 p-1.5 rounded border border-indigo-800/50">
-                  <span>Liều Tối đa <strong>15.0 mg/h</strong>:</span>
-                  <strong class="text-red-300 text-sm">${rate15} mL/h</strong>
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2.5 bg-indigo-900/80 rounded-xl space-y-1 text-xs border border-indigo-800">
-              <span class="font-bold text-sky-300 block uppercase">3. PHÁC ĐỒ DUY TRÌ & HẠ HUYẾT ÁP AN TOÀN:</span>
-              <p>• Mục tiêu: Giảm huyết áp không quá 25% trong giờ đầu tiên.</p>
-              <p>• Khi đạt huyết áp mục tiêu: Giảm tốc độ dần xuống <strong>2.5 - 5.0 mg/h</strong> để duy trì.</p>
-            </div>
-          </div>
-        `;
-      } else {
-        nicarOptions.classList.add('hidden');
-        if (drug === 'dobutamine') {
-          const rateMin = (5 * w * 60 / 5000).toFixed(1);
-          const rateMax = (15 * w * 60 / 5000).toFixed(1);
-          out.innerHTML = `
-            <div class="bg-rose-950 text-white p-4 rounded-2xl shadow-md space-y-2 border border-rose-800">
-              <h3 class="font-bold text-xs uppercase text-rose-300">DOBUTAMINE (250mg/20mL)</h3>
-              <p class="text-xs">• <strong>Pha BTĐ:</strong> Hút 250 mg (1 lọ 20mL) + 30 mL G5% → Tổng 50 mL (5000 mcg/mL).</p>
-              <p class="text-xs">• <strong>Tốc độ BTĐ cho ${w} kg (liều 5 - 15 mcg/kg/phút):</strong> <strong class="text-amber-300 text-sm">${rateMin} mL/h</strong> đến <strong class="text-amber-300 text-sm">${rateMax} mL/h</strong>.</p>
-            </div>
-          `;
-        } else if (drug === 'dopamine') {
-          const rateRenal = (3 * w * 60 / 4000).toFixed(1);
-          const rateIno = (7.5 * w * 60 / 4000).toFixed(1);
-          out.innerHTML = `
-            <div class="bg-indigo-950 text-white p-4 rounded-2xl shadow-md space-y-2 border border-indigo-800">
-              <h3 class="font-bold text-xs uppercase text-indigo-300">DOPAMINE (200mg/5mL)</h3>
-              <p class="text-xs">• <strong>Pha BTĐ:</strong> Hút 200 mg (1 ống 5mL) + 45 mL NaCl 0.9% → Tổng 50 mL (4000 mcg/mL).</p>
-              <p class="text-xs">• <strong>Tốc độ BTĐ cho ${w} kg:</strong></p>
-              <p class="text-xs">+ Liều Thận (2-5 mcg/kg/phút): <strong class="text-emerald-300">${rateRenal} mL/h</strong></p>
-              <p class="text-xs">+ Liều Trợ tim (5-10 mcg/kg/phút): <strong class="text-emerald-300">${rateIno} mL/h</strong></p>
-            </div>
-          `;
-        } else if (drug === 'amiodarone') {
-          out.innerHTML = `
-            <div class="bg-rose-950 text-white p-4 rounded-2xl shadow-md space-y-2 border border-rose-800">
-              <h3 class="font-bold text-xs uppercase text-rose-300">AMIODARONE (CORDARONE 150mg/3mL)</h3>
-              <p class="text-xs">• <strong>Rung thất / Nhanh thất mất mạch:</strong> Tiêm xả nhanh <strong>300 mg</strong> (2 ống). Lặp lại <strong>150 mg</strong> sau 3-5 phút.</p>
-              <p class="text-xs">• <strong>Cơn nhanh thất có mạch / PSVT:</strong> Liều nạp <strong>150 mg</strong> pha vào 100 mL G5% truyền trong 10-15 phút (400 mL/h).</p>
-              <p class="text-xs">• <strong>Duy trì BTĐ:</strong> 900 mg + G5% đủ 50 mL. 6h đầu: <strong>3.3 mL/h</strong>; 18h sau: <strong>1.7 mL/h</strong>.</p>
-            </div>
-          `;
-        } else if (drug === 'nitroglycerin') {
-          out.innerHTML = `
-            <div class="bg-blue-950 text-white p-4 rounded-2xl shadow-md space-y-2 border border-blue-800">
-              <h3 class="font-bold text-xs uppercase text-blue-300">NITROGLYCERIN (10mg/10mL)</h3>
-              <p class="text-xs">• <strong>Pha BTĐ (200 mcg/mL):</strong> 10 mg + 40 mL NaCl 0.9% → Tổng 50 mL.</p>
-              <p class="text-xs">• <strong>Khởi đầu (10 mcg/phút):</strong> Cài BTĐ <strong class="text-amber-200 text-sm">3.0 mL/h</strong>. Tăng 1.5 - 3.0 mL/h mỗi 5 phút.</p>
-            </div>
-          `;
-        } else if (drug === 'norepinephrine') {
-          const rateNor = (0.1 * w * 60 / 80).toFixed(1);
-          out.innerHTML = `
-            <div class="bg-red-950 text-white p-4 rounded-2xl shadow-md space-y-2 border border-red-800">
-              <h3 class="font-bold text-xs uppercase text-red-300">NOREPINEPHRINE (4mg/4mL)</h3>
-              <p class="text-xs">• <strong>Pha BTĐ (80 mcg/mL):</strong> 4 mg + 46 mL G5% → Tổng 50 mL.</p>
-              <p class="text-xs">• <strong>Khởi đầu (${w} kg - liều 0.1 mcg/kg/phút):</strong> <strong class="text-amber-200 text-sm">${rateNor} mL/h</strong>.</p>
-            </div>
-          `;
-        } else if (drug === 'epinephrine') {
-          const rateEpi = (0.05 * w * 60 / 20).toFixed(1);
-          out.innerHTML = `
-            <div class="bg-red-950 text-white p-4 rounded-2xl shadow-md space-y-2 border border-red-800">
-              <h3 class="font-bold text-xs uppercase text-red-300">EPINEPHRINE (ADRENALINE 1mg/1mL)</h3>
-              <p class="text-xs">• <strong>Pha BTĐ (20 mcg/mL):</strong> 1 mg + 49 mL G5% → Tổng 50 mL.</p>
-              <p class="text-xs">• <strong>Khởi đầu (${w} kg - liều 0.05 mcg/kg/phút):</strong> Cài BTĐ <strong class="text-amber-200 text-sm">${rateEpi} mL/h</strong>.</p>
-            </div>
-          `;
-        } else if (drug === 'atropine') {
-          const pedsAtropine = Math.min(Math.max((0.02 * w).toFixed(2), 0.1), 0.5);
-          out.innerHTML = `
-            <div class="bg-amber-950 text-white p-4 rounded-2xl shadow-md space-y-2 border border-amber-800">
-              <h3 class="font-bold text-xs uppercase text-amber-300">ATROPINE SULFATE (0.25mg/mL)</h3>
-              <p class="text-xs">• <strong>Nhịp chậm cấp cứu:</strong> Tiêm IV push <strong>1.0 mg</strong>. Lặp lại mỗi 3-5 phút (Tối đa 3.0 mg).</p>
-              <p class="text-xs">• <strong>Trẻ em (${w} kg - liều 0.02 mg/kg):</strong> Tiêm IV <strong class="text-amber-200">${pedsAtropine} mg</strong>.</p>
-            </div>
-          `;
-        } else if (drug === 'furosemide') {
-          out.innerHTML = `
-            <div class="bg-cyan-950 text-white p-4 rounded-2xl shadow-md space-y-2 border border-cyan-800">
-              <h3 class="font-bold text-xs uppercase text-cyan-300">FUROSEMIDE (LASIX 20mg/2mL)</h3>
-              <p class="text-xs">• <strong>Phù phổi cấp:</strong> Tiêm IV push chậm <strong>40 - 80 mg</strong> (2 - 4 ống) trong 2-3 phút.</p>
-              <p class="text-xs">• <strong>BTĐ liên tục (10 mg/mL):</strong> Hút 100 mg (5 ống) nguyên chất. Tốc độ: <strong>0.5 - 1.0 mL/h</strong> (5 - 10 mg/h).</p>
-            </div>
-          `;
-        }
-      }
-    }
-
-    // ==========================================
-    // 3. ANAPHYLAXIS PRO ENGINE (UPDATED GUIDELINE 2025)
-    // ==========================================
-    function calcAnaphylaxisPro() {
-      const grade = document.getElementById('anaphylaxis-grade').value;
-      const w = parseFloat(document.getElementById('ana-weight').value) || 60;
-      const access = document.getElementById('ana-access').value;
-      const box = document.getElementById('ana-result-box');
-
-      if (grade === '1') {
-        const methylMg1 = Math.min(Math.round(w * 1), 80);
-        const methylAmps1 = (methylMg1 / 40).toFixed(1);
-        box.innerHTML = `
-          <div class="bg-amber-900 text-white p-4 rounded-2xl space-y-2 border border-amber-700">
-            <h3 class="font-bold text-xs uppercase text-amber-200">PHẢN VỆ ĐỘ I (NHẸ - CHỈ CÓ TRIỆU CHỨNG DA NIÊM MẠC)</h3>
-            <p class="text-xs">• <strong>Chưa có chỉ định dùng Adrenaline cấp cứu.</strong></p>
-            <p class="text-xs">• <strong>Methylprednisolone theo cân nặng (${w} kg - liều 1 mg/kg):</strong> Tiêm tĩnh mạch hoặc tiêm bắp <strong class="text-amber-200 font-mono text-sm">${methylMg1} mg</strong> (~${methylAmps1} ống 40mg).</p>
-            <p class="text-xs">• <strong>Kháng Histamin H1:</strong> Diphenhydramin 10-20 mg tiêm bắp/IV hoặc Mequitazine / Cetirizine uống.</p>
-            <p class="text-xs">• Theo dõi sát sinh hiệu tại cơ sở y tế ít nhất 24 giờ để phòng phản vệ pha 2.</p>
-          </div>
-        `;
-        return;
-      }
-
-      // Liều Adrenaline tiêm bắp: 0.01 mg/kg (nguyên chất 1mg/1mL), người lớn max 0.5 mg (0.5 mL)
-      let doseIM = w < 50 ? Math.min(0.01 * w, 0.5) : 0.5;
-      let doseMlIM = doseIM.toFixed(2);
-
-      // Bù dịch xả nhanh: 20 mL/kg
-      let fluidVol = Math.round(w * 20);
-
-      // Adrenaline Bơm tiêm điện: 0.1 mcg/kg/phút (Pha 1mg + 49mL NaCl 0.9% -> 20 mcg/mL)
-      let epiPumpRate = (0.1 * w * 60 / 20).toFixed(1);
-
-      // Adrenaline Tiêm IV trực tiếp khẩn cấp (kịch phát/ngừng tim/sốc nặng): Pha 1mg + 9mL NaCl 0.9% -> 0.1 mg/mL. Liều 0.5 - 1 mL tiêm IV chậm
-      let epiIvSlow = w < 40 ? (0.01 * w).toFixed(1) : "0.5 - 1.0";
-
-      // Methylprednisolone theo CÂN NẶNG: 1 - 2 mg/kg IV (Tối đa 80mg)
-      let methylMin = Math.min(Math.round(w * 1), 80);
-      let methylMax = Math.min(Math.round(w * 2), 80);
-      let methylAmpsMin = (methylMin / 40).toFixed(1);
-      let methylAmpsMax = (methylMax / 40).toFixed(1);
-
-      box.innerHTML = `
-        <div class="bg-red-950 text-white p-4 rounded-2xl shadow-md space-y-3 border border-red-700">
-          <div class="border-b border-red-800 pb-1.5 flex justify-between items-center">
-            <h3 class="font-black text-xs uppercase text-red-300">CẤP CỨU PHẢN VỆ ĐỘ ${grade === '2' ? 'II' : grade === '3' ? 'III' : 'IV'} (${w} kg) - CẬP NHẬT 2025</h3>
-            <span class="bg-red-600 text-white text-[9px] font-bold px-2 py-0.5 rounded">CẤP CỨU KHẨN CẤP</span>
-          </div>
-
-          <!-- BƯỚC 1: XỬ TRÍ BAN ĐẦU -->
-          <div class="p-2.5 bg-red-900/80 rounded-xl space-y-1 text-xs border border-red-800">
-            <span class="font-bold text-amber-300 block uppercase">BƯỚC 1: HÀNH ĐỘNG CỨU SỐNG TẠI CHỖ (THỰC HIỆN SONG SONG):</span>
-            <p>• <strong>Ngừng ngay lập tức</strong> tiếp xúc với dị nguyên (ngừng truyền thuốc, chất nghi ngờ).</p>
-            <p>• <strong>Tư thế:</strong> Cho nằm bằng, kê cao chân. Nếu nôn hoặc khó thở rít → Cho nằm nghiêng an toàn.</p>
-            <p>• <strong>Hô hấp:</strong> Thở Oxy kính 4 - 6 L/phút (hoặc Mask túi xả 10 - 15 L/phút nếu tụt HA/khó thở nặng).</p>
-          </div>
-
-          <!-- BƯỚC 2: ADRENALINE TIÊM BẮP -->
-          <div class="p-2.5 bg-red-900/80 rounded-xl space-y-1 text-xs border border-red-800">
-            <span class="font-bold text-emerald-300 block uppercase">BƯỚC 2: ADRENALINE 1mg/1mL (FIRST-LINE) - TIÊM BẮP KHẨN CẤP:</span>
-            <p>• <strong>Liều Tiêm Bắp (IM) cho ${w} kg:</strong> Tiêm bắp ngay <strong class="text-emerald-300 text-sm font-mono">${doseMlIM} mL</strong> (${doseMlIM} mg) Adrenaline nguyên chất 1mg/1mL vào <strong>1/3 giữa mặt ngoài đùi</strong>.</p>
-            <p>• <strong>Thời gian lặp lại:</strong> Nhắc lại liều như trên mỗi <strong>3 - 5 phút/lần</strong> nếu Huyết áp chưa nâng hoặc còn khó thở (Lặp lại 3 - 5 lần tiêm bắp).</p>
-          </div>
-
-          <!-- BƯỚC 3: TRUYỀN DỊCH XẢ NHANH -->
-          <div class="p-2.5 bg-red-900/80 rounded-xl space-y-1 text-xs border border-red-800">
-            <span class="font-bold text-sky-300 block uppercase">BƯỚC 3: THIẾT LẬP ĐƯỜNG TRUYỀN & BÙ DỊCH XẢ NHANH:</span>
-            <p>• Thiết lập ngay 1-2 đường truyền Tĩnh mạch ngoại vi kim lớn (18G hoặc 20G).</p>
-            <p>• <strong>Truyền xả nhanh NaCl 0.9%:</strong> Truyền <strong class="text-sky-300 font-mono text-sm">${fluidVol} mL</strong> (20 mL/kg) trong 10 - 20 phút đầu để chống sốc thoát dịch.</p>
-          </div>
-
-          <!-- BƯỚC 4: ADRENALINE TĨNH MẠCH (BƠM TIÊM ĐIỆN HOẶC TIÊM CHẬM) -->
-          <div class="p-2.5 bg-red-900/80 rounded-xl space-y-1.5 text-xs border border-red-800">
-            <span class="font-bold text-yellow-300 block uppercase">BƯỚC 4: ADRENALINE TĨNH MẠCH (Khi tiêm bắp 3 lần thất bại hoặc Phản vệ tiến triển kịch phát):</span>
-            <p>• <strong>Cách 1 (Bơm Tiêm Điện - Ưu tiên):</strong> Pha 1 mg Adrenaline (1 mL) + 49 mL NaCl 0.9% → Nồng độ 20 mcg/mL. Cài BTĐ khởi đầu (${w} kg - liều 0.1 mcg/kg/phút) $\rightarrow$ <strong class="text-emerald-300 font-mono text-sm">${epiPumpRate} mL/h</strong>. Titrate tăng/giảm tốc độ mỗi 3-5 phút theo MAP ≥ 65 mmHg.</p>
-            <p>• <strong>Cách 2 (Tiêm Tĩnh mạch chậm khẩn cấp khi nguy kịch):</strong> Pha 1 mL Adrenaline (1mg) + 9 mL NaCl 0.9% → Nồng độ 0.1 mg/mL. Tiêm Tĩnh mạch CHẬM <strong class="text-yellow-200 font-mono">${epiIvSlow} mL</strong> trong 1 - 2 phút.</p>
-          </div>
-
-          <!-- BƯỚC 5: THUỐC PHỐI HỢP CÂN NẶNG -->
-          <div class="p-2.5 bg-red-900/80 rounded-xl space-y-1.5 text-xs border border-red-800">
-            <span class="font-bold text-purple-300 block uppercase">BƯỚC 5: THUỐC PHỐI HỢP ĐIỀU TRỊ TẠI GIƯỜNG (CÂN NẶNG CHUẨN 2025):</span>
-            <p>• <strong>Methylprednisolone (Chống viêm & Phòng phản vệ pha 2 muộn):</strong> Liều chuẩn 1 - 2 mg/kg → Tiêm Tĩnh mạch <strong class="text-amber-300 font-mono text-sm">${methylMin} - ${methylMax} mg</strong> (Tương đương <strong class="text-amber-300 font-mono">${methylAmpsMin} - ${methylAmpsMax} ống 40mg</strong>).</p>
-            <p>• <strong>Kháng Histamin H1 (Diphenhydramin):</strong> Tiêm bắp hoặc tĩnh mạch chậm 25 - 50 mg (Trẻ em: 1 mg/kg).</p>
-            <p>• <strong>Co thắt phế quản nặng:</strong> Phun khí dung Salbutamol 2.5 - 5 mg (Ventolin) phối hợp Ipratropium 0.5 mg qua Oxy mask.</p>
-          </div>
-        </div>
-      `;
-    }
-
-    // 4. ANTIBIOTICS ENGINE
-    function renderAntibiotic() {
-      const id = document.getElementById('abx-select').value;
-      const crcl = parseFloat(document.getElementById('abx-crcl').value) || 35;
-      const w = parseFloat(document.getElementById('abx-weight').value) || 60;
-      const data = ANTIBIOTICS_DATABASE[id];
-      const box = document.getElementById('abx-detail');
-
-      if (!data) return;
-
-      let renalHtml = "";
-      data.renal.forEach(r => {
-        renalHtml += `<div class="flex justify-between py-1 border-b border-slate-100 text-[11px]"><span>${r.range}:</span><strong class="text-emerald-800">${r.dose}</strong></div>`;
-      });
-
-      box.innerHTML = `
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-md space-y-3">
-          <div class="border-b pb-2 flex justify-between items-center">
-            <div>
-              <h3 class="font-black text-sm text-slate-800 uppercase">${data.name}</h3>
-              <p class="text-[10px] text-slate-500">${data.class}</p>
-            </div>
-            <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">CrCl: ${crcl} mL/min</span>
-          </div>
-
-          <div class="p-2.5 bg-emerald-50 rounded-xl space-y-1 text-xs border border-emerald-200">
-            <span class="font-bold text-emerald-900 block uppercase text-[10px]">📍 LIỀU NẠP VÀ DUY TRÌ BỆNH NHÂN ${w} kg:</span>
-            <p>• <strong>Liều Nạp (Loading):</strong> ${data.loading}</p>
-            <p>• <strong>Liều Chuẩn Duy Trì:</strong> ${data.standard}</p>
-            <p>• <strong>Liều Sốc Nhiễm Khuẩn (Sepsis):</strong> <strong class="text-red-700">${data.sepsis}</strong></p>
-          </div>
-
-          <div class="p-2.5 bg-sky-50 rounded-xl space-y-1 text-xs border border-sky-200">
-            <span class="font-bold text-sky-900 block uppercase text-[10px]">💧 CÁCH PHA & THỜI GIAN TRUYỀN:</span>
-            <p>• ${data.infusion}</p>
-          </div>
-
-          <div class="p-2.5 bg-slate-50 rounded-xl space-y-1 text-xs">
-            <span class="font-bold text-slate-700 block uppercase text-[10px]">🧪 HƯỚNG DẪN CHỈNH LIỀU THEO CHỨC NĂNG THẬN (CrCl):</span>
-            ${renalHtml}
-          </div>
-        </div>
-      `;
-    }
-
-    // 5. SCORES ENGINE
-    function switchScoreModule() {
-      const type = document.getElementById('score-type-select').value;
-      const container = document.getElementById('score-module-container');
-
-      if (type === 'qsofa') {
-        container.innerHTML = `
-          <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-            <h3 class="font-black text-xs uppercase text-purple-900 border-b pb-1">Tích chọn tiêu chí qSOFA (Sepsis Nhanh)</h3>
-            <div class="space-y-2 text-xs">
-              <label class="flex items-start gap-2.5 p-2.5 bg-slate-50 border rounded-xl cursor-pointer">
-                <input type="checkbox" id="chk-qsofa-rr" onchange="calcQSOFACheck()" class="w-4 h-4 mt-0.5 text-purple-600 rounded">
-                <div><strong>1. Tần số thở:</strong> Tần số thở ≥ 22 lần/phút (1 điểm)</div>
-              </label>
-              <label class="flex items-start gap-2.5 p-2.5 bg-slate-50 border rounded-xl cursor-pointer">
-                <input type="checkbox" id="chk-qsofa-gcs" onchange="calcQSOFACheck()" class="w-4 h-4 mt-0.5 text-purple-600 rounded">
-                <div><strong>2. Tri giác:</strong> Rối loạn tri giác / GCS &lt; 15 điểm (1 điểm)</div>
-              </label>
-              <label class="flex items-start gap-2.5 p-2.5 bg-slate-50 border rounded-xl cursor-pointer">
-                <input type="checkbox" id="chk-qsofa-sbp" onchange="calcQSOFACheck()" class="w-4 h-4 mt-0.5 text-purple-600 rounded">
-                <div><strong>3. Huyết áp:</strong> Huyết áp tâm thu ≤ 100 mmHg (1 điểm)</div>
-              </label>
-            </div>
-            <div id="qsofa-result-box" class="p-3 bg-purple-950 text-white rounded-xl text-xs space-y-1"></div>
-          </div>
-        `;
-        calcQSOFACheck();
-      } else if (type === 'news2') {
-        container.innerHTML = `
-          <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-            <h3 class="font-black text-xs uppercase text-purple-900 border-b pb-1">Tích chọn điểm NEWS2 (Cảnh báo sớm)</h3>
-            <div class="space-y-2 text-xs">
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">1. Tần số thở (lần/phút):</label>
-                <select id="news-rr" onchange="calcNEWS2Check()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="0">12 - 20 lần/phút (0 điểm)</option>
-                  <option value="1">9 - 11 lần/phút (1 điểm)</option>
-                  <option value="2">21 - 24 lần/phút (2 điểm)</option>
-                  <option value="3">≤ 8 hoặc ≥ 25 lần/phút (3 điểm)</option>
-                </select>
-              </div>
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">2. Độ bão hòa Oxy (SpO2 %):</label>
-                <select id="news-spo2" onchange="calcNEWS2Check()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="0">≥ 96% (0 điểm)</option>
-                  <option value="1">94 - 95% (1 điểm)</option>
-                  <option value="2">92 - 93% (2 điểm)</option>
-                  <option value="3">≤ 91% (3 điểm)</option>
-                </select>
-              </div>
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">3. Hỗ trợ thở Oxy ngoài?</label>
-                <select id="news-o2" onchange="calcNEWS2Check()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="0">Không thở oxy (Khí trời) (0 điểm)</option>
-                  <option value="2">Có thở Oxy / Kính / Mask (2 điểm)</option>
-                </select>
-              </div>
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">4. Huyết áp tâm thu (mmHg):</label>
-                <select id="news-sbp" onchange="calcNEWS2Check()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="0">111 - 219 mmHg (0 điểm)</option>
-                  <option value="1">101 - 110 mmHg (1 điểm)</option>
-                  <option value="2">91 - 100 mmHg (2 điểm)</option>
-                  <option value="3">≤ 90 mmHg hoặc ≥ 220 mmHg (3 điểm)</option>
-                </select>
-              </div>
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">5. Nhịp tim (lần/phút):</label>
-                <select id="news-hr" onchange="calcNEWS2Check()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="0">51 - 90 lần/phút (0 điểm)</option>
-                  <option value="1">41 - 50 hoặc 91 - 110 lần/phút (1 điểm)</option>
-                  <option value="2">111 - 130 lần/phút (2 điểm)</option>
-                  <option value="3">≤ 40 hoặc ≥ 131 lần/phút (3 điểm)</option>
-                </select>
-              </div>
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">6. Ý thức / Tri giác (ACVPU):</label>
-                <select id="news-cns" onchange="calcNEWS2Check()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="0">Tỉnh táo hoàn toàn (Alert) (0 điểm)</option>
-                  <option value="3">Mới xuất hiện lú lẫn / Đáp ứng lời nói / Đau / Mê (3 điểm)</option>
-                </select>
-              </div>
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">7. Thân nhiệt (°C):</label>
-                <select id="news-temp" onchange="calcNEWS2Check()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="0">36.1 - 38.0 °C (0 điểm)</option>
-                  <option value="1">35.1 - 36.0 hoặc 38.1 - 39.0 °C (1 điểm)</option>
-                  <option value="2">≥ 39.1 °C (2 điểm)</option>
-                  <option value="3">≤ 35.0 °C (3 điểm)</option>
-                </select>
-              </div>
-            </div>
-            <div id="news2-result-box" class="p-3 bg-purple-950 text-white rounded-xl text-xs space-y-1"></div>
-          </div>
-        `;
-        calcNEWS2Check();
-      } else if (type === 'glasgow') {
-        container.innerHTML = `
-          <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-            <h3 class="font-black text-xs uppercase text-purple-900 border-b pb-1">Tích chọn Thang Điểm Glasgow (GCS)</h3>
-            <div class="space-y-2 text-xs">
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">👀 Mở mắt (Eye Opening - E):</label>
-                <select id="gcs-e" onchange="calcGCSCheck()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="4">4 đ: Mở mắt tự nhiên</option>
-                  <option value="3">3 đ: Mở mắt khi nghe gọi</option>
-                  <option value="2">2 đ: Mở mắt khi kích thích đau</option>
-                  <option value="1">1 đ: Không mở mắt</option>
-                </select>
-              </div>
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">🗣️ Lời nói (Verbal Response - V):</label>
-                <select id="gcs-v" onchange="calcGCSCheck()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="5">5 đ: Trả lời đúng, nhanh nhạy</option>
-                  <option value="4">4 đ: Nhầm lẫn, chưa định hướng</option>
-                  <option value="3">3 đ: Phát ngôn từ vô nghĩa</option>
-                  <option value="2">2 đ: Kêu ú ớ, âm vô nghĩa</option>
-                  <option value="1">1 đ: Không phát âm</option>
-                </select>
-              </div>
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">💪 Vận động (Motor Response - M):</label>
-                <select id="gcs-m" onchange="calcGCSCheck()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="6">6 đ: Đáp ứng đúng lệnh</option>
-                  <option value="5">5 đ: Định vị đúng vị trí đau</option>
-                  <option value="4">4 đ: Rút tay / Co tay khi đau</option>
-                  <option value="3">3 đ: Gấp cứng vỏ não</option>
-                  <option value="2">2 đ: Duỗi cứng mất vỏ</option>
-                  <option value="1">1 đ: Không vận động</option>
-                </select>
-              </div>
-            </div>
-            <div id="gcs-result-box" class="p-3 bg-purple-950 text-white rounded-xl text-xs space-y-1"></div>
-          </div>
-        `;
-        calcGCSCheck();
-      } else if (type === 'curb65') {
-        container.innerHTML = `
-          <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-            <h3 class="font-black text-xs uppercase text-purple-900 border-b pb-1">Tích chọn Tiêu chuẩn CURB-65 Viêm phổi</h3>
-            <div class="space-y-2 text-xs">
-              <label class="flex items-start gap-2.5 p-2 bg-slate-50 border rounded-xl cursor-pointer">
-                <input type="checkbox" id="chk-c65-c" onchange="calcCURB65Check()" class="w-4 h-4 mt-0.5">
-                <div><strong>C - Confusion:</strong> Lú lẫn / Giảm tri giác mới xuất hiện (1 đ)</div>
-              </label>
-              <label class="flex items-start gap-2.5 p-2 bg-slate-50 border rounded-xl cursor-pointer">
-                <input type="checkbox" id="chk-c65-u" onchange="calcCURB65Check()" class="w-4 h-4 mt-0.5">
-                <div><strong>U - Uremia:</strong> Ure máu > 7.0 mmol/L (BUN > 19 mg/dL) (1 đ)</div>
-              </label>
-              <label class="flex items-start gap-2.5 p-2 bg-slate-50 border rounded-xl cursor-pointer">
-                <input type="checkbox" id="chk-c65-r" onchange="calcCURB65Check()" class="w-4 h-4 mt-0.5">
-                <div><strong>R - Respiratory:</strong> Tần số thở ≥ 30 lần/phút (1 đ)</div>
-              </label>
-              <label class="flex items-start gap-2.5 p-2 bg-slate-50 border rounded-xl cursor-pointer">
-                <input type="checkbox" id="chk-c65-b" onchange="calcCURB65Check()" class="w-4 h-4 mt-0.5">
-                <div><strong>B - Blood Pressure:</strong> HA tâm thu &lt; 90 hoặc HA tâm trương ≤ 60 mmHg (1 đ)</div>
-              </label>
-              <label class="flex items-start gap-2.5 p-2 bg-slate-50 border rounded-xl cursor-pointer">
-                <input type="checkbox" id="chk-c65-65" onchange="calcCURB65Check()" class="w-4 h-4 mt-0.5">
-                <div><strong>65 - Age:</strong> Tuổi bệnh nhân ≥ 65 tuổi (1 đ)</div>
-              </label>
-            </div>
-            <div id="curb65-result-box" class="p-3 bg-purple-950 text-white rounded-xl text-xs space-y-1"></div>
-          </div>
-        `;
-        calcCURB65Check();
-      } else if (type === 'child-pugh') {
-        container.innerHTML = `
-          <div class="bg-white p-3.5 rounded-2xl border space-y-3">
-            <h3 class="font-black text-xs uppercase text-purple-900 border-b pb-1">Tích chọn Phân loại Child-Pugh Chức năng Gan</h3>
-            <div class="space-y-2 text-xs">
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">1. Bilirubin toàn phần (µmol/L):</label>
-                <select id="cp-bili" onchange="calcChildPughCheck()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="1">&lt; 34 µmol/L (&lt; 2.0 mg/dL) (1 điểm)</option>
-                  <option value="2">34 - 50 µmol/L (2.0 - 3.0 mg/dL) (2 điểm)</option>
-                  <option value="3">> 50 µmol/L (> 3.0 mg/dL) (3 điểm)</option>
-                </select>
-              </div>
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">2. Albumin máu (g/L):</label>
-                <select id="cp-alb" onchange="calcChildPughCheck()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="1">> 35 g/L (> 3.5 g/dL) (1 điểm)</option>
-                  <option value="2">28 - 35 g/L (2.8 - 3.5 g/dL) (2 điểm)</option>
-                  <option value="3">&lt; 28 g/L (&lt; 2.8 g/dL) (3 điểm)</option>
-                </select>
-              </div>
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">3. Tỷ lệ Prothrombin (INR):</label>
-                <select id="cp-inr" onchange="calcChildPughCheck()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="1">INR &lt; 1.7 (Tỷ Prothrombin > 50%) (1 điểm)</option>
-                  <option value="2">INR 1.7 - 2.3 (Tỷ Prothrombin 30-50%) (2 điểm)</option>
-                  <option value="3">INR > 2.3 (Tỷ Prothrombin &lt; 30%) (3 điểm)</option>
-                </select>
-              </div>
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">4. Mức độ Cổ trướng (Ascites):</label>
-                <select id="cp-ascites" onchange="calcChildPughCheck()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="1">Không có cổ trướng (1 điểm)</option>
-                  <option value="2">Cổ trướng ít / Đã kiểm soát bằng lợi tiểu (2 điểm)</option>
-                  <option value="3">Cổ trướng nhiều / Kháng lợi tiểu (3 điểm)</option>
-                </select>
-              </div>
-              <div>
-                <label class="font-bold block text-slate-700 mb-0.5">5. Bệnh não gan (Hepatic Encephalopathy):</label>
-                <select id="cp-enceph" onchange="calcChildPughCheck()" class="w-full bg-slate-50 border p-2 rounded-lg font-bold">
-                  <option value="1">Không có bệnh não gan (1 điểm)</option>
-                  <option value="2">Độ I - II (Ngủ gà, lầm lẫn nhẹ) (2 điểm)</option>
-                  <option value="3">Độ III - IV (Hôn mê, kích động nặng) (3 điểm)</option>
-                </select>
-              </div>
-            </div>
-            <div id="childpugh-result-box" class="p-3 bg-purple-950 text-white rounded-xl text-xs space-y-1"></div>
-          </div>
-        `;
-        calcChildPughCheck();
-      }
-    }
-
-    function calcQSOFACheck() {
-      let score = 0;
-      if (document.getElementById('chk-qsofa-rr')?.checked) score++;
-      if (document.getElementById('chk-qsofa-gcs')?.checked) score++;
-      if (document.getElementById('chk-qsofa-sbp')?.checked) score++;
-
-      const res = document.getElementById('qsofa-result-box');
-      if (!res) return;
-      if (score >= 2) {
-        res.innerHTML = `<strong class="text-red-300 font-black text-sm uppercase block">🚨 qSOFA = ${score}/3 ĐIỂM (NGUY CƠ SEPSIS NẶNG)</strong><p>• Bệnh nhân có tỷ lệ tử vong và vào ICU cao.<br>• Cần tính điểm SOFA đầy đủ, làm Lactate máu, cấy máu và dùng kháng sinh phổ rộng ngay trong 1 giờ đầu.</p>`;
-      } else {
-        res.innerHTML = `<strong class="text-emerald-300 font-bold block">qSOFA = ${score}/3 ĐIỂM (NGUY CƠ THẤP)</strong><p>Chưa nghi ngờ Sepsis nặng. Tiếp tục theo dõi sát sinh hiệu.</p>`;
-      }
-    }
-
-    function calcNEWS2Check() {
-      const r = parseInt(document.getElementById('news-rr')?.value || 0);
-      const s = parseInt(document.getElementById('news-spo2')?.value || 0);
-      const o = parseInt(document.getElementById('news-o2')?.value || 0);
-      const sbp = parseInt(document.getElementById('news-sbp')?.value || 0);
-      const hr = parseInt(document.getElementById('news-hr')?.value || 0);
-      const cns = parseInt(document.getElementById('news-cns')?.value || 0);
-      const temp = parseInt(document.getElementById('news-temp')?.value || 0);
-
-      const total = r + s + o + sbp + hr + cns + temp;
-      const res = document.getElementById('news2-result-box');
-      if (!res) return;
-
-      if (total >= 7) {
-        res.innerHTML = `<strong class="text-red-300 font-black text-sm block">🚨 NGUY CƠ CAO (NEWS2 = ${total} ĐIỂM)</strong><p>Báo động khẩn cấp ICU/Cấp cứu. Đánh giá đường thở, hô hấp, tuần hoàn ngay lập tức.</p>`;
-      } else if (total >= 5 || r === 3 || s === 3 || sbp === 3 || hr === 3) {
-        res.innerHTML = `<strong class="text-amber-300 font-bold block">⚠️ NGUY CƠ TRUNG BÌNH (NEWS2 = ${total} ĐIỂM)</strong><p>Bác sĩ đánh giá trực tiếp khẩn cấp tại giường bệnh. Tăng tần suất đo sinh hiệu.</p>`;
-      } else {
-        res.innerHTML = `<strong class="text-emerald-300 font-bold block">✅ NGUY CƠ THẤP (NEWS2 = ${total} ĐIỂM)</strong><p>Theo dõi sinh hiệu định kỳ mỗi 4 - 12 giờ.</p>`;
-      }
-    }
-
-    function calcGCSCheck() {
-      const e = parseInt(document.getElementById('gcs-e')?.value || 4);
-      const v = parseInt(document.getElementById('gcs-v')?.value || 5);
-      const m = parseInt(document.getElementById('gcs-m')?.value || 6);
-
-      const total = e + v + m;
-      const res = document.getElementById('gcs-result-box');
-      if (!res) return;
-
-      let classText = total <= 8 ? "HÔN MÊ NẶNG (Cân nhắc đặt NKQ bảo vệ đường thở)" : total <= 12 ? "RỐI LOẠN TRI GIÁC MỨC TRUNG BÌNH" : "TRI GIÁC TỈNH TÁO / BÌNH THƯỜNG";
-      res.innerHTML = `
-        <div class="flex justify-between items-center"><strong class="text-amber-300 text-sm font-mono font-black">GCS = ${total} ĐIỂM (E${e}V${v}M${m})</strong></div>
-        <p class="font-bold text-slate-200 mt-1">• Đánh giá: ${classText}</p>
-      `;
-    }
-
-    function calcCURB65Check() {
-      let score = 0;
-      if (document.getElementById('chk-c65-c')?.checked) score++;
-      if (document.getElementById('chk-c65-u')?.checked) score++;
-      if (document.getElementById('chk-c65-r')?.checked) score++;
-      if (document.getElementById('chk-c65-b')?.checked) score++;
-      if (document.getElementById('chk-c65-65')?.checked) score++;
-
-      const res = document.getElementById('curb65-result-box');
-      if (!res) return;
-
-      if (score >= 3) {
-        res.innerHTML = `<strong class="text-red-300 font-black block">🚨 CURB-65 = ${score} ĐIỂM (VIÊM PHỎI NẶNG)</strong><p>Chỉ định nhập viện điều trị tại khoa Hồi sức tích cực (ICU). Kháng sinh phối hợp đường IV.</p>`;
-      } else if (score === 2) {
-        res.innerHTML = `<strong class="text-amber-300 font-bold block">⚠️ CURB-65 = 2 ĐIỂM (MỨC TRUNG BÌNH)</strong><p>Chỉ định nhập viện nội trú khoa Nội / Hô hấp để theo dõi sát.</p>`;
-      } else {
-        res.innerHTML = `<strong class="text-emerald-300 font-bold block">✅ CURB-65 = ${score} ĐIỂM (MỨC NHẸ)</strong><p>Có thể điều trị ngoại trú với kháng sinh đường uống.</p>`;
-      }
-    }
-
-    function calcChildPughCheck() {
-      const b = parseInt(document.getElementById('cp-bili')?.value || 1);
-      const a = parseInt(document.getElementById('cp-alb')?.value || 1);
-      const i = parseInt(document.getElementById('cp-inr')?.value || 1);
-      const asc = parseInt(document.getElementById('cp-ascites')?.value || 1);
-      const enc = parseInt(document.getElementById('cp-enceph')?.value || 1);
-
-      const total = b + a + i + asc + enc;
-      const res = document.getElementById('childpugh-result-box');
-      if (!res) return;
-
-      let grade = total <= 6 ? "Child-Pugh A (5 - 6 điểm)" : total <= 9 ? "Child-Pugh B (7 - 9 điểm)" : "Child-Pugh C (10 - 15 điểm)";
-      let desc = total <= 6 ? "Chức năng gan còn bù tốt. Tiên lượng phẫu thuật tốt." : total <= 9 ? "Mất bù nhẹ - trung bình. Cần chỉnh liều nhiều loại thuốc." : "Mất bù nặng. Tiên lượng tử vong cao, thận trọng tối đa khi dùng thuốc.";
-
-      res.innerHTML = `
-        <strong class="text-amber-300 font-black block">${grade}</strong>
-        <p class="text-xs text-slate-200">• ${desc}</p>
-      `;
-    }
-
-    // 6. SYRINGE PUMP ENGINE
-    const SYRINGE_DRUGS_PRESETS = {
-      'nicardipine': {
-        mg: 10, ml: 50, unit: 'mg', doseType: 'mgh',
-        buttons: [2.5, 5.0, 7.5, 10.0, 12.5, 15.0],
-        defaultDose: 5.0, unitText: 'mg/h',
-        note: 'Pha chuẩn: 1 ống Nicardipine 10mg/10mL + 40mL Dịch (NaCl 0.9%/G5%) → Nồng độ 0.20 mg/mL. Liều: 5-15 mg/h.'
-      },
-      'norepinephrine': {
-        mg: 4, ml: 50, unit: 'mg', doseType: 'mcgkgmin',
-        buttons: [0.05, 0.1, 0.2, 0.3, 0.5, 1.0],
-        defaultDose: 0.1, unitText: 'mcg/kg/min',
-        note: 'Pha chuẩn: 1 ống Norepinephrine 4mg/4mL + 46mL G5% → Nồng độ 80 mcg/mL. Liều: 0.05-1.0 mcg/kg/min.'
-      },
-      'epinephrine': {
-        mg: 1, ml: 50, unit: 'mg', doseType: 'mcgkgmin',
-        buttons: [0.02, 0.05, 0.1, 0.2, 0.5],
-        defaultDose: 0.05, unitText: 'mcg/kg/min',
-        note: 'Pha chuẩn: 1 ống Epinephrine 1mg/1mL + 49mL NaCl 0.9% → Nồng độ 20 mcg/mL. Liều: 0.02-0.5 mcg/kg/min.'
-      },
-      'dobutamine': {
-        mg: 250, ml: 50, unit: 'mg', doseType: 'mcgkgmin',
-        buttons: [2.5, 5.0, 7.5, 10.0, 15.0],
-        defaultDose: 5.0, unitText: 'mcg/kg/min',
-        note: 'Pha chuẩn: 1 lọ Dobutamine 250mg/20mL + 30mL G5% → Nồng độ 5000 mcg/mL. Liều: 2.5-15 mcg/kg/min.'
-      },
-      'dopamine': {
-        mg: 200, ml: 50, unit: 'mg', doseType: 'mcgkgmin',
-        buttons: [2.0, 5.0, 7.5, 10.0, 15.0],
-        defaultDose: 5.0, unitText: 'mcg/kg/min',
-        note: 'Pha chuẩn: 1 ống Dopamine 200mg/5mL + 45mL NaCl 0.9% → Nồng độ 4000 mcg/mL. Liều: 2-15 mcg/kg/min.'
-      },
-      'nitroglycerin': {
-        mg: 10, ml: 50, unit: 'mg', doseType: 'mcgmin',
-        buttons: [10, 20, 30, 50, 100],
-        defaultDose: 10, unitText: 'mcg/min',
-        note: 'Pha chuẩn: 1 ống Nitroglycerin 10mg/10mL + 40mL NaCl 0.9% → Nồng độ 200 mcg/mL. Liều: 10-100 mcg/min.'
-      },
-      'amiodarone': {
-        mg: 900, ml: 50, unit: 'mg', doseType: 'mgh',
-        buttons: [33, 17, 10],
-        defaultDose: 33, unitText: 'mg/h (hoặc mL/h)',
-        note: 'Pha chuẩn: 6 ống Cordarone (900mg) + G5% đủ 50 mL. 6 giờ đầu: 33 mg/h (1 mg/phút); 18 giờ sau: 17 mg/h (0.5 mg/phút).'
-      },
-      'insulin': {
-        mg: 50, ml: 50, unit: 'UI', doseType: 'uih',
-        buttons: [1, 2, 4, 6, 8],
-        defaultDose: 4, unitText: 'UI/h',
-        note: 'Pha chuẩn: 50 UI Insulin Regular (Actrapid) + 50 mL NaCl 0.9% → Nồng độ 1 UI/mL. Liều: 0.05-0.1 UI/kg/h.'
-      },
-      'custom': {
-        mg: 10, ml: 50, unit: 'mg', doseType: 'mcgkgmin',
-        buttons: [0.1, 0.2, 0.5, 1.0],
-        defaultDose: 0.1, unitText: 'mcg/kg/min',
-        note: 'Nhập thông số tùy chỉnh theo ý bác sĩ.'
-      }
-    };
-
-    function onSyringeDrugChange() {
-      const drugKey = document.getElementById('sp-drug-select').value;
-      const preset = SYRINGE_DRUGS_PRESETS[drugKey];
-
-      document.getElementById('sp-mg').value = preset.mg;
-      document.getElementById('sp-ml').value = preset.ml;
-      document.getElementById('sp-unit-label').innerText = preset.unit;
-      document.getElementById('sp-target').value = preset.defaultDose;
-      document.getElementById('sp-target-unit-display').innerText = preset.unitText;
-      document.getElementById('sp-note-text').innerText = preset.note;
-
-      const btnBox = document.getElementById('sp-quick-buttons');
-      btnBox.innerHTML = '<span class="text-[10px] font-bold text-slate-500 w-full block">Nút bấm chọn nhanh liều:</span>';
-      preset.buttons.forEach(val => {
-        btnBox.innerHTML += `<button onclick="setSyringeTarget(${val})" class="bg-indigo-100 text-indigo-900 border border-indigo-300 font-mono font-bold text-xs px-2.5 py-1 rounded-lg hover:bg-indigo-200 active:scale-95 transition">${val}</button>`;
-      });
-
-      calcSyringePumpPro();
-    }
-
-    function setSyringeTarget(val) {
-      document.getElementById('sp-target').value = val;
-      calcSyringePumpPro();
-    }
-
-    function calcSyringePumpPro() {
-      const drugKey = document.getElementById('sp-drug-select').value;
-      const preset = SYRINGE_DRUGS_PRESETS[drugKey];
-      const mg = parseFloat(document.getElementById('sp-mg').value) || 0;
-      const ml = parseFloat(document.getElementById('sp-ml').value) || 1;
-      const w = parseFloat(document.getElementById('sp-weight').value) || 60;
-      const target = parseFloat(document.getElementById('sp-target').value) || 0;
-
-      const concMgMl = mg / ml;
-      document.getElementById('sp-conc-text').innerText = `${concMgMl.toFixed(2)} ${preset.unit}/mL`;
-
-      let rateMlH = 0;
-      if (preset.doseType === 'mcgkgmin') {
-        document.getElementById('sp-dose-type-badge').innerText = 'LIỀU: MCG / KG / PHÚT';
-        rateMlH = (target * w * 60) / (concMgMl * 1000);
-      } else if (preset.doseType === 'mgh' || preset.doseType === 'uih') {
-        document.getElementById('sp-dose-type-badge').innerText = `LIỀU: ${preset.unit.toUpperCase()} / GIỜ`;
-        rateMlH = target / concMgMl;
-      } else if (preset.doseType === 'mcgmin') {
-        document.getElementById('sp-dose-type-badge').innerText = 'LIỀU: MCG / PHÚT';
-        rateMlH = (target * 60) / (concMgMl * 1000);
-      }
-
-      document.getElementById('sp-rate-large').innerHTML = `${rateMlH.toFixed(1)} <span class="text-xl text-white">mL/h</span>`;
-    }
-
-    // 15. ANALGESIA ENGINE
-    function renderAnalgesiaModule() {
-      const val = document.getElementById('analgesia-select').value;
-      const box = document.getElementById('analgesia-detail-box');
-
-      if (val === 'ketorolac') {
-        box.innerHTML = `
-          <div class="bg-white p-4 rounded-2xl border space-y-3">
-            <h3 class="font-bold text-xs uppercase text-amber-900 border-b pb-1">KETOROLAC (KÉTOROL 30mg/1mL) - NSAID GIẢM ĐẠO MẠNH</h3>
-            <div class="p-2.5 bg-amber-50 rounded-xl text-xs space-y-1.5 border border-amber-200">
-              <span class="font-bold text-amber-950 block uppercase">1. CHỈ ĐỊNH VÀ LIỀU DÙNG:</span>
-              <p>• <strong>Tiêm bắp / Tiêm IV trực tiếp:</strong> 30 mg/lần (1 ống) mỗi 6 - 8 giờ khi đau nhiều. Tối đa 120 mg/ngày.</p>
-              <p>• <strong>Pha truyền tĩnh mạch liên tục duy trì (ICU / Ngoại khoa):</strong> Pha 60 - 90 mg Ketorolac (2-3 ống) vào 500 mL NaCl 0.9% truyền IV trong 24 giờ (tốc độ ~21 mL/h).</p>
-            </div>
-            <div class="p-2.5 bg-rose-50 rounded-xl text-xs space-y-1 border border-rose-200 text-rose-950">
-              <span class="font-bold block uppercase">⚠️ CHỐNG CHỈ ĐỊNH & LƯU Ý AN TOÀN:</span>
-              <p>• <strong>Thời gian dùng:</strong> Không dùng quá 5 ngày liên tục (nguy cơ xuất huyết tiêu hóa & suy thận cấp).</p>
-              <p>• <strong>Chống chỉ định:</strong> Loét dạ dày tiến triển, Suy thận nặng (CrCl &lt; 30), Bệnh nhân đang chảy máu hoặc chuẩn bị phẫu thuật lớn.</p>
-              <p>• <strong>Phối hợp bọc niêm mạc:</strong> Bắt buộc dùng kèm Esomeprazole / Pantoprazole 40mg IV.</p>
-            </div>
-          </div>
-        `;
-      } else if (val === 'lytic') {
-        box.innerHTML = `
-          <div class="bg-white p-4 rounded-2xl border space-y-3">
-            <h3 class="font-bold text-xs uppercase text-amber-900 border-b pb-1">HỖN HỢP ĐÔNG MIÊN (LYTIC COCKTAIL / CẤP CỨU & GIẢM ĐAU NẶNG)</h3>
-            <div class="p-2.5 bg-indigo-50 rounded-xl text-xs space-y-2 border border-indigo-200">
-              <span class="font-bold text-indigo-950 block uppercase">1. CÔNG THỨC PHA HỖN HỢP ĐÔNG MIÊN CHUẨN (M6/M2/M1):</span>
-              <div class="bg-white p-2 rounded-lg space-y-1 font-mono text-[11px] border">
-                <p>• <strong>Chlorpromazine (Largaetil):</strong> 25 mg (1 ống)</p>
-                <p>• <strong>Promethazine (Phenergan):</strong> 50 mg (2 ống / 1 ống 50mg)</p>
-                <p>• <strong>Pethidine (Dolargan) hoặc Morphine:</strong> 100 mg Pethidine (hoặc 10 mg Morphine)</p>
-              </div>
-            </div>
-            <div class="p-2.5 bg-amber-50 rounded-xl text-xs space-y-1.5 border border-amber-200">
-              <span class="font-bold text-amber-950 block uppercase">2. CÁCH PHA & TRUYỀN TĨNH MẠCH:</span>
-              <p>• Pha toàn bộ hỗn hợp trên vào <strong>500 mL Glucose 5%</strong> (hoặc NaCl 0.9%).</p>
-              <p>• <strong>Tốc độ truyền:</strong> Khởi đầu 15 - 30 giọt/phút (hoặc cài BTĐ 40 - 60 mL/h), điều chỉnh theo đáp ứng tri giác và mức độ giảm đau của bệnh nhân.</p>
-            </div>
-            <div class="p-2.5 bg-red-50 rounded-xl text-xs space-y-1 border border-red-200 text-red-950">
-              <span class="font-bold block uppercase">🚨 LƯU Ý SỬ DỤNG LÂM SÀNG:</span>
-              <p>• Theo dõi sát Huyết áp (gây tụt HA tư thế do phong bế Alpha-adrenergic) và Tần số thở (nguy cơ ức chế hô hấp).</p>
-              <p>• Luôn sẵn sàng Oxy và Naloxone 0.4mg giải độc Opioid nếu có ức chế hô hấp.</p>
-            </div>
-          </div>
-        `;
-      } else if (val === 'who-ladder') {
-        box.innerHTML = `
-          <div class="bg-white p-4 rounded-2xl border space-y-3">
-            <h3 class="font-bold text-xs uppercase text-amber-900 border-b pb-1">THANG GIẢM ĐAU 3 BẬC THEO WHO</h3>
-            <div class="space-y-2 text-xs">
-              <div class="p-2 bg-slate-50 rounded-xl border">
-                <strong class="text-emerald-800 block">BẬC 1: ĐAU NHẸ (VAS 1 - 3)</strong>
-                <p>• Paracetamol 500mg - 1g uống/truyền IV mỗi 6 giờ + NSAIDs (Ibuprofen, Celecoxib, Ketorolac).</p>
-              </div>
-              <div class="p-2 bg-slate-50 rounded-xl border">
-                <strong class="text-amber-800 block">BẬC 2: ĐAU TRUNG BÌNH (VAS 4 - 6)</strong>
-                <p>• Thuốc bậc 1 + Opioid yếu: Tramadol 50-100mg uống/tiêm IV hoặc Ultracet (Paracetamol + Tramadol).</p>
-              </div>
-              <div class="p-2 bg-slate-50 rounded-xl border">
-                <strong class="text-red-800 block">BẬC 3: ĐAU NẶNG (VAS 7 - 10)</strong>
-                <p>• Opioid mạnh: Morphine 2-5mg tiêm IV lặp lại / PCA, Fentanyl, Pethidine phối hợp NSAIDs.</p>
-              </div>
-            </div>
-          </div>
-        `;
-      } else if (val === 'post-op') {
-        box.innerHTML = `
-          <div class="bg-white p-4 rounded-2xl border space-y-3">
-            <h3 class="font-bold text-xs uppercase text-amber-900 border-b pb-1">PHÁC ĐỒ PHỐI HỢP GIẢM ĐAU ĐA MODAL HẬU PHẪU</h3>
-            <div class="p-2.5 bg-emerald-50 rounded-xl text-xs space-y-1.5 border border-emerald-200">
-              <span class="font-bold text-emerald-950 block uppercase">1. CÔNG THỨC PHỐI HỢP ĐA MODAL CHUẨN:</span>
-              <p>• <strong>Paracetamol IV:</strong> 1g truyền IV mỗi 6 giờ (Tối đa 4g/ngày).</p>
-              <p>• <strong>Ketorolac / Parecoxib:</strong> Parecoxib 40mg IV / Ketorolac 30mg IM mỗi 12 giờ (nếu không suy thận/loét dạ dày).</p>
-              <p>• <strong>Nhu cầu Morphine bổ sung:</strong> Chỉ tiêm Morphine 2-3mg IV khi điểm VAS ≥ 4 điểm.</p>
-            </div>
-          </div>
-        `;
-      }
-    }
-
-    // 7. HYPERKALEMIA ENGINE
-    function calcHyperKPro() {
-      const k = parseFloat(document.getElementById('hyperk-val').value) || 0;
-      const hasEcg = document.getElementById('hyperk-ecg').value === 'yes';
-      const box = document.getElementById('hyperk-step-box');
-
-      box.innerHTML = `
-        <div class="bg-orange-950 text-white p-4 rounded-2xl shadow-md space-y-3 border border-orange-700">
-          <div class="border-b border-orange-800 pb-1.5 flex justify-between items-center">
-            <h3 class="font-black text-xs uppercase text-orange-300">PHÁC ĐỒ XỬ TRÍ TĂNG KALI MÁU (${k} mmol/L)</h3>
-            <span class="bg-orange-700 text-white text-[9px] font-bold px-2 py-0.5 rounded">${k >= 6.5 || hasEcg ? 'MỨC ĐỘ NẶNG' : 'MỨC ĐỘ TRUNG BÌNH'}</span>
-          </div>
-
-          <div class="p-2.5 bg-orange-900/80 rounded-xl space-y-1 text-xs border border-orange-800">
-            <span class="font-bold text-amber-300 block uppercase">1. BẢO VỆ MÀNG CƠ TIM (Dùng ngay nếu K+ >= 6.5 hoặc có ECG biến đổi):</span>
-            <p>• <strong>Thuốc:</strong> <strong>Calcium Gluconate 10%</strong> (1 ống 10mL) hoặc <strong>Calcium Chloride 10%</strong> (1 ống 10mL).</p>
-            <p>• <strong>Cách pha & Đường dùng:</strong> Tiêm tĩnh mạch CHẬM trong <strong>2 - 3 phút</strong>.</p>
-          </div>
-
-          <div class="p-2.5 bg-orange-900/80 rounded-xl space-y-1 text-xs border border-orange-800">
-            <span class="font-bold text-emerald-300 block uppercase">2. VẬN CHUYỂN KALI VÀO TRONG TẾ BÀO:</span>
-            <p>• <strong>Insulin + Glucose:</strong> Pha <strong>10 UI Insulin Regular</strong> vào <strong>50 mL Glucose 20%</strong> truyền IV trong 15-30 phút.</p>
-            <p>• <strong>Khí dung Salbutamol:</strong> Phun khí dung <strong>Salbutamol 10 - 20 mg</strong> (2-4 tép Ventolin) qua mặt nạ.</p>
-          </div>
-
-          <div class="p-2.5 bg-orange-900/80 rounded-xl space-y-1 text-xs border border-orange-800">
-            <span class="font-bold text-sky-300 block uppercase">3. ĐÀO THẢI KALI RA KHỎI CƠ THỂ:</span>
-            <p>• <strong>Furosemide:</strong> 40 - 80 mg IV tiêm tĩnh mạch chậm.</p>
-            <p>• <strong>Lokelma 10g</strong> hoặc Resonium A 15g uống/thụt tháo.</p>
-            <p>• <strong>Lọc máu cấp cứu (HD/CRRT):</strong> Khi K+ > 7.0 mmol/L kháng trị.</p>
-          </div>
-        </div>
-      `;
-    }
-
-    // 8. HYPOKALEMIA ENGINE
-    function calcHypoKPro() {
-      const k = parseFloat(document.getElementById('hypok-val').value) || 0;
-      const w = parseFloat(document.getElementById('hypok-w').value) || 60;
-      const route = document.getElementById('hypok-route').value;
-      const box = document.getElementById('hypok-step-box');
-
-      let deficit = Math.round((3.5 - k) * w * 0.4 * 10);
-      let kclGram = (deficit / 13.4).toFixed(1);
-
-      box.innerHTML = `
-        <div class="bg-amber-950 text-white p-4 rounded-2xl shadow-md space-y-3 border border-amber-700">
-          <div class="border-b border-amber-800 pb-1.5 flex justify-between items-center">
-            <h3 class="font-black text-xs uppercase text-amber-300">PHÁC ĐỒ BÙ KALI MÁU (${k} mmol/L - ${w} kg)</h3>
-          </div>
-
-          <div class="p-2.5 bg-amber-900/80 rounded-xl space-y-1 text-xs border border-amber-800">
-            <span class="font-bold text-amber-200 block uppercase">1. TÍNH LƯỢNG K+ THIẾU HỤT:</span>
-            <p>• Thiếu hụt cơ bản: <strong class="text-emerald-300 font-mono">${deficit} mmol K+</strong> (~${kclGram} g KCl).</p>
-          </div>
-
-          <div class="p-2.5 bg-amber-900/80 rounded-xl space-y-1 text-xs border border-amber-800">
-            <span class="font-bold text-sky-300 block uppercase">2. CÁCH PHA & TỐC ĐỘ TRUYỀN:</span>
-            ${route === 'peripheral' ? `
-              <p>• Ngoại vi (Max 40 mmol/L): Pha 2 ống KCl 10% (20 mmol) vào 500 mL NaCl 0.9%. Truyền &lt; 250 mL/h.</p>
-            ` : `
-              <p>• CVC (Trung tâm): Pha 4 ống KCl 10% (40 mmol) + 10 mL NaCl 0.9% → Tổng 50 mL BTĐ. Cài 25 mL/h (20 mmol/h).</p>
-            `}
-          </div>
-        </div>
-      `;
-    }
-
-    // 9. ELECTROLYTES ENGINE
-    function calcElectrolytesPro() {
-      const na = parseFloat(document.getElementById('elyte-na').value) || 138;
-      const glu = parseFloat(document.getElementById('elyte-glu').value) || 7.0;
-      const ure = parseFloat(document.getElementById('elyte-ure').value) || 6.0;
-      const ca = parseFloat(document.getElementById('elyte-ca').value) || 7.5;
-      const alb = parseFloat(document.getElementById('elyte-alb').value) || 2.8;
-
-      const correctedCa = ca + 0.8 * (4.0 - alb);
-      const osmolality = 2 * na + glu + ure;
-
-      document.getElementById('elyte-output-box').innerHTML = `
-        <div class="text-xs font-bold text-amber-300 uppercase">KẾT QUẢ ĐIỆN GIẢI ĐỒ:</div>
-        <p class="text-xs">• Canxi Hiệu Chỉnh: <strong class="text-cyan-400 font-mono text-sm">${correctedCa.toFixed(2)} mg/dL</strong></p>
-        <p class="text-xs">• Áp Suất Thẩm Thấu Máu: <strong class="text-emerald-400 font-mono text-sm">${Math.round(osmolality)} mOsm/kg</strong></p>
-      `;
-    }
-
-    // 10. FLUIDS ENGINE
-    function calcFluidsPro() {
-      const w = parseFloat(document.getElementById('fluid-w').value) || 60;
-      const proto = document.getElementById('fluid-protocol').value;
-      const areaContainer = document.getElementById('burn-area-container');
-      const box = document.getElementById('fluid-output-box');
-
-      if (proto === 'burn') {
-        areaContainer.classList.remove('hidden');
-        const tbsa = parseFloat(document.getElementById('burn-tbsa').value) || 30;
-        const totalBurnMl = 4 * w * tbsa;
-        box.innerHTML = `<div class="text-xs font-bold text-teal-200">PHÁC ĐỒ PARKLAND BỎNG (${tbsa}% TBSA):</div><div class="text-xl font-mono font-black text-amber-300 my-1">${Math.round(totalBurnMl)} mL Ringer Lactate / 24h</div>`;
-      } else {
-        areaContainer.classList.add('hidden');
-        let daily = w <= 10 ? w * 100 : w <= 20 ? 1000 + (w-10)*50 : 1500 + (w-20)*20;
-        box.innerHTML = `<div class="text-xs font-bold text-teal-200">NHU CẦU DUY TRÌ BÌNH THƯỜNG:</div><div class="text-xl font-mono font-black text-emerald-400 my-1">${Math.round(daily)} mL / 24h (${Math.round(daily/24)} mL/h)</div>`;
-      }
-    }
-
-    // 11. ABG ENGINE
-    function calcABGPro() {
-      const ph = parseFloat(document.getElementById('abg-ph').value) || 7.4;
-      const paco2 = parseFloat(document.getElementById('abg-paco2').value) || 40;
-      const hco3 = parseFloat(document.getElementById('abg-hco3').value) || 24;
-      const na = parseFloat(document.getElementById('abg-na').value) || 138;
-      const cl = parseFloat(document.getElementById('abg-cl').value) || 100;
-
-      const box = document.getElementById('abg-result-box');
-
-      const anionGap = na - (cl + hco3);
-
-      let primaryDiag = "";
-      let compState = "";
-      let agDiag = "";
-
-      if (ph < 7.35) {
-        if (paco2 > 45 && hco3 < 22) {
-          primaryDiag = "Nhiễm Toan Hỗn Hợp (Toan Hô Hấp phối hợp Toan Chuyển Hóa)";
-        } else if (paco2 > 45) {
-          primaryDiag = "Nhiễm Toan Hô Hấp Nguyên Phát";
-          let expectedHco3Acute = 24 + ((paco2 - 40) / 10) * 1;
-          compState = hco3 >= expectedHco3Acute - 2 && hco3 <= expectedHco3Acute + 2 ? "Thận bù trừ cấp tính thích hợp." : "Có rối loạn chuyển hóa phối hợp.";
-        } else if (hco3 < 22) {
-          primaryDiag = "Nhiễm Toan Chuyển Hóa Nguyên Phát";
-          let expectedPaco2 = (1.5 * hco3) + 8;
-          if (paco2 < expectedPaco2 - 2) compState = "Có Kiềm Hô Hấp phối hợp (Tăng thông khí quá mức).";
-          else if (paco2 > expectedPaco2 + 2) compState = "Có Toan Hô Hấp phối hợp (Giảm thông khí).";
-          else compState = "Phổi bù trừ thích hợp (Theo công thức Winter).";
-        } else {
-          primaryDiag = "Nhiễm Toan không điển hình.";
-        }
-      } else if (ph > 7.45) {
-        if (paco2 < 35 && hco3 > 26) {
-          primaryDiag = "Nhiễm Kiềm Hỗn Hợp (Kiềm Hô Hấp phối hợp Kiềm Chuyển Hóa)";
-        } else if (paco2 < 35) {
-          primaryDiag = "Nhiễm Kiềm Hô Hấp Nguyên Phát";
-          compState = "Đáp ứng giảm bù trừ Bicarbonate của thận.";
-        } else if (hco3 > 26) {
-          primaryDiag = "Nhiễm Kiềm Chuyển Hóa Nguyên Phát";
-          compState = "Phổi giảm thông khí bù trừ thích hợp.";
-        } else {
-          primaryDiag = "Nhiễm Kiềm không điển hình.";
-        }
-      } else {
-        if (paco2 !== 40 || hco3 !== 24) {
-          primaryDiag = "Trạng thái pH Cân Bằng (Hoặc Rối Lược Toan-Kiềm Đôi / Hỗn Hợp Bù Trừ Hoàn Toàn)";
-        } else {
-          primaryDiag = "Khí Máu Động Mạch Trong Giới Hạn Bình Thường";
-        }
-      }
-
-      if (anionGap > 12) {
-        agDiag = `Anion Gap = <strong class="text-amber-300 font-mono text-sm">${anionGap.toFixed(1)} mmol/L</strong> (> 12) → <strong>Tăng Anion Gap</strong> (Cần nghĩ đến: Nhiễm toan Lactic, Nhiễm toan Ceton đái tháo đường/rượu, Suy thận mạn, Ngộ độc Methanol/Ethylene Glycol).`;
-      } else {
-        agDiag = `Anion Gap = <strong class="text-emerald-300 font-mono text-sm">${anionGap.toFixed(1)} mmol/L</strong> (Bình thường: 8 - 12) → <strong>Anion Gap Trong Giới Hạn Bình Thường</strong> (Nhiễm toan do mất HCO3-: Tiêu chảy, Mở khí quản, Toan hóa ống thận, Truyền quá nhiều NaCl 0.9%).`;
-      }
-
-      box.innerHTML = `
-        <div class="border-b border-rose-800 pb-2">
-          <span class="text-[10px] text-slate-400 block font-bold uppercase">1. CHẨN ĐOÁN RỐI LOẠN TOAN - KIỀM:</span>
-          <h4 class="text-sm font-black text-amber-300 mt-0.5">${primaryDiag}</h4>
-          ${compState ? `<p class="text-xs text-slate-200 mt-1">• <strong>Bù trừ:</strong> ${compState}</p>` : ''}
-        </div>
-
-        <div>
-          <span class="text-[10px] text-slate-400 block font-bold uppercase mb-1">2. ĐÁNH GIÁ KHOẢNG TRỐNG ANION (ANION GAP):</span>
-          <p class="text-xs text-slate-200">• ${agDiag}</p>
-        </div>
-
-        <div class="p-2 bg-rose-950/80 rounded-xl text-[11px] text-slate-300 space-y-1 font-mono border border-rose-800">
-          <p>• pH: <strong>${ph}</strong> | PaCO2: <strong>${paco2} mmHg</strong> | HCO3-: <strong>${hco3} mmol/L</strong></p>
-          <p>• Na+: <strong>${na} mmol/L</strong> | Cl-: <strong>${cl} mmol/L</strong></p>
-        </div>
-      `;
-    }
-
-    // 12. SODIUM ENGINE
-    function calcSodiumPro() {
-      const curr = parseFloat(document.getElementById('na-curr').value) || 118;
-      const target = parseFloat(document.getElementById('na-target').value) || 126;
-      const w = parseFloat(document.getElementById('na-weight').value) || 60;
-      const def = 0.6 * w * (target - curr);
-      const vol3pct = Math.round((def / 513) * 1000);
-      document.getElementById('na-fluid-vol').innerText = `${vol3pct} mL NaCl 3%`;
-    }
-
-    // 13. RENAL ENGINE
-    function calcRenal() {
-      const age = parseFloat(document.getElementById('renal-age').value) || 65;
-      const gender = document.getElementById('renal-gender').value;
-      const w = parseFloat(document.getElementById('renal-w').value) || 60;
-      let scr = parseFloat(document.getElementById('renal-scr').value) || 130;
-      const unit = document.getElementById('renal-unit').value;
-
-      let scrMgDl = unit === 'umol' ? scr / 88.4 : scr;
-
-      let crcl = ((140 - age) * w) / (72 * scrMgDl);
-      if (gender === 'female') crcl *= 0.85;
-
-      let k = gender === 'female' ? 0.7 : 0.9;
-      let alpha = gender === 'female' ? -0.241 : -0.302;
-      let genderFactor = gender === 'female' ? 1.012 : 1.0;
-      let egfr = 142 * Math.pow(Math.min(scrMgDl / k, 1), alpha) * Math.pow(Math.max(scrMgDl / k, 1), -1.200) * Math.pow(0.9938, age) * genderFactor;
-
-      document.getElementById('renal-crcl').innerText = `${crcl.toFixed(1)} mL/min`;
-      document.getElementById('renal-egfr').innerText = `${egfr.toFixed(1)} mL/min/1.73m²`;
-
-      let stage = "";
-      if (egfr >= 90) stage = "Giai đoạn G1: Mức lọc cầu thận bình thường / tăng";
-      else if (egfr >= 60) stage = "Giai đoạn G2: Giảm nhẹ mức lọc cầu thận";
-      else if (egfr >= 45) stage = "Giai đoạn G3a: Giảm nhẹ đến trung bình";
-      else if (egfr >= 30) stage = "Giai đoạn G3b: Giảm trung bình đến nặng";
-      else if (egfr >= 15) stage = "Giai đoạn G4: Giảm nặng mức lọc cầu thận";
-      else stage = "Giai đoạn G5: Suy thận giai đoạn cuối (ESKD)";
-
-      document.getElementById('renal-ckd-stage').innerText = stage;
-    }
-
-    // 14. ACID BASE ENGINE
-    function calcAcidBase() {
-      const na = parseFloat(document.getElementById('ab-na').value) || 138;
-      const cl = parseFloat(document.getElementById('ab-cl').value) || 100;
-      const hco3 = parseFloat(document.getElementById('ab-hco3').value) || 12;
-      const alb = parseFloat(document.getElementById('ab-alb').value) || 4.0;
-      const agManual = parseFloat(document.getElementById('ab-ag-manual').value) || 0;
-
-      let agCalc = na - (cl + hco3);
-      let agUsed = agManual > 0 ? agManual : agCalc;
-      let agCorr = agUsed + 2.5 * (4.0 - alb);
-      let deltaRatio = (agUsed - 12) / (24 - hco3);
-
-      let interp = "";
-      if (deltaRatio < 0.4) interp = "Toan chuyển hóa không tăng Anion Gap (như tiêu chảy, mở khí quản, toan hóa ống thận).";
-      else if (deltaRatio <= 0.8) interp = "Toan chuyển hóa HỖN HỢP (Kết hợp Tăng AG + Không tăng AG).";
-      else if (deltaRatio <= 2.0) interp = "Toan chuyển hóa TĂNG ANION GAP ĐƠN THUẦN (Nhiễm toan Lactic, Ceton, Suy thận...).";
-      else interp = "Kết hợp Toan chuyển hóa Tăng AG + KIỀM CHUYỂN HÓA (hoặc Kiềm hô hấp mạn).";
-
-      document.getElementById('ab-output-box').innerHTML = `
-        <div class="border-b border-slate-700 pb-2 space-y-1">
-          <p>• Khoảng trống Anion (Anion Gap - AG): <strong class="text-amber-300 font-mono text-sm">${agUsed.toFixed(1)} mmol/L</strong> (Bình thường: 8-12)</p>
-          <p>• AG hiệu chỉnh theo Albumin (${alb} g/dL): <strong class="text-sky-300 font-mono text-sm">${agCorr.toFixed(1)} mmol/L</strong></p>
-          <p>• Delta Ratio (ΔAG / ΔHCO3-): <strong class="text-emerald-300 font-mono text-base">${deltaRatio.toFixed(2)}</strong></p>
-        </div>
-        <div>
-          <strong class="text-amber-200 block uppercase text-[10px]">ĐÁNH GIÁ CHẨN ĐOÁN LÂM SÀNG:</strong>
-          <p class="text-slate-200 font-bold mt-0.5">• ${interp}</p>
-        </div>
-      `;
-    }
-
-    // Initial Engine Calls
-    calcSepsisAuto();
-    calcEmergencyMedsExact();
-    calcAnaphylaxisPro();
-    renderAntibiotic();
-    switchScoreModule();
-    onSyringeDrugChange();
-    renderAnalgesiaModule();
-    calcHyperKPro();
-    calcHypoKPro();
-    calcElectrolytesPro();
-    calcFluidsPro();
-    calcABGPro();
-    calcSodiumPro();
-    calcRenal();
-    calcAcidBase();
+    document.addEventListener('DOMContentLoaded', () => {
+      calcSepsisAuto();
+      calcABG();
+    });
   </script>
 </body>
 </html>
