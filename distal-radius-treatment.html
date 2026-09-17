@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f766e">
+  <title>Phác đồ gãy đầu dưới xương quay</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { -webkit-tap-highlight-color: transparent; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fade .2s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .card { border: 1px solid #e2e8f0; box-shadow: 0 8px 20px rgba(15,23,42,.06); }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-900 min-h-screen pb-20">
+  <header class="sticky top-0 z-30 bg-gradient-to-r from-teal-800 to-cyan-800 text-white px-4 py-4 shadow-lg">
+    <div class="max-w-2xl mx-auto flex items-center justify-between gap-3">
+      <div>
+        <p class="text-[10px] uppercase tracking-widest text-teal-200 font-bold">Clinical Treatment Toolkit</p>
+        <h1 class="text-lg font-black">GÃY ĐẦU DƯỚI XƯƠNG QUAY</h1>
+        <p class="text-xs text-teal-100">Bản dùng thử · lý thuyết – CLS – phân độ – điều trị</p>
+      </div>
+      <span class="bg-white/15 rounded-xl px-2 py-1 text-xl">🦴</span>
+    </div>
+  </header>
+
+  <main class="max-w-2xl mx-auto p-3 space-y-3">
+    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 text-xs text-amber-900">
+      <strong>⚠️ Lưu ý:</strong> Công cụ giáo dục hỗ trợ tham khảo, không thay thế khám bệnh, hội chẩn chấn thương chỉnh hình hoặc phác đồ của cơ sở điều trị.
+    </div>
+
+    <nav class="card bg-white rounded-2xl p-1 grid grid-cols-4 gap-1 text-[11px] font-bold">
+      <button data-tab="overview" class="tab-btn rounded-xl bg-teal-100 text-teal-800 p-2" onclick="showTab('overview')">Tổng quan</button>
+      <button data-tab="diagnosis" class="tab-btn rounded-xl p-2 text-slate-500" onclick="showTab('diagnosis')">CLS</button>
+      <button data-tab="classification" class="tab-btn rounded-xl p-2 text-slate-500" onclick="showTab('classification')">Phân độ</button>
+      <button data-tab="treatment" class="tab-btn rounded-xl p-2 text-slate-500" onclick="showTab('treatment')">Điều trị</button>
+    </nav>
+
+    <section id="tab-overview" class="tab-content active space-y-3">
+      <div class="card bg-white rounded-2xl p-4">
+        <h2 class="font-black text-teal-800 mb-2">1. Khái niệm và giải phẫu</h2>
+        <p class="text-sm leading-6">Gãy đầu dưới xương quay là gãy xương quay ở đoạn gần khớp cổ tay, thường trong phạm vi khoảng 2–3 cm từ mặt khớp quay. Đây là chấn thương thường gặp sau ngã chống tay, tai nạn giao thông hoặc chấn thương năng lượng cao.</p>
+        <div class="grid sm:grid-cols-2 gap-2 mt-3 text-xs">
+          <div class="bg-teal-50 rounded-xl p-3"><strong>Điểm cần đánh giá</strong><br>Trục cổ tay, chiều dài xương quay, độ nghiêng quay, độ nghiêng mặt khớp và bậc thềm nội khớp.</div>
+          <div class="bg-cyan-50 rounded-xl p-3"><strong>Không được bỏ sót</strong><br>Tổn thương thần kinh giữa, mạch quay–trụ, gãy xương trụ kèm theo và tổn thương dây chằng/cổ tay.</div>
+        </div>
+      </div>
+      <div class="card bg-white rounded-2xl p-4">
+        <h2 class="font-black text-teal-800 mb-2">2. Cơ chế và biểu hiện</h2>
+        <ul class="list-disc pl-5 text-sm leading-7">
+          <li>Ngã chống bàn tay duỗi: thường gây di lệch ra sau, biến dạng “lưng dĩa”.</li>
+          <li>Ngã chống bàn tay gấp: có thể gây di lệch ra trước.</li>
+          <li>Đau, sưng, hạn chế vận động, biến dạng cổ tay và điểm đau chói.</li>
+          <li>Khám da, tình trạng hở, mạch ngoại vi, cảm giác và vận động thần kinh giữa–trụ–quay trước và sau nắn chỉnh.</li>
+        </ul>
+      </div>
+      <div class="card bg-white rounded-2xl p-4">
+        <h2 class="font-black text-teal-800 mb-2">3. Dấu hiệu cần chuyển cấp cứu/hội chẩn</h2>
+        <div class="grid sm:grid-cols-2 gap-2 text-sm">
+          <div class="bg-red-50 text-red-900 rounded-xl p-3">Gãy hở, da căng trắng hoặc nguy cơ xuyên da</div>
+          <div class="bg-red-50 text-red-900 rounded-xl p-3">Thiếu máu đầu chi, mất mạch hoặc đau tăng không tương xứng</div>
+          <div class="bg-red-50 text-red-900 rounded-xl p-3">Tê bì vùng thần kinh giữa hoặc yếu vận động tiến triển</div>
+          <div class="bg-red-50 text-red-900 rounded-xl p-3">Chèn ép khoang, tổn thương đa chấn thương hoặc gãy-trật phức tạp</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-diagnosis" class="tab-content space-y-3">
+      <div class="card bg-white rounded-2xl p-4">
+        <h2 class="font-black text-cyan-800 mb-2">Cận lâm sàng đề nghị</h2>
+        <div class="space-y-2 text-sm">
+          <div class="border rounded-xl p-3"><strong>X-quang cổ tay thẳng và nghiêng:</strong> khảo sát vị trí gãy, chiều dài, góc nghiêng, di lệch và tổn thương xương trụ.</div>
+          <div class="border rounded-xl p-3"><strong>Thêm tư thế chếch:</strong> cân nhắc khi đường gãy hoặc mảnh gãy chưa rõ trên hai tư thế cơ bản.</div>
+          <div class="border rounded-xl p-3"><strong>CT:</strong> chỉ định khi nghi gãy phạm khớp, nhiều mảnh, tổn thương mặt khớp phức tạp hoặc cần lập kế hoạch phẫu thuật.</div>
+          <div class="border rounded-xl p-3"><strong>MRI/siêu âm:</strong> không thường quy trong đánh giá gãy xương cấp; cân nhắc tổn thương phần mềm/dây chằng theo chuyên khoa.</div>
+        </div>
+      </div>
+      <div class="card bg-slate-900 text-white rounded-2xl p-4">
+        <h2 class="font-black text-teal-300 mb-2">Hồ sơ đánh giá ban đầu</h2>
+        <ul class="list-disc pl-5 text-sm leading-7 text-slate-200">
+          <li>Cơ chế chấn thương và thời điểm chấn thương.</li>
+          <li>Tình trạng da, gãy hở, sưng nề và đau.</li>
+          <li>Mạch quay, tưới máu mao mạch, nhiệt độ đầu chi.</li>
+          <li>Cảm giác vùng ngón cái, ngón trỏ, ngón giữa và vận động các ngón.</li>
+          <li>Thuốc đang dùng, bệnh loãng xương, đái tháo đường, hút thuốc và nguy cơ phẫu thuật.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="tab-classification" class="tab-content space-y-3">
+      <div class="card bg-white rounded-2xl p-4">
+        <h2 class="font-black text-violet-800 mb-2">Phân loại thực hành</h2>
+        <div class="space-y-2 text-sm">
+          <div class="bg-violet-50 rounded-xl p-3"><strong>Không phạm khớp:</strong> đường gãy không đi vào mặt khớp quay–cổ tay.</div>
+          <div class="bg-violet-50 rounded-xl p-3"><strong>Phạm khớp:</strong> có tổn thương mặt khớp; cần đánh giá bậc thềm, khoảng tách và sự phù hợp khớp.</div>
+          <div class="bg-violet-50 rounded-xl p-3"><strong>Ổn định:</strong> ít di lệch, giữ được nắn chỉnh khi theo dõi.</div>
+          <div class="bg-violet-50 rounded-xl p-3"><strong>Không ổn định:</strong> nhiều mảnh, phạm khớp, ngắn xương quay, nghiêng ngược, gãy trụ kèm theo hoặc mất nắn chỉnh khi tái khám.</div>
+        </div>
+      </div>
+      <div class="card bg-white rounded-2xl p-4">
+        <h2 class="font-black text-violet-800 mb-3">Bộ chọn định hướng</h2>
+        <div class="grid sm:grid-cols-2 gap-3 text-sm">
+          <label class="flex gap-2 items-start"><input id="intra" type="checkbox" class="mt-1" onchange="updatePlan()"> Gãy phạm khớp</label>
+          <label class="flex gap-2 items-start"><input id="unstable" type="checkbox" class="mt-1" onchange="updatePlan()"> Có dấu hiệu không ổn định</label>
+          <label class="flex gap-2 items-start"><input id="open" type="checkbox" class="mt-1" onchange="updatePlan()"> Gãy hở / nguy cơ tổn thương da</label>
+          <label class="flex gap-2 items-start"><input id="neuro" type="checkbox" class="mt-1" onchange="updatePlan()"> Bất thường thần kinh–mạch máu</label>
+        </div>
+        <div id="classification-result" class="mt-4 rounded-xl bg-slate-100 p-3 text-sm">Chọn các yếu tố để nhận định mức độ cần hội chẩn.</div>
+      </div>
+    </section>
+
+    <section id="tab-treatment" class="tab-content space-y-3">
+      <div class="card bg-white rounded-2xl p-4">
+        <h2 class="font-black text-emerald-800 mb-2">Nguyên tắc xử trí ban đầu</h2>
+        <ol class="list-decimal pl-5 text-sm leading-7">
+          <li>Giảm đau, tháo nhẫn/trang sức sớm và kê cao chi.</li>
+          <li>Đánh giá da, thần kinh–mạch máu và ghi nhận trước can thiệp.</li>
+          <li>Bất động nẹp cẳng-bàn tay ở tư thế chức năng; tránh bó quá chặt.</li>
+          <li>Gãy di lệch: hội chẩn để nắn chỉnh; chụp kiểm tra sau nắn.</li>
+          <li>Tái khám sớm với X-quang nếu nguy cơ mất nắn chỉnh.</li>
+        </ol>
+      </div>
+      <div class="card bg-white rounded-2xl p-4">
+        <h2 class="font-black text-emerald-800 mb-2">Định hướng điều trị</h2>
+        <div class="grid sm:grid-cols-3 gap-2 text-sm">
+          <div class="bg-emerald-50 rounded-xl p-3"><strong>Bảo tồn</strong><br>Gãy không di lệch hoặc ổn định: nẹp/bột, theo dõi X-quang và tập vận động phù hợp.</div>
+          <div class="bg-amber-50 rounded-xl p-3"><strong>Nắn chỉnh</strong><br>Gãy di lệch gây biến dạng hoặc ảnh hưởng chức năng; cần vô cảm, kiểm tra mạch-thần kinh và X-quang sau nắn.</div>
+          <div class="bg-red-50 rounded-xl p-3"><strong>Phẫu thuật</strong><br>Cân nhắc khi gãy hở, không ổn định, phạm khớp di lệch, không giữ được nắn hoặc có tổn thương phối hợp.</div>
+        </div>
+      </div>
+      <div class="card bg-slate-900 text-white rounded-2xl p-4">
+        <h2 class="font-black text-teal-300 mb-2">Theo dõi và biến chứng</h2>
+        <p class="text-sm leading-6 text-slate-200">Theo dõi đau, sưng, cảm giác, vận động ngón, tưới máu đầu chi, tình trạng da và dấu hiệu chèn ép. Biến chứng có thể gồm mất nắn chỉnh, cứng cổ tay/ngón, hội chứng ống cổ tay, đau mạn tính, lệch trục, thoái hóa khớp sau chấn thương và hội chứng đau vùng phức tạp.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur border-t p-2 text-center text-[10px] text-slate-500">
+    Bản thử nghiệm giáo dục · Cần đối chiếu hướng dẫn địa phương và đánh giá chuyên khoa.
+  </footer>
+
+  <script>
+    function showTab(tab) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        const active = btn.dataset.tab === tab;
+        btn.classList.toggle('bg-teal-100', active);
+        btn.classList.toggle('text-teal-800', active);
+        btn.classList.toggle('text-slate-500', !active);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updatePlan() {
+      const redFlags = ['open', 'neuro'].some(id => document.getElementById(id).checked);
+      const complex = ['intra', 'unstable'].some(id => document.getElementById(id).checked);
+      const result = document.getElementById('classification-result');
+      if (redFlags) {
+        result.className = 'mt-4 rounded-xl bg-red-100 text-red-900 p-3 text-sm font-bold';
+        result.textContent = 'Ưu tiên đánh giá cấp cứu, kiểm tra thần kinh–mạch máu liên tục và hội chẩn chấn thương chỉnh hình ngay.';
+      } else if (complex) {
+        result.className = 'mt-4 rounded-xl bg-amber-100 text-amber-900 p-3 text-sm font-bold';
+        result.textContent = 'Có yếu tố phức tạp/không ổn định: cần đánh giá CT khi phù hợp và hội chẩn để lựa chọn nắn chỉnh, cố định hoặc phẫu thuật.';
+      } else {
+        result.className = 'mt-4 rounded-xl bg-emerald-100 text-emerald-900 p-3 text-sm';
+        result.textContent = 'Chưa ghi nhận yếu tố cảnh báo trong bộ chọn. Vẫn cần khám trực tiếp và đọc phim X-quang để quyết định điều trị.';
+      }
+    }
+  </script>
+</body>
+</html>
